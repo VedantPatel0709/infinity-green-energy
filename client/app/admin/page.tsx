@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import api from '@/services/api';
+import { api } from '@/services/api'; 
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { Mail, Phone, Calendar, Building2 } from 'lucide-react';
 
