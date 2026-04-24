@@ -1,4 +1,4 @@
-const User = require('../models/user'); // ✅ FIXED (lowercase)
+const User = require('../models/User'); // ✅ FIXED (case-sensitive)
 const jwt = require('jsonwebtoken');
 
 /**
@@ -31,7 +31,8 @@ const authUser = async (req, res) => {
       res.status(401).json({ message: 'Invalid email or password' });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error); // ✅ helpful for debugging on Render
+    res.status(500).json({ message: 'Server Error' });
   }
 };
 
@@ -54,16 +55,21 @@ const registerUser = async (req, res) => {
       password,
     });
 
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      token: generateToken(user._id),
-    });
+    if (user) {
+      res.status(201).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        token: generateToken(user._id),
+      });
+    } else {
+      res.status(400).json({ message: 'Invalid user data' });
+    }
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error); // ✅ important for Render logs
+    res.status(500).json({ message: 'Server Error' });
   }
 };
 
