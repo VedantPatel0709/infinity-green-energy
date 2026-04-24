@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #10b981;
+  --primary-dark: #059669;
+  --secondary: #065f46;
+  --background: #000000;
+  --surface: #111111;
+  --text: #ffffff;
+}
+
+body {
+  @apply bg-black text-white selection:bg-[rgba(16,185,129,0.3)];
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-[var(--primary)] text-black px-6 py-3 rounded-full font-bold hover:bg-[var(--primary-dark)] transition-all duration-300 active:scale-95;
+  }
+
+  .input-field {
+    @apply w-full p-4 bg-zinc-900 rounded-xl border border-zinc-800 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent transition-all;
+  }
+}
