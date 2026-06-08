@@ -1,16 +1,24 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Toaster } from 'react-hot-toast'; 
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-plus-jakarta',
+});
 
 export const metadata: Metadata = {
-  title: 'Infinity Green Energy Pvt Ltd',
-  description: 'Sustainable solar energy solutions for a greener future.',
+  title: 'Infinity Green Energy | Enterprise Renewable Energy Solutions',
+  description: 'Accelerating industrial transition to green energy through open access power, energy exchange, and smart commercial solar solutions.',
 };
 
 /**
@@ -23,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${plusJakarta.variable} font-sans antialiased bg-light text-dark-light selection:bg-primary/20`}>
         <Navbar />
 
         <main className="min-h-screen">

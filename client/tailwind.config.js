@@ -7,11 +7,34 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-inter)', 'Inter', 'sans-serif'],
+        heading: ['var(--font-plus-jakarta)', 'Plus Jakarta Sans', 'sans-serif'],
+      },
       colors: {
-        primary: "#10b981", // Emerald 500
-        secondary: "#065f46", // Emerald 800
+        primary: {
+          DEFAULT: "#0D7A5F",
+          light: "#EAF7F4",
+          dark: "#084C3B",
+        },
+        accent: {
+          DEFAULT: "#22C55E",
+          light: "#DCFCE7",
+          dark: "#16A34A",
+        },
+        dark: {
+          DEFAULT: "#111827",
+          light: "#1F2937",
+          dark: "#0B0F19",
+        },
+        light: {
+          DEFAULT: "#F8FAFC",
+          card: "#FFFFFF",
+          border: "#E2E8F0",
+        }
       },
     },
   },
   plugins: [],
 };
+

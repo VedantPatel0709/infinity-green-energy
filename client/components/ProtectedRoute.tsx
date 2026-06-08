@@ -14,14 +14,19 @@ const ProtectedRoute = ({ children, adminOnly = false }: { children: React.React
     if (!loading && !user) {
       router.push('/login');
     }
-    if (!loading && user && adminOnly && !user.isAdmin) {
+    if (!loading && user && adminOnly && user.role !== 'admin') {
       router.push('/dashboard');
     }
   }, [user, loading, router, adminOnly]);
 
   if (loading || !user) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-light text-slate-400 font-sans text-sm">
+        Authenticating session...
+      </div>
+    );
   }
+
 
   return <>{children}</>;
 };

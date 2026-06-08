@@ -4,6 +4,11 @@ const router = express.Router();
 // Import controllers
 const { registerUser, authUser } = require('../controllers/userController');
 
+// 🔍 TEST ROUTE (for debugging — remove later if you want)
+router.get('/test', (req, res) => {
+  res.send('✅ User routes working');
+});
+
 /**
  * User Routes
  */

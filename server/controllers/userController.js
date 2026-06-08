@@ -1,13 +1,17 @@
-const User = require('../models/User'); // ✅ FIXED (case-sensitive)
+const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
 /**
  * Generate JWT Token
  */
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '30d',
-  });
+const generateToken = (id, role) => {
+  return jwt.sign(
+    { id, role }, 
+    process.env.JWT_SECRET,
+    {
+      expiresIn: '30d',
+    }
+  );
 };
 
 // @desc    Login user
@@ -24,14 +28,14 @@ const authUser = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        isAdmin: user.isAdmin,
-        token: generateToken(user._id),
+        role: user.role, // ✅ FIXED
+        token: generateToken(user._id, user.role), // ✅ FIXED
       });
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
     }
   } catch (error) {
-    console.error(error); // ✅ helpful for debugging on Render
+    console.error(error);
     res.status(500).json({ message: 'Server Error' });
   }
 };
@@ -40,7 +44,7 @@ const authUser = async (req, res) => {
 // @route   POST /api/users/register
 // @access  Public
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -53,22 +57,24 @@ const registerUser = async (req, res) => {
       name,
       email,
       password,
+      role: role || 'consumer'
     });
+
 
     if (user) {
       res.status(201).json({
         _id: user._id,
         name: user.name,
         email: user.email,
-        isAdmin: user.isAdmin,
-        token: generateToken(user._id),
+        role: user.role, 
+        token: generateToken(user._id, user.role), 
       });
     } else {
       res.status(400).json({ message: 'Invalid user data' });
     }
 
   } catch (error) {
-    console.error(error); // ✅ important for Render logs
+    console.error(error);
     res.status(500).json({ message: 'Server Error' });
   }
 };

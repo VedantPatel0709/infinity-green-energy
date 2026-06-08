@@ -8,10 +8,14 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check localStorage or cookies for user session
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    // Check localStorage for B2B session keys
+    const storedUserInfo = localStorage.getItem('userInfo') || localStorage.getItem('user');
+    if (storedUserInfo) {
+      try {
+        setUser(JSON.parse(storedUserInfo));
+      } catch (e) {
+        console.error("Error parsing user session:", e);
+      }
     }
     setLoading(false);
   }, []);

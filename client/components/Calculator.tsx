@@ -4,7 +4,7 @@ import { TrendingDown, Zap, Info, Loader2 } from 'lucide-react';
 import { api } from '@/services/api';
 
 const Calculator = () => {
-  const [bill, setBill] = useState<number>(5000);
+  const [bill, setBill] = useState<number>(500000); // 5 Lakhs default
   const [loading, setLoading] = useState(false);
 
   const [monthlySavings, setMonthlySavings] = useState(0);
@@ -22,7 +22,6 @@ const Calculator = () => {
   const handleSave = async () => {
     setLoading(true);
     try {
-      // ✅ FIXED ENDPOINT
       const res = await api.post('/energy', {
         monthlyUsage: bill / 8,
         savings: yearlySavings
@@ -43,62 +42,71 @@ const Calculator = () => {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
       
       {/* Inputs */}
-      <div className="bg-zinc-900 p-8 rounded-3xl border border-zinc-800 space-y-8">
+      <div className="bg-white p-8 md:p-10 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-8">
         <div>
-          <div className="flex justify-between mb-4">
-            <label className="text-zinc-400 font-medium">Monthly Electricity Bill</label>
-            <span className="text-primary font-bold text-xl">₹{bill.toLocaleString()}</span>
+          <div className="flex justify-between items-end mb-6">
+            <label className="text-slate-500 font-semibold text-xs uppercase tracking-wider">
+              Monthly Power Expenditure
+            </label>
+            <span className="text-primary font-bold text-2xl font-heading">
+              ₹{bill.toLocaleString('en-IN')}
+            </span>
           </div>
 
           <input 
             type="range" 
             min="100000" 
             max="10000000" 
-            step="500"
-            className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-primary"
+            step="10000"
+            className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-primary"
             value={bill}
             onChange={(e) => setBill(Number(e.target.value))}
           />
+          <div className="flex justify-between text-[10px] text-slate-400 font-bold uppercase mt-2">
+            <span>₹1 Lakh</span>
+            <span>₹50 Lakhs</span>
+            <span>₹1 Crore</span>
+          </div>
         </div>  
 
-        <div className="p-6 bg-primary/5 border border-primary/20 rounded-2xl flex gap-4">
-          <Info className="text-primary shrink-0" />
-          <p className="text-sm text-zinc-400">
-            Based on current electricity tariffs, solar can reduce grid usage and save 20–40%.
+        <div className="p-6 bg-primary/5 border border-primary/10 rounded-2xl flex gap-4">
+          <Info className="text-primary shrink-0 w-5 h-5 mt-0.5" />
+          <p className="text-xs text-slate-500 leading-relaxed font-sans">
+            Our forecasting models assume open access wheeling charges and solar generation averages calculated for Indian industrial zones. Direct billing offset can range from 25% to 45%.
           </p>
         </div>
       </div>
 
       {/* Results */}
       <div className="space-y-6">
-        <div className="bg-primary p-8 rounded-3xl text-black">
-          <div className="flex items-center gap-3 mb-2 opacity-80">
+        <div className="bg-primary p-8 md:p-10 rounded-3xl text-white shadow-xl shadow-primary/20">
+          <div className="flex items-center gap-3 mb-2 opacity-90">
             <TrendingDown className="w-5 h-5" />
-            <span className="font-bold uppercase text-xs tracking-wider">
-              Estimated Yearly Savings
+            <span className="font-bold font-heading uppercase text-xs tracking-wider">
+              Projected Annual Open Access Savings
             </span>
           </div>
-          <h3 className="text-5xl font-black tracking-tighter">
-            ₹{yearlySavings.toLocaleString()}
+          <h3 className="text-4xl md:text-5xl font-black font-heading tracking-tight">
+            ₹{yearlySavings.toLocaleString('en-IN')}
           </h3>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-zinc-900 p-6 rounded-3xl border border-zinc-800">
-            <span className="text-zinc-500 text-xs font-bold uppercase block mb-1">
-              Monthly
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md shadow-slate-100/50">
+            <span className="text-slate-400 text-[10px] font-bold uppercase block mb-1 tracking-wider">
+              Estimated Monthly Offset
             </span>
-            <span className="text-2xl font-bold text-white">
-              ₹{monthlySavings.toLocaleString()}
+            <span className="text-xl font-bold text-dark font-heading">
+              ₹{monthlySavings.toLocaleString('en-IN')}
             </span>
           </div>
 
-          <div className="bg-zinc-900 p-6 rounded-3xl border border-zinc-800">
-            <span className="text-zinc-500 text-xs font-bold uppercase block mb-1">
-              25 Year ROI
+          <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md shadow-slate-100/50">
+            <span className="text-slate-400 text-[10px] font-bold uppercase block mb-1 tracking-wider">
+              25-Year Cumulative ROI
             </span>
-            <span className="text-2xl font-bold text-primary">
-              ₹{lifetimeSavings.toLocaleString()}
+            <span className="text-xl font-bold text-primary font-heading">
+              ₹{lifetimeSavings.toLocaleString('en-IN')}
             </span>
           </div>
         </div>
@@ -106,14 +114,14 @@ const Calculator = () => {
         <button 
           onClick={handleSave}
           disabled={loading}
-          className="btn-primary w-full py-5 text-lg flex items-center justify-center gap-2"
+          className="btn-primary w-full py-4 text-base flex items-center justify-center gap-2"
         >
           {loading ? (
-            <Loader2 className="animate-spin text-black" />
+            <Loader2 className="animate-spin text-white" />
           ) : (
-            <Zap className="w-5 h-5 fill-black" />
+            <Zap className="w-5 h-5 fill-white text-white" />
           )}
-          {loading ? 'Saving...' : 'Save My Savings'}
+          {loading ? 'Saving Projections...' : 'Save Feasibility Projections'}
         </button>
       </div>
     </div>

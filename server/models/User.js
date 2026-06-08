@@ -6,10 +6,31 @@ const bcrypt = require('bcryptjs');
  */
 const userSchema = mongoose.Schema(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    isAdmin: { type: Boolean, default: false },
+    name: { 
+      type: String, 
+      required: true 
+    },
+
+    email: { 
+      type: String, 
+      required: true, 
+      unique: true,
+      lowercase: true,
+      trim: true
+    },
+
+    password: { 
+      type: String, 
+      required: true 
+    },
+
+    role: {
+      type: String,
+      enum: ['consumer', 'producer', 'admin'],
+      default: 'consumer'
+    }
+
+
   },
   { timestamps: true }
 );
@@ -30,5 +51,4 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// ✅ FIX: Prevent OverwriteModelError
 module.exports = mongoose.models.User || mongoose.model('User', userSchema);
