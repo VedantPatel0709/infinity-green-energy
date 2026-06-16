@@ -2,19 +2,26 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Mail, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { api } from '@/services/api';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleReset = (e: React.FormEvent) => {
+  const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const res: any = await api.post('/users/forgot-password', { email });
       setSubmitted(true);
+      alert(res.message || 'Reset link logged to terminal console successfully! 🔑');
+    } catch (err: any) {
+      console.error(err);
+      alert(err.message || 'Password reset request failed. ❌');
+    } finally {
       setLoading(false);
-    }, 1200);
+    }
   };
 
   if (submitted) {

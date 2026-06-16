@@ -43,49 +43,60 @@ export default function LoginPage() {
     }
   };
 
-  const handleSendOtp = (e: React.FormEvent) => {
+  const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!phoneNumber) return;
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const res: any = await api.post('/users/otp-send', { phone: phoneNumber });
       setOtpSent(true);
+      alert(res.message || 'Verification code sent! Check console/SMS 🔑');
+    } catch (err: any) {
+      console.error(err);
+      alert(err.message || 'Failed to dispatch code. ❌');
+    } finally {
       setLoading(false);
-      alert('SMS dispatching code... Simulation OTP key: 4402 🔑');
-    }, 1000);
+    }
   };
 
-  const handleVerifyOtp = (e: React.FormEvent) => {
+  const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (otpCode !== '4402') {
-      alert('Invalid security verification code ❌');
-      return;
-    }
     setLoading(true);
-    setTimeout(() => {
-      localStorage.setItem('userInfo', JSON.stringify({
-        _id: 'otp-mock-id',
-        name: 'SMS Verified Client',
-        email: 'mobile-operator@company.com',
-        role: 'consumer',
-        token: 'otp-mock-jwt-token'
-      }));
+    try {
+      const res = await api.post('/users/otp-verify', {
+        phone: phoneNumber,
+        code: otpCode
+      });
+      localStorage.setItem('userInfo', JSON.stringify(res));
       alert('Phone connection authenticated successfully ✅');
       router.push('/dashboard');
-    }, 1000);
+    } catch (err: any) {
+      console.error(err);
+      alert(err.message || 'Invalid verification code ❌');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleGoogleSimulate = () => {
-    alert('Simulating Google Workspace Login redirection... 🌐');
-    setTimeout(() => {
-      localStorage.setItem('userInfo', JSON.stringify({
-        _id: 'google-mock-id',
-        name: 'Google Partner Operator',
-        email: 'partner@google-workspace.com',
-        role: 'consumer',
-        token: 'google-oauth-mock-token'
-      }));
+  const handleGoogleSimulate = async () => {
+    const emailInput = prompt('Enter Google Account Email to connect with Workspace SSO:', 'partner@google-workspace.com');
+    if (!emailInput) return;
+    setLoading(true);
+    try {
+      const res = await api.post('/users/google-login', {
+        email: emailInput,
+        googleId: `google-sso-${emailInput.replace(/[^a-zA-Z0-9]/g, '')}`,
+        name: 'Google Partner Operator'
+      });
+      localStorage.setItem('userInfo', JSON.stringify(res));
+      alert('Authenticated via Google Workspace successfully ✅');
       router.push('/dashboard');
-    }, 1000);
+    } catch (err: any) {
+      console.error(err);
+      alert(err.message || 'Google Workspace SSO failed ❌');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

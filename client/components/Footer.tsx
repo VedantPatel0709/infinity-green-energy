@@ -42,10 +42,10 @@ const Footer = () => {
               Company
             </h4>
             <ul className="space-y-3 text-xs">
-              <li><Link href="/services" className="hover:text-primary transition-colors">About Corporate</Link></li>
-              <li><a href="#" className="hover:text-primary transition-colors">ESG Disclosures</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Careers Node</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Pressroom</a></li>
+              <li><Link href="/about" className="hover:text-primary transition-colors">Company Story</Link></li>
+              <li><Link href="/about#mission" className="hover:text-primary transition-colors">Mission & Vision</Link></li>
+              <li><Link href="/about#roadmap" className="hover:text-primary transition-colors">Growth Roadmap</Link></li>
+              <li><Link href="/contact" className="hover:text-primary transition-colors">Contact Us</Link></li>
             </ul>
           </div>
 
@@ -55,10 +55,12 @@ const Footer = () => {
               Solutions
             </h4>
             <ul className="space-y-3 text-xs">
-              <li><Link href="/services" className="hover:text-primary transition-colors">Energy Exchange</Link></li>
-              <li><Link href="/services" className="hover:text-primary transition-colors">Open Access Power</Link></li>
-              <li><Link href="/services" className="hover:text-primary transition-colors">Industrial Solar</Link></li>
-              <li><Link href="/services" className="hover:text-primary transition-colors">Commercial Solar</Link></li>
+              <li><Link href="/solutions#open-access" className="hover:text-primary transition-colors">Open Access Energy</Link></li>
+              <li><Link href="/solutions#industrial-solar" className="hover:text-primary transition-colors">Industrial Solar</Link></li>
+              <li><Link href="/solutions#wind-energy" className="hover:text-primary transition-colors">Wind Energy</Link></li>
+              <li><Link href="/solutions#hybrid" className="hover:text-primary transition-colors">Hybrid Solutions</Link></li>
+              <li><Link href="/solutions#procurement" className="hover:text-primary transition-colors">Energy Procurement</Link></li>
+              <li><Link href="/solutions#optimization" className="hover:text-primary transition-colors">Energy Optimization</Link></li>
             </ul>
           </div>
 
@@ -67,11 +69,11 @@ const Footer = () => {
             <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-wider mb-5">
               Industries
             </h4>
-            <ul className="space-y-3 text-xs">
-              <li><Link href="/#contact" className="hover:text-primary transition-colors">Manufacturing</Link></li>
-              <li><Link href="/#contact" className="hover:text-primary transition-colors">Textile & Spinning</Link></li>
-              <li><Link href="/#contact" className="hover:text-primary transition-colors">Chemical Plants</Link></li>
-              <li><Link href="/#contact" className="hover:text-primary transition-colors">Pharmaceuticals</Link></li>
+            <ul className="space-y-3 text-xs flex flex-col gap-1.5">
+              <li><span className="text-[11px] text-slate-300">Manufacturing & Engineering</span></li>
+              <li><span className="text-[11px] text-slate-300">Chemicals & Pharma</span></li>
+              <li><span className="text-[11px] text-slate-300">Textiles & Spinning Mills</span></li>
+              <li><span className="text-[11px] text-slate-300">Warehousing & Ind. Parks</span></li>
             </ul>
           </div>
 
@@ -81,10 +83,10 @@ const Footer = () => {
               Resources
             </h4>
             <ul className="space-y-3 text-xs">
-              <li><Link href="/calculator" className="hover:text-primary transition-colors">Savings Analytics</Link></li>
-              <li><Link href="/dashboard" className="hover:text-primary transition-colors">Client Portal</Link></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Regulatory Filings</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Grid Handbook</a></li>
+              <li><Link href="/industry-network" className="hover:text-primary transition-colors">Industry Network</Link></li>
+              <li><Link href="/insights" className="hover:text-primary transition-colors">Insights Blog</Link></li>
+              <li><Link href="/login" className="hover:text-primary transition-colors">Client Portal</Link></li>
+              <li><Link href="/contact?proposal=true" className="hover:text-primary transition-colors">Request Proposal</Link></li>
             </ul>
           </div>
 
@@ -93,12 +95,12 @@ const Footer = () => {
         {/* CTA Banner Row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-8 bg-slate-900/60 rounded-3xl border border-slate-800/80 items-center">
           <div className="lg:col-span-2 space-y-1">
-            <h4 className="text-white font-heading font-semibold text-sm">Need a custom energy wheeling simulation?</h4>
-            <p className="text-xs text-slate-500">Structure power purchase agreements based on average peak load profiles.</p>
+            <h4 className="text-white font-heading font-semibold text-sm">Need a custom energy procurement simulation?</h4>
+            <p className="text-xs text-slate-500">Structure power purchase agreements based on average industrial load profiles.</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 lg:justify-end">
-            <Link href="/#contact" className="btn-primary py-2.5 px-5 text-xs font-bold whitespace-nowrap">
-              Schedule Consultation <ArrowRight className="w-3.5 h-3.5" />
+            <Link href="/contact?proposal=true" className="btn-primary py-2.5 px-5 text-xs font-bold whitespace-nowrap">
+              Request Proposal <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <a 
               href="https://wa.me/919876543210" 

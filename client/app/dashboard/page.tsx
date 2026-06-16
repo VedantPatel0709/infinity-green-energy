@@ -6,7 +6,7 @@ import { api } from '@/services/api';
 import { 
   Zap, TrendingUp, History, Download, Shield, User, Bell, 
   Search, Filter, Plus, FileText, ChevronRight, Layers, Factory, 
-  HelpCircle, Landmark, CheckCircle2, AlertCircle, RefreshCw, LogOut, CheckSquare, Settings
+  HelpCircle, Landmark, CheckCircle2, AlertCircle, RefreshCw, LogOut, CheckSquare, Settings, X
 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -31,6 +31,470 @@ export default function DashboardPage() {
   // Search & Filter state
   const [searchTerm, setSearchTerm] = useState('');
   const [activeFilter, setActiveFilter] = useState('All');
+
+  // Consumer Portal backend data states
+  const [profileData, setProfileData] = useState<any>(null);
+  const [assessments, setAssessments] = useState<any[]>([]);
+  const [consultations, setConsultations] = useState<any[]>([]);
+  const [proposals, setProposals] = useState<any[]>([]);
+  const [documents, setDocuments] = useState<any[]>([]);
+  const [dbNotifications, setDbNotifications] = useState<any[]>([]);
+  const [loadingProfile, setLoadingProfile] = useState(true);
+
+  // Energy Assessment form state
+  const [assessmentState, setAssessmentState] = useState('');
+  const [assessmentIndustry, setAssessmentIndustry] = useState('');
+  const [assessmentBill, setAssessmentBill] = useState(0);
+  const [assessmentLoad, setAssessmentLoad] = useState(0);
+  const [assessmentReq, setAssessmentReq] = useState(0);
+  const [assessmentAnnual, setAssessmentAnnual] = useState(0);
+  const [assessmentTariff, setAssessmentTariff] = useState(0);
+  const [assessmentHours, setAssessmentHours] = useState(0);
+  const [assessmentNotes, setAssessmentNotes] = useState('');
+
+  // Consultation form state
+  const [consultType, setConsultType] = useState('Solar Consultation');
+  const [consultNotes, setConsultNotes] = useState('');
+  const [viewingReport, setViewingReport] = useState<any>(null);
+
+  // Document upload state
+  const [docType, setDocType] = useState('Electricity Bill');
+  const [docName, setDocName] = useState('');
+  const [docUrl, setDocUrl] = useState('');
+
+  // Profile Form state
+  const [editCompanyName, setEditCompanyName] = useState('');
+  const [editIndustryType, setEditIndustryType] = useState('');
+  const [editState, setEditState] = useState('');
+  const [editAddress, setEditAddress] = useState('');
+  const [editContactPerson, setEditContactPerson] = useState('');
+  const [editDesignation, setEditDesignation] = useState('');
+  const [editMonthlyBill, setEditMonthlyBill] = useState(0);
+  const [editAnnualConsumption, setEditAnnualConsumption] = useState(0);
+  const [editConnectedLoad, setEditConnectedLoad] = useState(0);
+
+  // Producer Portal backend data states
+  const [producerProfile, setProducerProfile] = useState<any>(null);
+  const [producerListings, setProducerListings] = useState<any[]>([]);
+  const [buyerOpportunities, setBuyerOpportunities] = useState<any[]>([]);
+
+  // Marketplace V1 states
+  const [requirements, setRequirements] = useState<any[]>([]);
+  const [marketplaceOpportunities, setMarketplaceOpportunities] = useState<any[]>([]);
+  const [contracts, setContracts] = useState<any[]>([]);
+  const [reqIndustry, setReqIndustry] = useState('');
+  const [reqState, setReqState] = useState('');
+  const [reqCapacity, setReqCapacity] = useState(0);
+  const [reqConsumption, setReqConsumption] = useState(0);
+  const [reqTariff, setReqTariff] = useState(0);
+  const [reqNotes, setReqNotes] = useState('');
+
+  // Proposal Creation modal states
+  const [showCreateProposalModal, setShowCreateProposalModal] = useState(false);
+  const [selectedOppForProposal, setSelectedOppForProposal] = useState<any>(null);
+  const [newPropNumber, setNewPropNumber] = useState('');
+  const [newPropAmount, setNewPropAmount] = useState(0);
+  const [newPropNotes, setNewPropNotes] = useState('');
+  const [newPropCapacity, setNewPropCapacity] = useState('');
+  const [newPropTariff, setNewPropTariff] = useState(0);
+  const [newPropValidUntil, setNewPropValidUntil] = useState('');
+  
+  // Producer Listing form state
+  const [listingEnergyType, setListingEnergyType] = useState('Solar');
+  const [listingCapacity, setListingCapacity] = useState(0);
+  const [listingTariff, setListingTariff] = useState(0);
+  const [listingLocation, setListingLocation] = useState('');
+  const [listingAvailDate, setListingAvailDate] = useState('');
+  const [listingNotes, setListingNotes] = useState('');
+
+  // Producer Profile form state
+  const [prodCompanyName, setProdCompanyName] = useState('');
+  const [prodEnergyType, setProdEnergyType] = useState('Solar');
+  const [prodCapacity, setProdCapacity] = useState(0);
+  const [prodTariff, setProdTariff] = useState(0);
+  const [prodLocation, setProdLocation] = useState('');
+  const [prodContactPerson, setProdContactPerson] = useState('');
+
+  const fetchProducerData = async () => {
+    if (currentRole !== 'producer') return;
+    try {
+      try {
+        const profRes: any = await api.get('/producers/profile');
+        setProducerProfile(profRes);
+        setProdCompanyName(profRes.companyName || '');
+        setProdEnergyType(profRes.energyType || 'Solar');
+        setProdCapacity(profRes.plantCapacity || 0);
+        setProdTariff(profRes.tariff || 0);
+        setProdLocation(profRes.location || '');
+        setProdContactPerson(profRes.contactPerson || '');
+      } catch (profErr) {
+        console.warn('Producer profile not found, needs to create one.');
+      }
+
+      const listRes: any = await api.get('/listings/my');
+      setProducerListings(listRes || []);
+
+      const oppRes: any = await api.get('/opportunities');
+      setBuyerOpportunities(oppRes || []);
+
+      const marketOppRes: any = await api.get('/marketplace-opportunities/my');
+      setMarketplaceOpportunities(Array.isArray(marketOppRes) ? marketOppRes : []);
+
+      const docRes: any = await api.get('/documents/my');
+      setDocuments(docRes || []);
+
+      const notifRes: any = await api.get('/notifications');
+      setDbNotifications(notifRes || []);
+
+      const oppsProp: any = await api.get('/proposals/my');
+      setProposals(Array.isArray(oppsProp) ? oppsProp : []);
+
+      const contractRes: any = await api.get('/contracts/my');
+      setContracts(Array.isArray(contractRes) ? contractRes : []);
+
+    } catch (err) {
+      console.error('Error loading producer data:', err);
+    }
+  };
+
+  useEffect(() => {
+    if (currentRole === 'producer') {
+      fetchProducerData();
+    }
+  }, [currentRole]);
+
+  // Producer handlers
+  const handleCreateListing = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await api.post('/listings', {
+        energyType: listingEnergyType,
+        capacityAvailable: Number(listingCapacity),
+        tariff: Number(listingTariff),
+        location: listingLocation,
+        availabilityDate: listingAvailDate ? new Date(listingAvailDate) : undefined,
+        notes: listingNotes
+      });
+      alert('Marketplace listing published successfully! ⚡');
+      setListingCapacity(0);
+      setListingTariff(0);
+      setListingLocation('');
+      setListingAvailDate('');
+      setListingNotes('');
+      fetchProducerData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to publish listing ❌');
+    }
+  };
+
+  const handleUpdateListingStatus = async (listingId: string, newStatus: string) => {
+    try {
+      await api.put(`/listings/${listingId}`, { status: newStatus });
+      alert(`Listing ${newStatus} successfully! ✅`);
+      fetchProducerData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to update listing ❌');
+    }
+  };
+
+  const handleDeleteListing = async (listingId: string) => {
+    if (!confirm('Are you sure you want to delete this listing?')) return;
+    try {
+      await api.delete(`/listings/${listingId}`);
+      alert('Listing deleted successfully! ✅');
+      fetchProducerData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to delete listing ❌');
+    }
+  };
+
+  const handleSaveProducerProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await api.post('/producers/profile', {
+        companyName: prodCompanyName,
+        energyType: prodEnergyType,
+        plantCapacity: Number(prodCapacity),
+        tariff: Number(prodTariff),
+        location: prodLocation,
+        contactPerson: prodContactPerson
+      });
+      alert('Producer profile updated successfully! ✅');
+      fetchProducerData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to update profile ❌');
+    }
+  };
+
+  const fetchConsumerData = async () => {
+    if (currentRole !== 'consumer') return;
+    setLoadingProfile(true);
+    try {
+      // Load Profile
+      try {
+        const profRes: any = await api.get('/consumers/profile');
+        setProfileData(profRes);
+        setEditCompanyName(profRes.companyName || '');
+        setEditIndustryType(profRes.industryType || '');
+        setEditState(profRes.state || '');
+        setEditAddress(profRes.address || '');
+        setEditContactPerson(profRes.contactPerson || '');
+        setEditDesignation(profRes.designation || '');
+        setEditMonthlyBill(profRes.monthlyElectricityBill || 0);
+        setEditAnnualConsumption(profRes.annualConsumption || 0);
+        setEditConnectedLoad(profRes.connectedLoad || 0);
+      } catch (profErr) {
+        console.warn('Profile not found, user needs to create one.');
+      }
+
+      // Load Assessments
+      const assessRes: any = await api.get('/assessments/my');
+      setAssessments(assessRes || []);
+
+      // Load Consultations
+      const consultRes: any = await api.get('/consultations/my');
+      setConsultations(consultRes || []);
+
+      // Load Proposals
+      const proposalRes: any = await api.get('/proposals/my');
+      setProposals(proposalRes || []);
+
+      // Load Contracts
+      const contractRes: any = await api.get('/contracts/my');
+      setContracts(Array.isArray(contractRes) ? contractRes : []);
+
+      // Load Documents
+      const docRes: any = await api.get('/documents/my');
+      setDocuments(docRes || []);
+
+      // Load Notifications
+      const notifRes: any = await api.get('/notifications');
+      setDbNotifications(notifRes || []);
+
+      const requirementsRes: any = await api.get('/requirements/my');
+      setRequirements(Array.isArray(requirementsRes) ? requirementsRes : []);
+
+      const marketOppRes: any = await api.get('/marketplace-opportunities/my');
+      setMarketplaceOpportunities(Array.isArray(marketOppRes) ? marketOppRes : []);
+
+    } catch (err) {
+      console.error('Error loading consumer data:', err);
+    } finally {
+      setLoadingProfile(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchConsumerData();
+  }, [currentRole]);
+
+  // Handler functions
+  const handleCreateAssessment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await api.post('/assessments', {
+        state: assessmentState,
+        industry: assessmentIndustry,
+        monthlyElectricityBill: Number(assessmentBill),
+        connectedLoad: Number(assessmentLoad),
+        energyRequirement: Number(assessmentReq),
+        annualConsumption: Number(assessmentAnnual),
+        currentTariff: Number(assessmentTariff),
+        operatingHours: Number(assessmentHours),
+        additionalNotes: assessmentNotes
+      });
+      setAssessmentAnnual(0);
+      setAssessmentTariff(0);
+      setAssessmentHours(0);
+      setAssessmentNotes('');
+      fetchConsumerData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to submit assessment request ❌');
+    }
+  };
+
+  const handleCreateRequirement = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await api.post('/requirements', {
+        industry: reqIndustry,
+        state: reqState,
+        requiredCapacity: Number(reqCapacity),
+        monthlyConsumption: Number(reqConsumption),
+        preferredTariff: Number(reqTariff),
+        notes: reqNotes
+      });
+      alert('Energy requirement posted to marketplace successfully! ⚡');
+      setReqIndustry('');
+      setReqState('');
+      setReqCapacity(0);
+      setReqConsumption(0);
+      setReqTariff(0);
+      setReqNotes('');
+      fetchConsumerData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to post requirement ❌');
+    }
+  };
+
+  const handleUpdateOpportunity = async (oppId: string, status: string) => {
+    try {
+      await api.put(`/marketplace-opportunities/${oppId}`, { status });
+      alert(`Opportunity status updated to ${status} successfully ✅`);
+      if (currentRole === 'consumer') fetchConsumerData();
+      else fetchProducerData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to update opportunity ❌');
+    }
+  };
+
+  const handleCreateProposalByProducer = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedOppForProposal) return;
+    try {
+      await api.post('/proposals', {
+        userId: selectedOppForProposal.consumerId?._id || selectedOppForProposal.consumerId,
+        producerId: selectedOppForProposal.producerId?._id || selectedOppForProposal.producerId,
+        opportunity: selectedOppForProposal._id,
+        proposalNumber: newPropNumber,
+        capacityRequirement: newPropCapacity || `${selectedOppForProposal.requirementId?.requiredCapacity || 0} MW`,
+        estimatedTariff: Number(newPropTariff || selectedOppForProposal.listingId?.tariff || 0),
+        amount: Number(newPropAmount),
+        notes: newPropNotes,
+        validUntil: newPropValidUntil ? new Date(newPropValidUntil) : undefined,
+        status: 'under_review'
+      });
+      alert('Proposal drafted and submitted for review successfully! 📄');
+      setShowCreateProposalModal(false);
+      setSelectedOppForProposal(null);
+      setNewPropNumber('');
+      setNewPropAmount(0);
+      setNewPropNotes('');
+      setNewPropCapacity('');
+      setNewPropTariff(0);
+      setNewPropValidUntil('');
+      fetchProducerData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to submit proposal ❌');
+    }
+  };
+
+  const handleConsumerActionOnProposal = async (propId: string, status: string) => {
+    try {
+      await api.put(`/proposals/${propId}`, { status });
+      alert(`Proposal ${status} successfully! ✅`);
+      fetchConsumerData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to update proposal status ❌');
+    }
+  };
+
+  const handleSignContract = async (contractId: string) => {
+    try {
+      await api.post(`/contracts/${contractId}/sign`, {});
+      alert('Contract signed successfully! ✍️');
+      if (currentRole === 'consumer') fetchConsumerData();
+      else fetchProducerData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to sign contract ❌');
+    }
+  };
+
+  const handleCreateConsultation = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await api.post('/consultations', {
+        consultationType: consultType,
+        notes: consultNotes
+      });
+      alert('Consultation scheduled successfully! ✅');
+      setConsultNotes('');
+      fetchConsumerData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to request consultation ❌');
+    }
+  };
+
+  const handleUpdateProposal = async (proposalId: string, newStatus: string) => {
+    try {
+      await api.put(`/proposals/${proposalId}`, { status: newStatus });
+      alert(`Proposal ${newStatus} successfully! ✅`);
+      fetchConsumerData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to update proposal status ❌');
+    }
+  };
+
+  const handleUploadDocument = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!docName || !docUrl) {
+      alert('Please provide document title and simulated URL.');
+      return;
+    }
+    try {
+      await api.post('/documents', {
+        documentType: docType,
+        fileName: docName,
+        fileUrl: docUrl
+      });
+      alert('Document metadata logged successfully! ✅');
+      setDocName('');
+      setDocUrl('');
+      fetchConsumerData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to save document record ❌');
+    }
+  };
+
+  const handleDeleteDocument = async (docId: string) => {
+    if (!confirm('Are you sure you want to remove this document?')) return;
+    try {
+      await api.delete(`/documents/${docId}`);
+      alert('Document removed successfully! ✅');
+      fetchConsumerData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to remove document ❌');
+    }
+  };
+
+  const handleMarkNotifRead = async (notifId: string) => {
+    try {
+      await api.put(`/notifications/${notifId}/read`, {});
+      fetchConsumerData();
+    } catch (err: any) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteNotif = async (notifId: string) => {
+    try {
+      await api.delete(`/notifications/${notifId}`);
+      fetchConsumerData();
+    } catch (err: any) {
+      console.error(err);
+    }
+  };
+
+  const handleSaveProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await api.post('/consumers/profile', {
+        companyName: editCompanyName,
+        industryType: editIndustryType,
+        state: editState,
+        address: editAddress,
+        contactPerson: editContactPerson,
+        designation: editDesignation,
+        monthlyElectricityBill: Number(editMonthlyBill),
+        annualConsumption: Number(editAnnualConsumption),
+        connectedLoad: Number(editConnectedLoad)
+      });
+      alert('Company profile updated successfully! ✅');
+      fetchConsumerData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to update profile ❌');
+    }
+  };
 
   // Mock State for lists to make them interactive
   const [energyListings, setEnergyListings] = useState([
@@ -133,6 +597,12 @@ export default function DashboardPage() {
                   <Layers className="w-4 h-4" /> Energy Overview
                 </button>
                 <button 
+                  onClick={() => setConsumerTab('assessments')} 
+                  className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center gap-3 transition-colors ${consumerTab === 'assessments' ? 'bg-primary text-white' : 'hover:bg-slate-800 hover:text-white'}`}
+                >
+                  <Factory className="w-4 h-4" /> Energy Assessments
+                </button>
+                <button 
                   onClick={() => setConsumerTab('consultations')} 
                   className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center gap-3 transition-colors ${consumerTab === 'consultations' ? 'bg-primary text-white' : 'hover:bg-slate-800 hover:text-white'}`}
                 >
@@ -145,6 +615,18 @@ export default function DashboardPage() {
                   <TrendingUp className="w-4 h-4" /> Proposal Center
                 </button>
                 <button 
+                  onClick={() => setConsumerTab('contracts')} 
+                  className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center gap-3 transition-colors ${consumerTab === 'contracts' ? 'bg-primary text-white' : 'hover:bg-slate-800 hover:text-white'}`}
+                >
+                  <CheckSquare className="w-4 h-4" /> Contract Center
+                </button>
+                <button 
+                  onClick={() => setConsumerTab('marketplace')} 
+                  className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center gap-3 transition-colors ${consumerTab === 'marketplace' ? 'bg-primary text-white' : 'hover:bg-slate-800 hover:text-white'}`}
+                >
+                  <Search className="w-4 h-4" /> Marketplace Requirements
+                </button>
+                <button 
                   onClick={() => setConsumerTab('documents')} 
                   className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center gap-3 transition-colors ${consumerTab === 'documents' ? 'bg-primary text-white' : 'hover:bg-slate-800 hover:text-white'}`}
                 >
@@ -155,9 +637,9 @@ export default function DashboardPage() {
                   className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center justify-between transition-colors ${consumerTab === 'notifications' ? 'bg-primary text-white' : 'hover:bg-slate-800 hover:text-white'}`}
                 >
                   <span className="flex items-center gap-3"><Bell className="w-4 h-4" /> Notifications</span>
-                  {notifications.filter(n => !n.read).length > 0 && (
+                  {dbNotifications.filter(n => !n.read).length > 0 && (
                     <span className="bg-accent text-dark text-[9px] font-bold px-1.5 py-0.5 rounded-full shrink-0">
-                      {notifications.filter(n => !n.read).length}
+                      {dbNotifications.filter(n => !n.read).length}
                     </span>
                   )}
                 </button>
@@ -189,19 +671,30 @@ export default function DashboardPage() {
                   onClick={() => setProducerTab('requests')} 
                   className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center gap-3 transition-colors ${producerTab === 'requests' ? 'bg-primary text-white' : 'hover:bg-slate-800 hover:text-white'}`}
                 >
-                  <TrendingUp className="w-4 h-4" /> Buyer Requests
+                  <TrendingUp className="w-4 h-4" /> Buyer Opportunities
                 </button>
                 <button 
                   onClick={() => setProducerTab('contracts')} 
                   className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center gap-3 transition-colors ${producerTab === 'contracts' ? 'bg-primary text-white' : 'hover:bg-slate-800 hover:text-white'}`}
                 >
-                  <CheckSquare className="w-4 h-4" /> Contracts
+                  <CheckSquare className="w-4 h-4" /> Capacity Management
                 </button>
                 <button 
                   onClick={() => setProducerTab('documents')} 
                   className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center gap-3 transition-colors ${producerTab === 'documents' ? 'bg-primary text-white' : 'hover:bg-slate-800 hover:text-white'}`}
                 >
                   <FileText className="w-4 h-4" /> Documents
+                </button>
+                <button 
+                  onClick={() => setProducerTab('notifications')} 
+                  className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center justify-between transition-colors ${producerTab === 'notifications' ? 'bg-primary text-white' : 'hover:bg-slate-800 hover:text-white'}`}
+                >
+                  <span className="flex items-center gap-3"><Bell className="w-4 h-4" /> Notifications</span>
+                  {dbNotifications.filter(n => !n.read).length > 0 && (
+                    <span className="bg-accent text-dark text-[9px] font-bold px-1.5 py-0.5 rounded-full shrink-0">
+                      {dbNotifications.filter(n => !n.read).length}
+                    </span>
+                  )}
                 </button>
                 <button 
                   onClick={() => setProducerTab('profile')} 
@@ -324,79 +817,329 @@ export default function DashboardPage() {
                     {/* KPI cards */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                       <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md shadow-slate-100/50">
-                        <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Current Plant Load</span>
-                        <div className="text-2xl font-black text-dark mt-2 font-heading">1.2 MW</div>
-                        <div className="text-[10px] text-accent font-bold mt-1">↑ Active PPA Feed</div>
+                        <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Monthly Energy Bill</span>
+                        <div className="text-2xl font-black text-dark mt-2 font-heading">
+                          ₹{profileData?.monthlyElectricityBill?.toLocaleString('en-IN') || '0'}
+                        </div>
+                        <div className="text-[10px] text-primary font-bold mt-1">✓ Active Connection</div>
                       </div>
                       <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md shadow-slate-100/50">
-                        <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Active Tariffs</span>
-                        <div className="text-2xl font-black text-dark mt-2 font-heading">₹5.20 / Unit</div>
-                        <div className="text-[10px] text-accent font-bold mt-1">↓ 42% Below DISCOM</div>
+                        <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Potential Monthly Savings</span>
+                        <div className="text-2xl font-black text-dark mt-2 font-heading">
+                          ₹{profileData?.monthlyElectricityBill ? (profileData.monthlyElectricityBill * 0.35).toLocaleString('en-IN') : '0'}
+                        </div>
+                        <div className="text-[10px] text-accent font-bold mt-1">↓ ~35% Potential Offset</div>
                       </div>
                       <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md shadow-slate-100/50">
-                        <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Estimated Monthly Offset</span>
-                        <div className="text-2xl font-black text-dark mt-2 font-heading">₹1,75,000</div>
-                        <div className="text-[10px] text-slate-400 font-sans mt-1">Auto saving tracked</div>
+                        <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Active Consultations</span>
+                        <div className="text-2xl font-black text-dark mt-2 font-heading">
+                          {consultations.length}
+                        </div>
+                        <div className="text-[10px] text-slate-400 font-sans mt-1">Scheduled & running</div>
                       </div>
                       <div className="bg-primary p-6 rounded-2xl text-white shadow-lg shadow-primary/10">
-                        <span className="opacity-90 text-[10px] font-bold uppercase tracking-wider">YTD Cumulative Savings</span>
-                        <div className="text-2xl font-black mt-2 font-heading">₹21,00,000</div>
-                        <div className="text-[10px] opacity-80 mt-1">Audited Green Power</div>
+                        <span className="opacity-90 text-[10px] font-bold uppercase tracking-wider">Estimated Connected Load</span>
+                        <div className="text-2xl font-black mt-2 font-heading">
+                          {profileData?.connectedLoad || '0'} kW
+                        </div>
+                        <div className="text-[10px] opacity-80 mt-1">Audited Capacity</div>
                       </div>
                     </div>
 
-                    {/* Data Lists */}
-                    <div className="bg-white rounded-2xl border border-slate-100 shadow-xl shadow-slate-100/50 overflow-hidden">
-                      <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
-                        <h3 className="font-heading font-bold text-dark text-sm">Open Access Wheeling Log</h3>
-                        <span className="text-[10px] text-primary font-bold uppercase bg-primary/10 px-2 py-0.5 rounded-full">Grid Active</span>
+                    {/* Quick overview grid */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                      {/* Active Proposals */}
+                      <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-4">
+                        <h3 className="font-heading font-bold text-dark text-sm">Active Proposals</h3>
+                        {proposals.length === 0 ? (
+                          <p className="text-xs text-slate-400 font-sans">No active contract proposals at this time.</p>
+                        ) : (
+                          <div className="space-y-3 font-sans text-xs">
+                            {proposals.slice(0, 3).map((prop) => (
+                              <div key={prop._id} className="p-3 bg-slate-50 border border-slate-100 rounded-xl flex justify-between items-center">
+                                <div>
+                                  <div className="font-bold text-dark">{prop.proposalNumber}</div>
+                                  <div className="text-[10px] text-slate-400">Tariff: ₹{prop.estimatedTariff}/unit</div>
+                                </div>
+                                <span className={`text-[9px] px-2 py-0.5 rounded-full uppercase font-bold ${
+                                  prop.status === 'approved' ? 'bg-green-100 text-green-800' :
+                                  prop.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                                  'bg-yellow-100 text-yellow-800'
+                                }`}>
+                                  {prop.status}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-left text-xs text-slate-500">
-                          <thead className="bg-slate-50/60 uppercase font-bold text-[9px] tracking-wider border-b border-slate-100">
-                            <tr>
-                              <th className="px-6 py-3">Billing Cycle</th>
-                              <th className="px-6 py-3">Wheeled Energy (Units)</th>
-                              <th className="px-6 py-3">PPA Tariff rate</th>
-                              <th className="px-6 py-3 text-right">Invoiced Amount</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-slate-100 font-sans">
-                            <tr className="hover:bg-slate-50/50">
-                              <td className="px-6 py-4 font-bold text-dark">May 2026</td>
-                              <td className="px-6 py-4">3,37,500 Units</td>
-                              <td className="px-6 py-4 font-semibold text-primary">₹5.20</td>
-                              <td className="px-6 py-4 text-right font-bold text-dark">₹17,55,000</td>
-                            </tr>
-                            <tr className="hover:bg-slate-50/50">
-                              <td className="px-6 py-4 font-bold text-dark">April 2026</td>
-                              <td className="px-6 py-4">3,12,000 Units</td>
-                              <td className="px-6 py-4 font-semibold text-primary">₹5.20</td>
-                              <td className="px-6 py-4 text-right font-bold text-dark">₹16,22,400</td>
-                            </tr>
-                          </tbody>
-                        </table>
+
+                      {/* Recent Assessments */}
+                      <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-4">
+                        <h3 className="font-heading font-bold text-dark text-sm">Energy Assessments</h3>
+                        {assessments.length === 0 ? (
+                          <p className="text-xs text-slate-400 font-sans">No energy assessment studies requested yet.</p>
+                        ) : (
+                          <div className="space-y-3 font-sans text-xs">
+                            {assessments.slice(0, 3).map((ass) => (
+                              <div key={ass._id} className="p-3 bg-slate-50 border border-slate-100 rounded-xl flex justify-between items-center">
+                                <div>
+                                  <div className="font-bold text-dark">{ass.industry} ({ass.state})</div>
+                                  <div className="text-[10px] text-slate-400">Load: {ass.connectedLoad} kW</div>
+                                </div>
+                                <span className="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-full uppercase font-bold">
+                                  {ass.status}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {consumerTab === 'assessments' && (
+                  <div className="space-y-8 animate-in fade-in duration-200">
+                    <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-6">
+                      <h3 className="text-lg font-bold font-heading text-dark">Submit Energy Assessment Request</h3>
+                      <form onSubmit={handleCreateAssessment} className="space-y-4 font-sans text-xs">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">State</label>
+                            <input 
+                              required 
+                              type="text" 
+                              placeholder="e.g. Gujarat" 
+                              className="input-field" 
+                              value={assessmentState} 
+                              onChange={(e) => setAssessmentState(e.target.value)} 
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">Industry Type</label>
+                            <input 
+                              required 
+                              type="text" 
+                              placeholder="e.g. Chemical Manufacturing" 
+                              className="input-field" 
+                              value={assessmentIndustry} 
+                              onChange={(e) => setAssessmentIndustry(e.target.value)} 
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                          <div>
+                            <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">Monthly Bill (₹)</label>
+                            <input 
+                              required 
+                              type="number" 
+                              placeholder="e.g. 500000" 
+                              className="input-field" 
+                              value={assessmentBill || ''} 
+                              onChange={(e) => setAssessmentBill(Number(e.target.value))} 
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">Connected Load (kW)</label>
+                            <input 
+                              required 
+                              type="number" 
+                              placeholder="e.g. 150" 
+                              className="input-field" 
+                              value={assessmentLoad || ''} 
+                              onChange={(e) => setAssessmentLoad(Number(e.target.value))} 
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">Energy Requirement (kWh/month)</label>
+                            <input 
+                              required 
+                              type="number" 
+                              placeholder="e.g. 75000" 
+                              className="input-field" 
+                              value={assessmentReq || ''} 
+                              onChange={(e) => setAssessmentReq(Number(e.target.value))} 
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                          <div>
+                            <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">Annual Consumption (kWh/yr)</label>
+                            <input 
+                              required 
+                              type="number" 
+                              placeholder="e.g. 900000" 
+                              className="input-field" 
+                              value={assessmentAnnual || ''} 
+                              onChange={(e) => setAssessmentAnnual(Number(e.target.value))} 
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">Current Tariff (₹/unit)</label>
+                            <input 
+                              required 
+                              type="number" 
+                              step="0.01"
+                              placeholder="e.g. 8.20" 
+                              className="input-field" 
+                              value={assessmentTariff || ''} 
+                              onChange={(e) => setAssessmentTariff(Number(e.target.value))} 
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">Operating Hours (hrs/day)</label>
+                            <input 
+                              required 
+                              type="number" 
+                              placeholder="e.g. 16" 
+                              className="input-field" 
+                              value={assessmentHours || ''} 
+                              onChange={(e) => setAssessmentHours(Number(e.target.value))} 
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">Additional Load Details & Notes</label>
+                          <textarea 
+                            rows={3} 
+                            placeholder="Describe any rooftop spaces, load curves or wheeling details..." 
+                            className="input-field" 
+                            value={assessmentNotes} 
+                            onChange={(e) => setAssessmentNotes(e.target.value)} 
+                          />
+                        </div>
+
+                        <button type="submit" className="btn-primary py-3 px-6 text-xs font-bold rounded-xl">Request Free Feasibility Study</button>
+                      </form>
+                    </div>
+
+                    {/* Assessment History Table */}
+                    <div className="bg-white rounded-2xl border border-slate-100 shadow-xl shadow-slate-100/50 overflow-hidden">
+                      <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50">
+                        <h3 className="font-heading font-bold text-dark text-sm">Assessment History</h3>
+                      </div>
+                      <div className="overflow-x-auto text-xs text-slate-500">
+                        {assessments.length === 0 ? (
+                          <div className="p-6 text-center text-slate-400 font-sans">No assessments filed yet.</div>
+                        ) : (
+                          <table className="w-full text-left">
+                            <thead className="bg-slate-50/60 uppercase font-bold text-[9px] tracking-wider border-b border-slate-100 text-dark">
+                              <tr>
+                                <th className="px-6 py-3">Industry</th>
+                                <th className="px-6 py-3">State</th>
+                                <th className="px-6 py-3">Connected Load</th>
+                                <th className="px-6 py-3">Req. Energy</th>
+                                <th className="px-6 py-3">Status</th>
+                                <th className="px-6 py-3">Date</th>
+                                <th className="px-6 py-3 text-right">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100 font-sans text-xs">
+                              {assessments.map((ass) => (
+                                <tr key={ass._id} className="hover:bg-slate-50/50">
+                                  <td className="px-6 py-4 font-bold text-dark">{ass.industry}</td>
+                                  <td className="px-6 py-4">{ass.state}</td>
+                                  <td className="px-6 py-4">{ass.connectedLoad} kW</td>
+                                  <td className="px-6 py-4">{ass.energyRequirement?.toLocaleString()} kWh</td>
+                                  <td className="px-6 py-4">
+                                    <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold uppercase">{ass.status.replace('_', ' ')}</span>
+                                  </td>
+                                  <td className="px-6 py-4 text-slate-400">{new Date(ass.createdAt).toLocaleDateString()}</td>
+                                  <td className="px-6 py-4 text-right">
+                                    {ass.generatedReport ? (
+                                      <button 
+                                        onClick={() => setViewingReport(ass)}
+                                        className="bg-primary hover:bg-primary-dark text-white text-[9px] px-2.5 py-1 rounded-lg font-bold"
+                                      >
+                                        View Report
+                                      </button>
+                                    ) : (
+                                      <span className="text-[10px] text-slate-400">Processing</span>
+                                    )}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        )}
                       </div>
                     </div>
                   </div>
                 )}
 
                 {consumerTab === 'consultations' && (
-                  <div className="space-y-6 max-w-4xl animate-in fade-in duration-200">
+                  <div className="space-y-8 animate-in fade-in duration-200">
                     <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-6">
-                      <div className="flex justify-between items-start">
+                      <h3 className="text-lg font-bold font-heading text-dark">Schedule Consultation</h3>
+                      <form onSubmit={handleCreateConsultation} className="space-y-4 font-sans text-xs">
                         <div>
-                          <span className="text-[10px] bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Scheduled Node</span>
-                          <h3 className="text-xl font-bold font-heading text-dark mt-2">Open Access Feasibility Study</h3>
+                          <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">Consultation Objective</label>
+                          <select 
+                            className="input-field" 
+                            value={consultType} 
+                            onChange={(e) => setConsultType(e.target.value)}
+                          >
+                            <option>Solar Consultation</option>
+                            <option>Open Access Consultation</option>
+                            <option>Energy Audit</option>
+                            <option>General Consultation</option>
+                          </select>
                         </div>
-                        <span className="bg-yellow-100 text-yellow-800 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Pending Site Visit</span>
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">Discussion Notes & Scope</label>
+                          <textarea 
+                            rows={3} 
+                            placeholder="Share your available energy billing cycles or compliance goals..." 
+                            className="input-field" 
+                            value={consultNotes} 
+                            onChange={(e) => setConsultNotes(e.target.value)} 
+                          />
+                        </div>
+                        <button type="submit" className="btn-primary py-3 px-6 text-xs font-bold rounded-xl">Book Advisory Session</button>
+                      </form>
+                    </div>
+
+                    <div className="bg-white rounded-2xl border border-slate-100 shadow-xl shadow-slate-100/50 overflow-hidden">
+                      <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50">
+                        <h3 className="font-heading font-bold text-dark text-sm">Consultation Requests</h3>
                       </div>
-                      <p className="text-sm text-slate-500 leading-relaxed font-sans">
-                        Our load modeling consultants will review your transformer boundaries and regional grid line compliance to design the hybrid supply structure.
-                      </p>
-                      <div className="border-t border-slate-100 pt-6 space-y-3 font-sans text-xs text-slate-600">
-                        <div className="flex justify-between"><span className="text-slate-400">Representative Assigned:</span> <span className="font-semibold text-dark">Amit Kumar (Grid Expert)</span></div>
-                        <div className="flex justify-between"><span className="text-slate-400">Scheduled Date:</span> <span className="font-semibold text-dark">June 14, 2026</span></div>
+                      <div className="overflow-x-auto text-xs text-slate-500">
+                        {consultations.length === 0 ? (
+                          <div className="p-6 text-center text-slate-400 font-sans">No consultation sessions booked.</div>
+                        ) : (
+                          <table className="w-full text-left">
+                            <thead className="bg-slate-50/60 uppercase font-bold text-[9px] tracking-wider border-b border-slate-100 text-dark">
+                              <tr>
+                                <th className="px-6 py-3">Objective</th>
+                                <th className="px-6 py-3">Notes</th>
+                                <th className="px-6 py-3">Status</th>
+                                <th className="px-6 py-3">Date Requested</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100 font-sans">
+                              {consultations.map((c) => (
+                                <tr key={c._id} className="hover:bg-slate-50/50">
+                                  <td className="px-6 py-4 font-bold text-dark">{c.consultationType}</td>
+                                  <td className="px-6 py-4 max-w-xs truncate">{c.notes}</td>
+                                  <td className="px-6 py-4">
+                                    <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase ${
+                                      c.status === 'completed' ? 'bg-green-100 text-green-800' :
+                                      c.status === 'in_progress' ? 'bg-blue-100 text-blue-800' :
+                                      'bg-yellow-100 text-yellow-800'
+                                    }`}>
+                                      {c.status}
+                                    </span>
+                                  </td>
+                                  <td className="px-6 py-4 text-slate-400">{new Date(c.createdAt).toLocaleDateString()}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -407,96 +1150,536 @@ export default function DashboardPage() {
                     <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-6">
                       <div className="flex justify-between items-center">
                         <h3 className="text-lg font-bold font-heading text-dark">Active PPA Tariff Proposals</h3>
-                        <span className="text-[10px] bg-accent/20 text-accent font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">2 Options Available</span>
+                        <span className="text-[10px] bg-accent/20 text-accent font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                          {proposals.filter(p => p.status === 'draft' || p.status === 'under_review').length} Actionable Options
+                        </span>
                       </div>
                       
-                      <div className="space-y-4 font-sans">
-                        <div className="p-5 bg-slate-50 border border-slate-100 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                          <div>
-                            <h4 className="font-bold text-dark text-sm">Solar OPEX 15-Year Wheeling</h4>
-                            <p className="text-xs text-slate-500 mt-0.5">Zero capital layout. Tariff locked at ₹5.10 / Unit flat rate.</p>
-                          </div>
-                          <button onClick={() => alert('Proposal Accepted! Proposal Center will update your contract details.')} className="btn-primary py-2 px-4 text-xs font-bold rounded-lg whitespace-nowrap">Accept Proposal</button>
-                        </div>
+                      <div className="space-y-4 font-sans text-xs text-slate-500">
+                        {proposals.length === 0 ? (
+                          <p className="text-xs text-slate-400">No active tariff agreements loaded.</p>
+                        ) : (
+                          proposals.map((prop) => (
+                            <div key={prop._id} className="p-5 bg-slate-50 border border-slate-100 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                              <div>
+                                <h4 className="font-bold text-dark text-sm">{prop.proposalNumber}</h4>
+                                <div className="text-xs text-slate-500 mt-1 space-y-1">
+                                  <p>Feeder Capacity: <strong>{prop.capacityRequirement || 'N/A'}</strong> • Proposed Tariff: <strong>₹{prop.estimatedTariff}/unit</strong></p>
+                                  <p>Proposed Amount: <strong>₹{prop.amount?.toLocaleString()}</strong> • Status: <strong className="uppercase">{prop.status}</strong></p>
+                                  {prop.producerId && <p>Producer Company: <strong>{prop.producerId.companyName}</strong></p>}
+                                  {prop.notes && <p className="italic text-[10px]">Notes: &quot;{prop.notes}&quot;</p>}
+                                </div>
+                              </div>
+                              
+                              {prop.status === 'under_review' && (
+                                <div className="flex gap-2">
+                                  <button 
+                                    onClick={() => handleConsumerActionOnProposal(prop._id, 'approved')} 
+                                    className="btn-primary py-2 px-4 text-xs font-bold rounded-lg whitespace-nowrap bg-primary text-white"
+                                  >
+                                    Accept Proposal
+                                  </button>
+                                  <button 
+                                    onClick={() => handleConsumerActionOnProposal(prop._id, 'rejected')} 
+                                    className="py-2 px-4 text-xs font-bold rounded-lg whitespace-nowrap border border-slate-200 hover:bg-slate-100 text-slate-600 bg-white"
+                                  >
+                                    Decline
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
 
-                        <div className="p-5 bg-slate-50 border border-slate-100 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                          <div>
-                            <h4 className="font-bold text-dark text-sm">Wind-Solar Hybrid Open Access</h4>
-                            <p className="text-xs text-slate-500 mt-0.5">Flexible demand matching. Tariff locked at ₹4.90 / Unit.</p>
-                          </div>
-                          <button onClick={() => alert('Proposal Accepted! Proposal Center will update your contract details.')} className="btn-primary py-2 px-4 text-xs font-bold rounded-lg whitespace-nowrap">Accept Proposal</button>
-                        </div>
+                {consumerTab === 'contracts' && (
+                  <div className="space-y-6 max-w-4xl animate-in fade-in duration-200 font-sans text-xs text-slate-500">
+                    <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-6">
+                      <div className="flex justify-between items-center">
+                        <h3 className="text-lg font-bold font-heading text-dark">Your Power Purchase Agreements (PPAs)</h3>
+                        <span className="text-[10px] bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Contracts Queue</span>
+                      </div>
+                      
+                      <div className="space-y-4">
+                        {contracts.length === 0 ? (
+                          <div className="text-center p-6 text-slate-400">No contracts active or pending signature.</div>
+                        ) : (
+                          contracts.map((contract) => (
+                            <div key={contract._id} className="p-5 bg-slate-50 border border-slate-100 rounded-2xl space-y-3">
+                              <div className="flex justify-between items-start">
+                                <div>
+                                  <h4 className="font-bold text-dark text-sm">{contract.contractNumber}</h4>
+                                  <p className="text-slate-500 mt-1">
+                                    Producer Partner: <strong>{contract.producer?.companyName || 'Green Energy Producer'}</strong>
+                                  </p>
+                                  <p className="text-slate-400 text-[10px] mt-1">
+                                    Validity: {new Date(contract.startDate).toLocaleDateString()} to {new Date(contract.endDate).toLocaleDateString()}
+                                  </p>
+                                  <div className="mt-2 text-[10px] text-slate-400 space-y-1">
+                                    <div>Consumer Signature Status: {contract.signedByConsumer ? '✍️ Signed' : '❌ Pending'}</div>
+                                    <div>Producer Signature Status: {contract.signedByProducer ? '✍️ Signed' : '❌ Pending'}</div>
+                                  </div>
+                                </div>
+                                <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                                  contract.status === 'active' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
+                                  contract.status === 'pending_signature' ? 'bg-amber-50 text-amber-700 border border-amber-200' :
+                                  'bg-slate-100 text-slate-500 border border-slate-200'
+                                }`}>
+                                  {contract.status.replace('_', ' ')}
+                                </span>
+                              </div>
+
+                              {contract.status === 'pending_signature' && !contract.signedByConsumer && (
+                                <div className="pt-2 border-t border-slate-200 flex justify-end">
+                                  <button 
+                                    onClick={() => handleSignContract(contract._id)}
+                                    className="bg-primary hover:bg-primary-dark text-white px-3 py-1.5 rounded-lg text-[10px] font-bold"
+                                  >
+                                    Sign Contract (Confirm PPA)
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          ))
+                        )}
                       </div>
                     </div>
                   </div>
                 )}
 
                 {consumerTab === 'documents' && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 animate-in fade-in duration-200">
-                    {[
-                      { title: "NOC Grid Interconnection.pdf", type: "Certificate", size: "2.4 MB" },
-                      { title: "Power Purchase Agreement (Draft).pdf", type: "Legal Draft", size: "8.1 MB" },
-                      { title: "Tariff Audit Report - Q1.pdf", type: "Financial Audit", size: "1.2 MB" }
-                    ].map((doc, idx) => (
-                      <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md shadow-slate-100/30 flex flex-col justify-between">
-                        <div className="space-y-3">
-                          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary"><FileText className="w-5 h-5" /></div>
-                          <div>
-                            <h4 className="text-sm font-bold text-dark truncate font-heading">{doc.title}</h4>
-                            <span className="text-[10px] text-slate-400">{doc.type}</span>
-                          </div>
+                  <div className="space-y-8 animate-in fade-in duration-200">
+                    <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-6">
+                      <h3 className="text-lg font-bold font-heading text-dark">Log Grid Document Upload</h3>
+                      <form onSubmit={handleUploadDocument} className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end font-sans text-xs">
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">Document Category</label>
+                          <select 
+                            className="input-field" 
+                            value={docType} 
+                            onChange={(e) => setDocType(e.target.value)}
+                          >
+                            <option>Electricity Bill</option>
+                            <option>Feasibility NOC</option>
+                            <option>Tax Registration</option>
+                            <option>Corporate PPA Draft</option>
+                          </select>
                         </div>
-                        <button onClick={() => alert(`Downloading: ${doc.title}`)} className="text-xs font-bold text-primary flex items-center gap-1 hover:underline mt-4 pt-3 border-t border-slate-50">
-                          <Download className="w-4.5 h-4.5" /> Download File ({doc.size})
+                        <div className="sm:col-span-2">
+                          <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">File Name</label>
+                          <input 
+                            required 
+                            type="text" 
+                            placeholder="e.g. Q1_Audit_Manson.pdf" 
+                            className="input-field" 
+                            value={docName} 
+                            onChange={(e) => setDocName(e.target.value)} 
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">Simulated URL path</label>
+                          <input 
+                            required 
+                            type="text" 
+                            placeholder="e.g. /uploads/ NOC.pdf" 
+                            className="input-field" 
+                            value={docUrl} 
+                            onChange={(e) => setDocUrl(e.target.value)} 
+                          />
+                        </div>
+                        <button type="submit" className="sm:col-span-4 btn-primary py-3 px-6 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 max-w-xs">
+                          <Plus className="w-4 h-4" /> Save Document Info
                         </button>
-                      </div>
-                    ))}
+                      </form>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 font-sans">
+                      {documents.length === 0 ? (
+                        <div className="sm:col-span-3 text-center p-6 text-slate-400">No documents uploaded yet.</div>
+                      ) : (
+                        documents.map((doc) => (
+                          <div key={doc._id} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md shadow-slate-100/30 flex flex-col justify-between">
+                            <div className="space-y-3">
+                              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                                <FileText className="w-5 h-5" />
+                              </div>
+                              <div>
+                                <h4 className="text-sm font-bold text-dark truncate font-heading">{doc.fileName}</h4>
+                                <span className="text-[10px] text-slate-400">{doc.documentType}</span>
+                              </div>
+                            </div>
+                            <div className="flex justify-between items-center mt-4 pt-3 border-t border-slate-50">
+                              <button 
+                                onClick={() => alert(`Downloading Document: ${doc.fileName} from path ${doc.fileUrl}`)} 
+                                className="text-xs font-bold text-primary flex items-center gap-1 hover:underline"
+                              >
+                                <Download className="w-4.5 h-4.5" /> Download
+                              </button>
+                              <button 
+                                onClick={() => handleDeleteDocument(doc._id)} 
+                                className="text-xs font-bold text-red-500 hover:underline"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
                   </div>
                 )}
 
                 {consumerTab === 'notifications' && (
                   <div className="max-w-3xl bg-white rounded-2xl border border-slate-100 shadow-xl shadow-slate-100/50 overflow-hidden animate-in fade-in duration-200">
                     <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
-                      <h3 className="font-heading font-bold text-dark text-sm">Notifications</h3>
-                      <button onClick={markAllRead} className="text-xs font-bold text-primary hover:underline">Mark All Read</button>
+                      <h3 className="font-heading font-bold text-dark text-sm">Notifications Feed</h3>
+                      <button 
+                        onClick={() => {
+                          dbNotifications.forEach(n => handleMarkNotifRead(n._id));
+                          alert('Marked all notifications as read! ✅');
+                        }} 
+                        className="text-xs font-bold text-primary hover:underline"
+                      >
+                        Mark All Read
+                      </button>
                     </div>
                     <div className="divide-y divide-slate-100 font-sans text-xs">
-                      {notifications.map(n => (
-                        <div key={n.id} className={`p-6 flex items-start gap-4 transition-colors ${n.read ? 'bg-white' : 'bg-primary/5'}`}>
-                          <div className={`p-2 rounded-xl mt-0.5 ${n.read ? 'bg-slate-100 text-slate-400' : 'bg-primary/10 text-primary'}`}>
-                            <Bell className="w-4 h-4" />
+                      {dbNotifications.length === 0 ? (
+                        <div className="p-6 text-center text-slate-400">No active alerts.</div>
+                      ) : (
+                        dbNotifications.map((n) => (
+                          <div key={n._id} className={`p-6 flex items-start justify-between gap-4 transition-colors ${n.read ? 'bg-white' : 'bg-primary/5'}`}>
+                            <div className="flex items-start gap-4">
+                              <button 
+                                onClick={() => handleMarkNotifRead(n._id)}
+                                className={`p-2 rounded-xl mt-0.5 ${n.read ? 'bg-slate-100 text-slate-400' : 'bg-primary/10 text-primary'}`}
+                              >
+                                <Bell className="w-4 h-4" />
+                              </button>
+                              <div>
+                                <h4 className="font-bold text-dark text-sm">{n.title}</h4>
+                                <p className="text-slate-500 mt-1">{n.message}</p>
+                                <span className="text-[9px] text-slate-400 block mt-2">
+                                  {new Date(n.createdAt).toLocaleString()}
+                                </span>
+                              </div>
+                            </div>
+                            <button 
+                              onClick={() => handleDeleteNotif(n._id)} 
+                              className="text-slate-400 hover:text-red-500 font-bold"
+                            >
+                              ✕
+                            </button>
                           </div>
-                          <div>
-                            <h4 className="font-bold text-dark text-sm">{n.title}</h4>
-                            <p className="text-slate-500 mt-1">{n.body}</p>
-                            <span className="text-[9px] text-slate-400 block mt-2">{n.time}</span>
-                          </div>
-                        </div>
-                      ))}
+                        ))
+                      )}
                     </div>
                   </div>
                 )}
 
                 {consumerTab === 'profile' && (
-                  <div className="max-w-2xl bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 animate-in fade-in duration-200">
-                    <h3 className="text-lg font-bold font-heading text-dark mb-6">Profile Settings</h3>
-                    <form onSubmit={(e) => { e.preventDefault(); alert('Profile information updated ✅'); }} className="space-y-4">
+                  <div className="max-w-3xl bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold font-heading text-dark mb-6">Company Profile Settings</h3>
+                    <form onSubmit={handleSaveProfile} className="space-y-4 font-sans text-xs">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Company Name</label>
-                          <input type="text" defaultValue="Acme Textiles Pvt Ltd" className="input-field" />
+                          <input 
+                            required 
+                            type="text" 
+                            className="input-field" 
+                            value={editCompanyName} 
+                            onChange={(e) => setEditCompanyName(e.target.value)} 
+                          />
                         </div>
                         <div>
-                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Grid Connection ID</label>
-                          <input type="text" defaultValue="GRID-MUM-44021" disabled className="input-field bg-slate-50 text-slate-400" />
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Industry Sector</label>
+                          <input 
+                            required 
+                            type="text" 
+                            className="input-field" 
+                            value={editIndustryType} 
+                            onChange={(e) => setEditIndustryType(e.target.value)} 
+                          />
                         </div>
                       </div>
-                      <div>
-                        <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Authorized Email Address</label>
-                        <input type="email" defaultValue={user?.email || 'name@company.com'} className="input-field" />
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">State Node</label>
+                          <input 
+                            required 
+                            type="text" 
+                            className="input-field" 
+                            value={editState} 
+                            onChange={(e) => setEditState(e.target.value)} 
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Company Address</label>
+                          <input 
+                            required 
+                            type="text" 
+                            className="input-field" 
+                            value={editAddress} 
+                            onChange={(e) => setEditAddress(e.target.value)} 
+                          />
+                        </div>
                       </div>
-                      <button className="btn-primary py-3 px-6 text-xs font-bold rounded-xl mt-4">Save Changes</button>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Contact Person</label>
+                          <input 
+                            required 
+                            type="text" 
+                            className="input-field" 
+                            value={editContactPerson} 
+                            onChange={(e) => setEditContactPerson(e.target.value)} 
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Corporate Designation</label>
+                          <input 
+                            required 
+                            type="text" 
+                            className="input-field" 
+                            value={editDesignation} 
+                            onChange={(e) => setEditDesignation(e.target.value)} 
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Avg Monthly Electricity Bill (₹)</label>
+                          <input 
+                            required 
+                            type="number" 
+                            className="input-field" 
+                            value={editMonthlyBill || ''} 
+                            onChange={(e) => setEditMonthlyBill(Number(e.target.value))} 
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Annual Grid Consumption (Units)</label>
+                          <input 
+                            required 
+                            type="number" 
+                            className="input-field" 
+                            value={editAnnualConsumption || ''} 
+                            onChange={(e) => setEditAnnualConsumption(Number(e.target.value))} 
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Connected Grid Load (kW)</label>
+                          <input 
+                            required 
+                            type="number" 
+                            className="input-field" 
+                            value={editConnectedLoad || ''} 
+                            onChange={(e) => setEditConnectedLoad(Number(e.target.value))} 
+                          />
+                        </div>
+                      </div>
+
+                      <button type="submit" className="btn-primary py-3.5 px-6 text-xs font-bold rounded-xl mt-4">Save Company Profile</button>
                     </form>
+                  </div>
+                )}
+                {consumerTab === 'marketplace' && (
+                  <div className="space-y-8 animate-in fade-in duration-200 text-xs font-sans">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                      {/* Left: Create Requirement Form */}
+                      <div className="lg:col-span-1 bg-white p-6 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-6">
+                        <div>
+                          <h3 className="text-base font-bold font-heading text-dark">Submit Energy Requirement</h3>
+                          <p className="text-slate-400 text-[10px] mt-1">Post your power requirements for manual B2B matchmaking</p>
+                        </div>
+                        <form onSubmit={handleCreateRequirement} className="space-y-4">
+                          <div>
+                            <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Industry Type</label>
+                            <input 
+                              required 
+                              type="text" 
+                              placeholder="e.g. Textiles, Steel, Automotive"
+                              className="input-field" 
+                              value={reqIndustry} 
+                              onChange={(e) => setReqIndustry(e.target.value)} 
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">State Node</label>
+                            <input 
+                              required 
+                              type="text" 
+                              placeholder="e.g. Gujarat, Maharashtra"
+                              className="input-field" 
+                              value={reqState} 
+                              onChange={(e) => setReqState(e.target.value)} 
+                            />
+                          </div>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Capacity (MW)</label>
+                              <input 
+                               required 
+                               type="number" 
+                               step="any"
+                               placeholder="e.g. 5"
+                               className="input-field" 
+                               value={reqCapacity || ''} 
+                               onChange={(e) => setReqCapacity(Number(e.target.value))} 
+                             />
+                            </div>
+                            <div>
+                              <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tariff (₹/kWh)</label>
+                              <input 
+                               required 
+                               type="number" 
+                               step="any"
+                               placeholder="e.g. 4.5"
+                               className="input-field" 
+                               value={reqTariff || ''} 
+                               onChange={(e) => setReqTariff(Number(e.target.value))} 
+                             />
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Monthly Consumption (kWh)</label>
+                            <input 
+                              required 
+                              type="number" 
+                              placeholder="e.g. 150000"
+                              className="input-field" 
+                              value={reqConsumption || ''} 
+                              onChange={(e) => setReqConsumption(Number(e.target.value))} 
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Additional Notes</label>
+                            <textarea 
+                              rows={3}
+                              placeholder="Describe preferred scheduling, contract period, etc..."
+                              className="input-field py-2" 
+                              value={reqNotes} 
+                              onChange={(e) => setReqNotes(e.target.value)} 
+                            />
+                          </div>
+                          <button type="submit" className="w-full btn-primary py-3 px-4 font-bold rounded-xl flex items-center justify-center gap-2">
+                            <Plus className="w-4 h-4" /> Post Energy Requirement
+                          </button>
+                        </form>
+                      </div>
+
+                      {/* Right: Requirements and Opportunities Trackers */}
+                      <div className="lg:col-span-2 space-y-8">
+                        {/* Posted Requirements */}
+                        <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-4">
+                          <h3 className="text-base font-bold font-heading text-dark">Your Postings</h3>
+                          {requirements.length === 0 ? (
+                            <p className="text-slate-400 text-xs py-4 text-center">No energy requirements posted yet.</p>
+                          ) : (
+                            <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2">
+                              {requirements.map((reqItem: any) => (
+                                <div key={reqItem._id} className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex justify-between items-center">
+                                  <div>
+                                    <div className="font-bold text-dark">{reqItem.requiredCapacity} MW - {reqItem.industry}</div>
+                                    <div className="text-[10px] text-slate-400 mt-1">
+                                      Tariff Limit: ₹{reqItem.preferredTariff}/unit • State: {reqItem.state} • Consumption: {reqItem.monthlyConsumption?.toLocaleString()} kWh
+                                    </div>
+                                    {reqItem.notes && <p className="text-[10px] text-slate-400 italic mt-1">&quot;{reqItem.notes}&quot;</p>}
+                                  </div>
+                                  <div>
+                                    <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                                      reqItem.status === 'open' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
+                                      reqItem.status === 'matched' ? 'bg-amber-50 text-amber-700 border border-amber-200' :
+                                      reqItem.status === 'negotiation' ? 'bg-purple-50 text-purple-700 border border-purple-200' :
+                                      'bg-slate-100 text-slate-600 border border-slate-200'
+                                    }`}>
+                                      {reqItem.status}
+                                    </span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Matched B2B Opportunities */}
+                        <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-4">
+                          <h3 className="text-base font-bold font-heading text-dark">B2B Matched Opportunities</h3>
+                          {marketplaceOpportunities.length === 0 ? (
+                            <p className="text-slate-400 text-xs py-4 text-center">No matched opportunities from the grid administrators yet.</p>
+                          ) : (
+                            <div className="space-y-4">
+                              {marketplaceOpportunities.map((opp: any) => (
+                                <div key={opp._id} className="p-5 bg-slate-50 border border-slate-100 rounded-2xl space-y-3">
+                                  <div className="flex justify-between items-start">
+                                    <div>
+                                      <span className="text-[9px] font-bold text-accent uppercase tracking-wider">Matched Partner</span>
+                                      <h4 className="font-bold text-dark text-sm mt-0.5">{opp.producerId?.companyName || 'Green Power Producer'}</h4>
+                                      <div className="text-[10px] text-slate-400 mt-1">
+                                        Plant Capacity: {opp.listingId?.capacityAvailable} MW • Type: {opp.listingId?.energyType} • Listing Tariff: ₹{opp.listingId?.tariff}/unit
+                                      </div>
+                                      <div className="text-[10px] text-slate-400 mt-1">
+                                        Your Demand: {opp.requirementId?.requiredCapacity} MW • Target Tariff: ₹{opp.requirementId?.preferredTariff}/unit
+                                      </div>
+                                    </div>
+                                    <div className="flex flex-col items-end gap-2">
+                                      <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                                        opp.status === 'new' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
+                                        opp.status === 'contacted' ? 'bg-amber-50 text-amber-700 border border-amber-200' :
+                                        opp.status === 'proposal_sent' ? 'bg-indigo-50 text-indigo-700 border border-indigo-200' :
+                                        opp.status === 'negotiation' ? 'bg-purple-50 text-purple-700 border border-purple-200' :
+                                        opp.status === 'won' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
+                                        'bg-red-50 text-red-700 border border-red-200'
+                                      }`}>
+                                        {opp.status.replace('_', ' ')}
+                                      </span>
+                                    </div>
+                                  </div>
+                                  
+                                  {/* Action Buttons to Transition Status */}
+                                  <div className="pt-2 border-t border-slate-200 flex flex-wrap gap-2 items-center justify-between">
+                                    <span className="text-[9px] text-slate-400 font-bold uppercase">Change Status:</span>
+                                    <div className="flex gap-1.5">
+                                      <button 
+                                        onClick={() => handleUpdateOpportunity(opp._id, 'contacted')}
+                                        className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-600 px-2 py-1 rounded text-[9px] font-bold"
+                                      >
+                                        Contacted
+                                      </button>
+                                      <button 
+                                        onClick={() => handleUpdateOpportunity(opp._id, 'negotiation')}
+                                        className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-600 px-2 py-1 rounded text-[9px] font-bold"
+                                      >
+                                        Negotiate
+                                      </button>
+                                      <button 
+                                        onClick={() => handleUpdateOpportunity(opp._id, 'won')}
+                                        className="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 px-2 py-1 rounded text-[9px] font-bold"
+                                      >
+                                        Accept Offer
+                                      </button>
+                                      <button 
+                                        onClick={() => handleUpdateOpportunity(opp._id, 'lost')}
+                                        className="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 px-2 py-1 rounded text-[9px] font-bold"
+                                      >
+                                        Reject Offer
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </>
@@ -513,58 +1696,75 @@ export default function DashboardPage() {
                     {/* KPI cards */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                       <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md shadow-slate-100/50">
-                        <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Total Grid Feeder Capacity</span>
-                        <div className="text-2xl font-black text-dark mt-2 font-heading">15.0 MW</div>
-                        <div className="text-[10px] text-accent font-bold mt-1">✓ Live Integration</div>
+                        <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Feeder Grid Capacity</span>
+                        <div className="text-2xl font-black text-dark mt-2 font-heading">
+                          {producerProfile?.plantCapacity || '0'} MW
+                        </div>
+                        <div className="text-[10px] text-accent font-bold mt-1">✓ Live Injection</div>
                       </div>
                       <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md shadow-slate-100/50">
-                        <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Active Subscribed Capacity</span>
-                        <div className="text-2xl font-black text-dark mt-2 font-heading">9.3 MW</div>
-                        <div className="text-[10px] text-slate-400 font-sans mt-1">62% Contract Allocation</div>
+                        <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Active Listings</span>
+                        <div className="text-2xl font-black text-dark mt-2 font-heading">
+                          {producerListings.filter(l => l.status === 'active').length} Offers
+                        </div>
+                        <div className="text-[10px] text-slate-400 font-sans mt-1">Marketplace Spot Feed</div>
                       </div>
                       <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md shadow-slate-100/50">
-                        <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Available Spot Capacity</span>
-                        <div className="text-2xl font-black text-dark mt-2 font-heading">5.7 MW</div>
-                        <div className="text-[10px] text-primary font-bold mt-1">Ready for exchange trading</div>
+                        <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Buyer Opportunities</span>
+                        <div className="text-2xl font-black text-dark mt-2 font-heading">
+                          {buyerOpportunities.length} Leads
+                        </div>
+                        <div className="text-[10px] text-primary font-bold mt-1">Ready for Matchmaking</div>
                       </div>
                       <div className="bg-primary p-6 rounded-2xl text-white shadow-lg shadow-primary/10">
-                        <span className="opacity-90 text-[10px] font-bold uppercase tracking-wider">YTD Revenue Traded</span>
-                        <div className="text-2xl font-black mt-2 font-heading">₹84,50,000</div>
-                        <div className="text-[10px] opacity-80 mt-1">Settled on PXIL/IEX</div>
+                        <span className="opacity-90 text-[10px] font-bold uppercase tracking-wider">Feeder Base Tariff</span>
+                        <div className="text-2xl font-black mt-2 font-heading">
+                          ₹{producerProfile?.tariff || '0.00'}/u
+                        </div>
+                        <div className="text-[10px] opacity-80 mt-1">Wheeling Rate Locked</div>
                       </div>
                     </div>
 
-                    {/* Data Lists */}
-                    <div className="bg-white rounded-2xl border border-slate-100 shadow-xl shadow-slate-100/50 overflow-hidden">
-                      <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
-                        <h3 className="font-heading font-bold text-dark text-sm">Active Grid Generation Log</h3>
-                        <span className="text-[10px] text-accent font-bold uppercase bg-accent/10 px-2 py-0.5 rounded-full">Injecting Power</span>
+                    {/* Dashboard charts and logs */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                      {/* Active Marketplace listings */}
+                      <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-4">
+                        <h3 className="font-heading font-bold text-dark text-sm">Active Energy Listings</h3>
+                        {producerListings.length === 0 ? (
+                          <p className="text-xs text-slate-400">No active spot capacity offers registered.</p>
+                        ) : (
+                          <div className="space-y-3 font-sans text-xs">
+                            {producerListings.slice(0, 3).map((list) => (
+                              <div key={list._id} className="p-3 bg-slate-50 border border-slate-100 rounded-xl flex justify-between items-center">
+                                <div>
+                                  <div className="font-bold text-dark">{list.capacityAvailable} MW - {list.energyType}</div>
+                                  <div className="text-[10px] text-slate-400">Tariff: ₹{list.tariff}/unit • {list.location}</div>
+                                </div>
+                                <span className="text-[9px] bg-primary/10 text-primary px-2.5 py-0.5 rounded-full font-bold uppercase">{list.status}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-left text-xs text-slate-500">
-                          <thead className="bg-slate-50/60 uppercase font-bold text-[9px] tracking-wider border-b border-slate-100">
-                            <tr>
-                              <th className="px-6 py-3">Feeder ID</th>
-                              <th className="px-6 py-3">Injected Power (MWh)</th>
-                              <th className="px-6 py-3">Grid Frequency</th>
-                              <th className="px-6 py-3 text-right">Settlement Rate</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-slate-100 font-sans">
-                            <tr className="hover:bg-slate-50/50">
-                              <td className="px-6 py-4 font-bold text-dark">FEED-PV-SOL-01</td>
-                              <td className="px-6 py-4">1,820 MWh</td>
-                              <td className="px-6 py-4">49.95 Hz</td>
-                              <td className="px-6 py-4 text-right font-bold text-dark">₹4.20 / unit</td>
-                            </tr>
-                            <tr className="hover:bg-slate-50/50">
-                              <td className="px-6 py-4 font-bold text-dark">FEED-PV-HYB-02</td>
-                              <td className="px-6 py-4">2,140 MWh</td>
-                              <td className="px-6 py-4">50.02 Hz</td>
-                              <td className="px-6 py-4 text-right font-bold text-dark">₹4.80 / unit</td>
-                            </tr>
-                          </tbody>
-                        </table>
+
+                      {/* Buyer Opportunities */}
+                      <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-4">
+                        <h3 className="font-heading font-bold text-dark text-sm">Industrial Buyer Needs</h3>
+                        {buyerOpportunities.length === 0 ? (
+                          <p className="text-xs text-slate-400">No active buyer tenders published.</p>
+                        ) : (
+                          <div className="space-y-3 font-sans text-xs">
+                            {buyerOpportunities.slice(0, 3).map((opp) => (
+                              <div key={opp._id} className="p-3 bg-slate-50 border border-slate-100 rounded-xl flex justify-between items-center">
+                                <div>
+                                  <div className="font-bold text-dark">{opp.companyName}</div>
+                                  <div className="text-[10px] text-slate-400">{opp.industryType} • Load: {opp.requiredCapacity} MW</div>
+                                </div>
+                                <span className="text-[9px] bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full font-bold uppercase">{opp.status}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -574,7 +1774,20 @@ export default function DashboardPage() {
                   <div className="space-y-8 animate-in fade-in duration-200">
                     <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50">
                       <h3 className="text-lg font-bold font-heading text-dark mb-4">Register New Spot Capacity</h3>
-                      <form onSubmit={handleAddListing} className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+                      <form onSubmit={handleCreateListing} className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end font-sans text-xs">
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Generation Source</label>
+                          <select 
+                            className="input-field" 
+                            value={listingEnergyType} 
+                            onChange={(e) => setListingEnergyType(e.target.value)}
+                          >
+                            <option>Solar</option>
+                            <option>Wind</option>
+                            <option>Hydro</option>
+                            <option>Hybrid</option>
+                          </select>
+                        </div>
                         <div>
                           <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Capacity (in MW)</label>
                           <input 
@@ -583,78 +1796,249 @@ export default function DashboardPage() {
                             step="0.1" 
                             placeholder="e.g. 3.5" 
                             className="input-field"
-                            value={newCapacity}
-                            onChange={(e) => setNewCapacity(e.target.value)}
+                            value={listingCapacity || ''}
+                            onChange={(e) => setListingCapacity(Number(e.target.value))}
                           />
                         </div>
                         <div>
-                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Base Spot Rate (₹/unit)</label>
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Target Tariff (₹/unit)</label>
                           <input 
                             required
                             type="number" 
                             step="0.05" 
                             placeholder="e.g. 4.10" 
                             className="input-field"
-                            value={newRate}
-                            onChange={(e) => setNewRate(e.target.value)}
+                            value={listingTariff || ''}
+                            onChange={(e) => setListingTariff(Number(e.target.value))}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Interconnection Location</label>
+                          <input 
+                            required
+                            type="text" 
+                            placeholder="e.g. Charanka, Gujarat" 
+                            className="input-field"
+                            value={listingLocation}
+                            onChange={(e) => setListingLocation(e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Availability Date</label>
+                          <input 
+                            required
+                            type="date" 
+                            className="input-field"
+                            value={listingAvailDate}
+                            onChange={(e) => setListingAvailDate(e.target.value)}
                           />
                         </div>
                         <button type="submit" className="btn-primary w-full py-4 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5"><Plus className="w-4 h-4" /> Publish Listing</button>
                       </form>
                     </div>
 
-                    <div className="bg-white rounded-2xl border border-slate-100 shadow-xl shadow-slate-100/50 overflow-hidden">
+                    <div className="bg-white rounded-2xl border border-slate-100 shadow-xl shadow-slate-100/50 overflow-hidden text-xs text-slate-500">
                       <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50">
                         <h3 className="font-heading font-bold text-dark text-sm">Active Marketplace Listings</h3>
                       </div>
                       <div className="overflow-x-auto">
-                        <table className="w-full text-left text-xs text-slate-500">
-                          <thead className="bg-slate-50/60 uppercase font-bold text-[9px] tracking-wider border-b border-slate-100">
-                            <tr>
-                              <th className="px-6 py-3">Capacity</th>
-                              <th className="px-6 py-3">Generation Type</th>
-                              <th className="px-6 py-3">Target Rate</th>
-                              <th className="px-6 py-3">Status</th>
-                              <th className="px-6 py-3 text-right">Assigned Buyer</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-slate-100 font-sans">
-                            {energyListings.map(listing => (
-                              <tr key={listing.id} className="hover:bg-slate-50/50">
-                                <td className="px-6 py-4 font-bold text-dark">{listing.capacity}</td>
-                                <td className="px-6 py-4">{listing.type}</td>
-                                <td className="px-6 py-4 font-semibold text-primary">{listing.rate}</td>
-                                <td className="px-6 py-4">
-                                  <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase ${listing.status === 'Active' ? 'bg-primary/10 text-primary' : listing.status === 'Contracted' ? 'bg-slate-100 text-slate-500' : 'bg-yellow-100 text-yellow-800'}`}>
-                                    {listing.status}
-                                  </span>
-                                </td>
-                                <td className="px-6 py-4 text-right font-bold text-dark">{listing.buyer}</td>
+                        {producerListings.length === 0 ? (
+                          <div className="p-6 text-center text-slate-400 font-sans">No listings posted.</div>
+                        ) : (
+                          <table className="w-full text-left">
+                            <thead className="bg-slate-50/60 uppercase font-bold text-[9px] tracking-wider border-b border-slate-100 text-dark">
+                              <tr>
+                                <th className="px-6 py-3">Capacity</th>
+                                <th className="px-6 py-3">Generation Type</th>
+                                <th className="px-6 py-3">Tariff</th>
+                                <th className="px-6 py-3">Location</th>
+                                <th className="px-6 py-3">Status</th>
+                                <th className="px-6 py-3 text-right">Actions</th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100 font-sans">
+                              {producerListings.map(listing => (
+                                <tr key={listing._id} className="hover:bg-slate-50/50">
+                                  <td className="px-6 py-4 font-bold text-dark">{listing.capacityAvailable} MW</td>
+                                  <td className="px-6 py-4">{listing.energyType}</td>
+                                  <td className="px-6 py-4 font-semibold text-primary">₹{listing.tariff}/unit</td>
+                                  <td className="px-6 py-4">{listing.location}</td>
+                                  <td className="px-6 py-4">
+                                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase ${
+                                      listing.status === 'active' ? 'bg-primary/10 text-primary' : 
+                                      listing.status === 'paused' ? 'bg-amber-100 text-amber-700' :
+                                      'bg-slate-100 text-slate-500'
+                                    }`}>
+                                      {listing.status}
+                                    </span>
+                                  </td>
+                                  <td className="px-6 py-4 text-right flex justify-end gap-2 items-center">
+                                    <div className="flex gap-2">
+                                      {listing.status !== 'active' && (
+                                        <button 
+                                          onClick={() => handleUpdateListingStatus(listing._id, 'active')}
+                                          className="text-[10px] font-bold text-primary hover:underline"
+                                        >
+                                          Activate
+                                        </button>
+                                      )}
+                                      {listing.status !== 'paused' && (
+                                        <button 
+                                          onClick={() => handleUpdateListingStatus(listing._id, 'paused')}
+                                          className="text-[10px] font-bold text-amber-600 hover:underline"
+                                        >
+                                          Pause
+                                        </button>
+                                      )}
+                                      {listing.status !== 'closed' && (
+                                        <button 
+                                          onClick={() => handleUpdateListingStatus(listing._id, 'closed')}
+                                          className="text-[10px] font-bold text-slate-500 hover:underline"
+                                        >
+                                          Close
+                                        </button>
+                                      )}
+                                      <button 
+                                        onClick={() => handleDeleteListing(listing._id)}
+                                        className="text-[10px] font-bold text-red-500 hover:underline"
+                                      >
+                                        Delete
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        )}
                       </div>
                     </div>
                   </div>
                 )}
 
                 {producerTab === 'requests' && (
-                  <div className="space-y-6 max-w-4xl animate-in fade-in duration-200">
+                  <div className="space-y-6 max-w-4xl animate-in fade-in duration-200 text-xs font-sans text-slate-500">
                     <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-6">
                       <div className="flex justify-between items-center">
-                        <h3 className="text-lg font-bold font-heading text-dark">Industrial Demand Requests</h3>
-                        <span className="text-[10px] bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">New Tender Feed</span>
+                        <h3 className="text-lg font-bold font-heading text-dark">Active Buyer Opportunities</h3>
+                        <span className="text-[10px] bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Tenders Queue</span>
                       </div>
                       
-                      <div className="space-y-4 font-sans text-xs">
-                        <div className="p-5 bg-slate-50 border border-slate-100 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                          <div>
-                            <span className="text-[9px] font-bold text-slate-400 uppercase">Acme Textile Mills</span>
-                            <h4 className="font-bold text-dark text-sm mt-0.5">Wheeling demand for 4.5 MW load</h4>
-                            <p className="text-slate-500 mt-1">Required start date: July 2026. Prefers Solar-Wind hybrid source mix.</p>
-                          </div>
-                          <button onClick={() => alert('Proposal submitted to Acme Textile Mills!')} className="btn-primary py-2 px-4 text-xs font-bold rounded-lg whitespace-nowrap">Submit Proposal</button>
+                      <div className="space-y-4">
+                        {buyerOpportunities.length === 0 ? (
+                          <div className="text-center p-6 text-slate-400">No buyer needs published.</div>
+                        ) : (
+                          buyerOpportunities.map((opp) => (
+                            <div key={opp._id} className="p-5 bg-slate-50 border border-slate-100 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                              <div>
+                                <span className="text-[9px] font-bold text-slate-400 uppercase">{opp.industryType}</span>
+                                <h4 className="font-bold text-dark text-sm mt-0.5">{opp.companyName}</h4>
+                                <p className="text-slate-500 mt-1">Required Capacity: {opp.requiredCapacity} MW • Target Hub: {opp.location} • Status: <strong className="uppercase">{opp.status}</strong></p>
+                              </div>
+                              <button 
+                                onClick={() => {
+                                  alert(`Offer matching generated for ${opp.companyName}! Proposal logged.`);
+                                }} 
+                                className="btn-primary py-2 px-4 text-xs font-bold rounded-lg whitespace-nowrap"
+                              >
+                                Match Capacity
+                              </button>
+                            </div>
+                          ))
+                        )}
+                      </div>
+
+                      {/* B2B Marketplace Opportunities Section */}
+                      <div className="pt-6 border-t border-slate-100">
+                        <div className="flex justify-between items-center mb-4">
+                          <h3 className="text-base font-bold font-heading text-dark">B2B Matched Opportunities</h3>
+                          <span className="text-[10px] bg-accent/20 text-accent font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Marketplace Matches</span>
+                        </div>
+
+                        <div className="space-y-4">
+                          {marketplaceOpportunities.length === 0 ? (
+                            <div className="text-center p-6 text-slate-400">No admin-matched B2B opportunities.</div>
+                          ) : (
+                            marketplaceOpportunities.map((opp: any) => (
+                              <div key={opp._id} className="p-5 bg-slate-50 border border-slate-100 rounded-2xl space-y-3">
+                                <div className="flex justify-between items-start">
+                                  <div>
+                                    <span className="text-[9px] font-bold text-primary uppercase tracking-wider">Matched Buyer</span>
+                                    <h4 className="font-bold text-dark text-sm mt-0.5">{opp.consumerId?.companyName || 'Energy Consumer'}</h4>
+                                    <div className="text-[10px] text-slate-400 mt-1">
+                                      Industry: {opp.requirementId?.industry} • Location: {opp.requirementId?.state}
+                                    </div>
+                                    <div className="text-[10px] text-slate-400 mt-1">
+                                      Required: {opp.requirementId?.requiredCapacity} MW • Target Tariff: ₹{opp.requirementId?.preferredTariff}/unit • Consumption: {opp.requirementId?.monthlyConsumption?.toLocaleString()} kWh
+                                    </div>
+                                    <div className="text-[10px] text-slate-400 mt-1 font-bold">
+                                      Matched Listing: {opp.listingId?.capacityAvailable} MW @ ₹{opp.listingId?.tariff}/unit ({opp.listingId?.energyType})
+                                    </div>
+                                    {opp.notes && <p className="text-[10px] text-slate-400 italic mt-1">&quot;Match Notes: {opp.notes}&quot;</p>}
+                                  </div>
+                                  <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                                    opp.status === 'new' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
+                                    opp.status === 'contacted' ? 'bg-amber-50 text-amber-700 border border-amber-200' :
+                                    opp.status === 'proposal_sent' ? 'bg-indigo-50 text-indigo-700 border border-indigo-200' :
+                                    opp.status === 'negotiation' ? 'bg-purple-50 text-purple-700 border border-purple-200' :
+                                    opp.status === 'won' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
+                                    'bg-red-50 text-red-700 border border-red-200'
+                                  }`}>
+                                    {opp.status.replace('_', ' ')}
+                                  </span>
+                                </div>
+
+                                <div className="pt-2 border-t border-slate-200 flex flex-wrap gap-2 items-center justify-between">
+                                  <span className="text-[9px] text-slate-400 font-bold uppercase">Actions:</span>
+                                  <div className="flex gap-1.5">
+                                    <button 
+                                      onClick={() => {
+                                        setSelectedOppForProposal(opp);
+                                        setNewPropNumber(`PROP-${Date.now()}`);
+                                        setNewPropAmount(Number((opp.requirementId?.monthlyConsumption || 0) * (opp.listingId?.tariff || 4)));
+                                        setNewPropCapacity(`${opp.requirementId?.requiredCapacity || 0} MW`);
+                                        setNewPropTariff(opp.listingId?.tariff || 0);
+                                        setShowCreateProposalModal(true);
+                                      }}
+                                      className="bg-primary hover:bg-primary-dark text-white px-2.5 py-1 rounded text-[9px] font-bold"
+                                    >
+                                      Create Proposal
+                                    </button>
+                                    <button 
+                                      onClick={() => handleUpdateOpportunity(opp._id, 'contacted')}
+                                      className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-600 px-2 py-1 rounded text-[9px] font-bold"
+                                    >
+                                      Contact Buyer
+                                    </button>
+                                    <button 
+                                      onClick={() => handleUpdateOpportunity(opp._id, 'proposal_sent')}
+                                      className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-600 px-2 py-1 rounded text-[9px] font-bold"
+                                    >
+                                      Send Proposal
+                                    </button>
+                                    <button 
+                                      onClick={() => handleUpdateOpportunity(opp._id, 'negotiation')}
+                                      className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-600 px-2 py-1 rounded text-[9px] font-bold"
+                                    >
+                                      Negotiate
+                                    </button>
+                                    <button 
+                                      onClick={() => handleUpdateOpportunity(opp._id, 'won')}
+                                      className="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 px-2 py-1 rounded text-[9px] font-bold"
+                                    >
+                                      Mark Won
+                                    </button>
+                                    <button 
+                                      onClick={() => handleUpdateOpportunity(opp._id, 'lost')}
+                                      className="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 px-2 py-1 rounded text-[9px] font-bold"
+                                    >
+                                      Mark Lost
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            ))
+                          )}
                         </div>
                       </div>
                     </div>
@@ -662,75 +2046,297 @@ export default function DashboardPage() {
                 )}
 
                 {producerTab === 'contracts' && (
-                  <div className="space-y-6 max-w-4xl animate-in fade-in duration-200">
-                    <div className="bg-white rounded-2xl border border-slate-100 shadow-xl shadow-slate-100/50 overflow-hidden">
-                      <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50">
-                        <h3 className="font-heading font-bold text-dark text-sm">Active Power Purchase Agreements (PPA)</h3>
+                  <div className="space-y-8 animate-in fade-in duration-200 font-sans text-xs text-slate-500">
+                    {/* Part 1: Proposal Tracking */}
+                    <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-6">
+                      <div className="flex justify-between items-center">
+                        <h3 className="text-base font-bold font-heading text-dark">Your Submitted B2B Proposals</h3>
+                        <span className="text-[10px] bg-primary/15 text-primary font-bold px-2 py-0.5 rounded-full uppercase">Deal Pipeline</span>
                       </div>
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-left text-xs text-slate-500">
-                          <thead className="bg-slate-50/60 uppercase font-bold text-[9px] tracking-wider border-b border-slate-100">
-                            <tr>
-                              <th className="px-6 py-3">Contract Ref</th>
-                              <th className="px-6 py-3">Buyer Company</th>
-                              <th className="px-6 py-3">Contracted Capacity</th>
-                              <th className="px-6 py-3">Duration Locked</th>
-                              <th className="px-6 py-3 text-right">Regulatory sync</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-slate-100 font-sans">
-                            <tr className="hover:bg-slate-50/50">
-                              <td className="px-6 py-4 font-bold text-dark">PPA-ACME-Spin-01</td>
-                              <td className="px-6 py-4">Acme Textiles Ltd</td>
-                              <td className="px-6 py-4">4.2 MW</td>
-                              <td className="px-6 py-4">15 Years (until 2041)</td>
-                              <td className="px-6 py-4 text-right"><span className="text-primary font-bold">Approved Node</span></td>
-                            </tr>
-                          </tbody>
-                        </table>
+                      <div className="space-y-4">
+                        {proposals.length === 0 ? (
+                          <p className="text-center p-6 text-slate-400">No drafted or submitted proposals.</p>
+                        ) : (
+                          proposals.map((prop) => (
+                            <div key={prop._id} className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex justify-between items-center">
+                              <div>
+                                <h4 className="font-bold text-dark text-xs">{prop.proposalNumber}</h4>
+                                <div className="text-[10px] text-slate-400 mt-1">
+                                  Capacity: {prop.capacityRequirement} • Tariff: ₹{prop.estimatedTariff}/unit • Amount: ₹{prop.amount?.toLocaleString()}
+                                </div>
+                                {prop.notes && <p className="italic text-[10px] text-slate-400 mt-1">Notes: &quot;{prop.notes}&quot;</p>}
+                              </div>
+                              <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                                prop.status === 'draft' ? 'bg-slate-100 text-slate-500' :
+                                prop.status === 'under_review' ? 'bg-amber-100 text-amber-700' :
+                                prop.status === 'approved' ? 'bg-emerald-100 text-emerald-700' :
+                                'bg-red-100 text-red-700'
+                              }`}>
+                                {prop.status.replace('_', ' ')}
+                              </span>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Part 2: Contract Management */}
+                    <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-6">
+                      <div className="flex justify-between items-center">
+                        <h3 className="text-base font-bold font-heading text-dark">Power Purchase Agreements (Contracts)</h3>
+                        <span className="text-[10px] bg-accent/20 text-accent font-bold px-2 py-0.5 rounded-full uppercase">Legal Registry</span>
+                      </div>
+                      <div className="space-y-4">
+                        {contracts.length === 0 ? (
+                          <p className="text-center p-6 text-slate-400">No active contracts drafted.</p>
+                        ) : (
+                          contracts.map((contract) => (
+                            <div key={contract._id} className="p-4 bg-slate-50 border border-slate-100 rounded-2xl space-y-2">
+                              <div className="flex justify-between items-start">
+                                <div>
+                                  <h4 className="font-bold text-dark text-xs">{contract.contractNumber}</h4>
+                                  <p className="text-[10px] text-slate-400 mt-1">Consumer Client: {contract.consumer?.companyName || 'Corporate Buyer'}</p>
+                                  <p className="text-[10px] text-slate-400">Validity: {new Date(contract.startDate).toLocaleDateString()} to {new Date(contract.endDate).toLocaleDateString()}</p>
+                                  <div className="mt-2 text-[10px] text-slate-400 space-y-1">
+                                    <div>Consumer Signature Status: {contract.signedByConsumer ? '✍️ Signed' : '❌ Pending'}</div>
+                                    <div>Producer Signature Status: {contract.signedByProducer ? '✍️ Signed' : '❌ Pending'}</div>
+                                  </div>
+                                </div>
+                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                                  contract.status === 'active' ? 'bg-emerald-100 text-emerald-700' :
+                                  contract.status === 'pending_signature' ? 'bg-amber-100 text-amber-700' :
+                                  'bg-slate-100 text-slate-500'
+                                }`}>
+                                  {contract.status.replace('_', ' ')}
+                                </span>
+                              </div>
+
+                              {contract.status === 'pending_signature' && !contract.signedByProducer && (
+                                <div className="pt-2 border-t border-slate-200 flex justify-end">
+                                  <button 
+                                    onClick={() => handleSignContract(contract._id)}
+                                    className="bg-primary hover:bg-primary-dark text-white px-3 py-1.5 rounded-lg text-[10px] font-bold"
+                                  >
+                                    Sign Contract (Execute Deal)
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          ))
+                        )}
                       </div>
                     </div>
                   </div>
                 )}
 
                 {producerTab === 'documents' && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 animate-in fade-in duration-200">
-                    {[
-                      { title: "SLDC Grid Synchronization.pdf", type: "Grid Approval", size: "3.2 MB" },
-                      { title: "Sovereign Transmission SLA.pdf", type: "SLDC Node", size: "1.4 MB" },
-                      { title: "Environmental Feeder Audits.pdf", type: "Carbon Offset", size: "6.7 MB" }
-                    ].map((doc, idx) => (
-                      <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md shadow-slate-100/30 flex flex-col justify-between">
-                        <div className="space-y-3">
-                          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary"><FileText className="w-5 h-5" /></div>
-                          <div>
-                            <h4 className="text-sm font-bold text-dark truncate font-heading">{doc.title}</h4>
-                            <span className="text-[10px] text-slate-400">{doc.type}</span>
-                          </div>
+                  <div className="space-y-8 animate-in fade-in duration-200">
+                    <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-6">
+                      <h3 className="text-lg font-bold font-heading text-dark">Log Grid Certifications & Documents</h3>
+                      <form onSubmit={handleUploadDocument} className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end font-sans text-xs">
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">Document Category</label>
+                          <select 
+                            className="input-field" 
+                            value={docType} 
+                            onChange={(e) => setDocType(e.target.value)}
+                          >
+                            <option>Regulatory Approval</option>
+                            <option>Plant Certification</option>
+                            <option>Generation Report</option>
+                            <option>Grid Feeder NOC</option>
+                          </select>
                         </div>
-                        <button onClick={() => alert(`Downloading: ${doc.title}`)} className="text-xs font-bold text-primary flex items-center gap-1 hover:underline mt-4 pt-3 border-t border-slate-50">
-                          <Download className="w-4.5 h-4.5" /> Download File ({doc.size})
+                        <div className="sm:col-span-2">
+                          <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">File Name</label>
+                          <input 
+                            required 
+                            type="text" 
+                            placeholder="e.g. SLDC_Sync_SLA.pdf" 
+                            className="input-field" 
+                            value={docName} 
+                            onChange={(e) => setDocName(e.target.value)} 
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2">Simulated URL path</label>
+                          <input 
+                            required 
+                            type="text" 
+                            placeholder="e.g. /uploads/feeder-noc.pdf" 
+                            className="input-field" 
+                            value={docUrl} 
+                            onChange={(e) => setDocUrl(e.target.value)} 
+                          />
+                        </div>
+                        <button type="submit" className="sm:col-span-4 btn-primary py-3 px-6 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 max-w-xs">
+                          <Plus className="w-4 h-4" /> Log Certification File
                         </button>
-                      </div>
-                    ))}
+                      </form>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 font-sans">
+                      {documents.length === 0 ? (
+                        <div className="sm:col-span-3 text-center p-6 text-slate-400">No documents cataloged yet.</div>
+                      ) : (
+                        documents.map((doc) => (
+                          <div key={doc._id} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md shadow-slate-100/30 flex flex-col justify-between">
+                            <div className="space-y-3">
+                              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                                <FileText className="w-5 h-5" />
+                              </div>
+                              <div>
+                                <h4 className="text-sm font-bold text-dark truncate font-heading">{doc.fileName}</h4>
+                                <span className="text-[10px] text-slate-400">{doc.documentType}</span>
+                              </div>
+                            </div>
+                            <div className="flex justify-between items-center mt-4 pt-3 border-t border-slate-50 text-xs">
+                              <button 
+                                onClick={() => alert(`Downloading Certificate: ${doc.fileName} from path ${doc.fileUrl}`)} 
+                                className="text-xs font-bold text-primary flex items-center gap-1 hover:underline"
+                              >
+                                <Download className="w-4.5 h-4.5" /> Download
+                              </button>
+                              <button 
+                                onClick={() => handleDeleteDocument(doc._id)} 
+                                className="text-xs font-bold text-red-500 hover:underline"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {producerTab === 'notifications' && (
+                  <div className="max-w-3xl bg-white rounded-2xl border border-slate-100 shadow-xl shadow-slate-100/50 overflow-hidden animate-in fade-in duration-200">
+                    <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+                      <h3 className="font-heading font-bold text-dark text-sm">Notifications Feed</h3>
+                      <button 
+                        onClick={() => {
+                          dbNotifications.forEach(n => handleMarkNotifRead(n._id));
+                          alert('Marked all notifications as read! ✅');
+                        }} 
+                        className="text-xs font-bold text-primary hover:underline"
+                      >
+                        Mark All Read
+                      </button>
+                    </div>
+                    <div className="divide-y divide-slate-100 font-sans text-xs">
+                      {dbNotifications.length === 0 ? (
+                        <div className="p-6 text-center text-slate-400">No active alerts.</div>
+                      ) : (
+                        dbNotifications.map((n) => (
+                          <div key={n._id} className={`p-6 flex items-start justify-between gap-4 transition-colors ${n.read ? 'bg-white' : 'bg-primary/5'}`}>
+                            <div className="flex items-start gap-4">
+                              <button 
+                                onClick={() => handleMarkNotifRead(n._id)}
+                                className={`p-2 rounded-xl mt-0.5 ${n.read ? 'bg-slate-100 text-slate-400' : 'bg-primary/10 text-primary'}`}
+                              >
+                                <Bell className="w-4 h-4" />
+                              </button>
+                              <div>
+                                <h4 className="font-bold text-dark text-sm">{n.title}</h4>
+                                <p className="text-slate-500 mt-1">{n.message}</p>
+                                <span className="text-[9px] text-slate-400 block mt-2">
+                                  {new Date(n.createdAt).toLocaleString()}
+                                </span>
+                              </div>
+                            </div>
+                            <button 
+                              onClick={() => handleDeleteNotif(n._id)} 
+                              className="text-slate-400 hover:text-red-500 font-bold"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        ))
+                      )}
+                    </div>
                   </div>
                 )}
 
                 {producerTab === 'profile' && (
-                  <div className="max-w-2xl bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 animate-in fade-in duration-200">
+                  <div className="max-w-3xl bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 animate-in fade-in duration-200">
                     <h3 className="text-lg font-bold font-heading text-dark mb-6">Producer Plant Settings</h3>
-                    <form onSubmit={(e) => { e.preventDefault(); alert('Producer plant settings saved ✅'); }} className="space-y-4">
+                    <form onSubmit={handleSaveProducerProfile} className="space-y-4 font-sans text-xs">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Plant Owner Entity</label>
-                          <input type="text" defaultValue="Apex CleanEnergy Infrastructure" className="input-field" />
+                          <input 
+                            required 
+                            type="text" 
+                            className="input-field" 
+                            value={prodCompanyName} 
+                            onChange={(e) => setProdCompanyName(e.target.value)} 
+                          />
                         </div>
                         <div>
-                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Grid Feeder ID</label>
-                          <input type="text" defaultValue="FEED-PV-SOL-01" disabled className="input-field bg-slate-50 text-slate-400" />
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Energy Type</label>
+                          <select 
+                            className="input-field" 
+                            value={prodEnergyType} 
+                            onChange={(e) => setProdEnergyType(e.target.value)}
+                          >
+                            <option>Solar</option>
+                            <option>Wind</option>
+                            <option>Hydro</option>
+                            <option>Hybrid</option>
+                          </select>
                         </div>
                       </div>
-                      <button className="btn-primary py-3 px-6 text-xs font-bold rounded-xl mt-4">Save Changes</button>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Plant Location</label>
+                          <input 
+                            required 
+                            type="text" 
+                            className="input-field" 
+                            value={prodLocation} 
+                            onChange={(e) => setProdLocation(e.target.value)} 
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Contact Person</label>
+                          <input 
+                            required 
+                            type="text" 
+                            className="input-field" 
+                            value={prodContactPerson} 
+                            onChange={(e) => setProdContactPerson(e.target.value)} 
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Plant Capacity (in MW)</label>
+                          <input 
+                            required 
+                            type="number" 
+                            className="input-field" 
+                            value={prodCapacity || ''} 
+                            onChange={(e) => setProdCapacity(Number(e.target.value))} 
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Base Tariff Wheeling Rate (₹/unit)</label>
+                          <input 
+                            required 
+                            type="number" 
+                            step="0.05"
+                            className="input-field" 
+                            value={prodTariff || ''} 
+                            onChange={(e) => setProdTariff(Number(e.target.value))} 
+                          />
+                        </div>
+                      </div>
+
+                      <button type="submit" className="btn-primary py-3.5 px-6 text-xs font-bold rounded-xl mt-4">Save Plant Configurations</button>
                     </form>
                   </div>
                 )}
@@ -937,6 +2543,189 @@ export default function DashboardPage() {
         </main>
 
       </div>
+
+      {/* Energy Assessment Report Modal */}
+      {viewingReport && (
+        <div className="fixed inset-0 bg-dark/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-2xl max-w-2xl w-full relative max-h-[90vh] overflow-y-auto">
+            <button onClick={() => setViewingReport(null)} className="absolute right-4 top-4 text-slate-400 hover:text-slate-600">
+              <X className="w-5 h-5" />
+            </button>
+            <div id="printable-report">
+              <div className="flex justify-between items-start border-b border-slate-100 pb-4 mb-6">
+                <div>
+                  <span className="text-[10px] text-primary font-bold uppercase tracking-wider font-heading">Feasibility Study</span>
+                  <h3 className="text-lg font-bold font-heading text-dark">Infinity Green Energy Assessment</h3>
+                </div>
+                <div className="text-right text-[10px] text-slate-400 font-mono">
+                  <div>Status: <span className="text-primary font-bold uppercase">{viewingReport.status.replace('_', ' ')}</span></div>
+                  <div>Dated: {new Date(viewingReport.createdAt).toLocaleDateString()}</div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mb-6 font-sans text-xs">
+                <div>
+                  <h4 className="font-bold text-slate-400 text-[10px] uppercase mb-1">Company/Facility Details</h4>
+                  <p className="text-dark font-medium">{viewingReport.industry} Facility</p>
+                  <p className="text-slate-500">State jurisdiction: {viewingReport.state}</p>
+                  <p className="text-slate-500">Operating hours: {viewingReport.operatingHours || 0} hrs/day</p>
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-400 text-[10px] uppercase mb-1">Grid Parameters</h4>
+                  <p className="text-slate-500">Connected Contracted Load: {viewingReport.connectedLoad} kW</p>
+                  <p className="text-slate-500">Annual Consumption: {viewingReport.annualConsumption?.toLocaleString() || 0} kWh</p>
+                  <p className="text-slate-500">Monthly Bill Size: ₹{viewingReport.monthlyElectricityBill?.toLocaleString()}</p>
+                  <p className="text-slate-500">Current Tariff: ₹{viewingReport.currentTariff ? viewingReport.currentTariff.toFixed(2) : '0.00'}/unit</p>
+                </div>
+              </div>
+
+              <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5 mb-6">
+                <h4 className="text-emerald-800 font-bold font-heading text-xs mb-3">Green Energy Forecast Output</h4>
+                <div className="grid grid-cols-3 gap-4 font-sans text-xs">
+                  <div>
+                    <span className="block text-[10px] text-emerald-600 font-bold uppercase">Estimated Savings</span>
+                    <strong className="text-lg font-black text-emerald-800">₹{viewingReport.generatedReport?.estimatedSavings?.toLocaleString()}/yr</strong>
+                  </div>
+                  <div>
+                    <span className="block text-[10px] text-emerald-600 font-bold uppercase">Solar Roof Potential</span>
+                    <strong className="text-lg font-black text-emerald-800">{viewingReport.generatedReport?.solarPotential} kW</strong>
+                  </div>
+                  <div>
+                    <span className="block text-[10px] text-emerald-600 font-bold uppercase">Open Access Potential</span>
+                    <strong className="text-lg font-black text-emerald-800">{viewingReport.generatedReport?.openAccessPotential || 0} kW</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4 font-sans text-xs border-t border-slate-100 pt-5">
+                <div>
+                  <h4 className="font-bold text-slate-400 text-[10px] uppercase mb-1">Recommended Solution</h4>
+                  <p className="text-dark font-semibold">{viewingReport.generatedReport?.suggestedSolution || 'Processing preliminary data...'}</p>
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-400 text-[10px] uppercase mb-1">Consultation Recommendation</h4>
+                  <p className="text-slate-700">{viewingReport.generatedReport?.consultationRecommendation}</p>
+                </div>
+                {viewingReport.recommendations && (
+                  <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                    <h4 className="font-bold text-slate-600 text-[10px] uppercase mb-1">Admin Advisor Remarks</h4>
+                    <p className="text-slate-800 italic">&quot;{viewingReport.recommendations}&quot;</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="mt-8 pt-4 border-t border-slate-100 flex justify-end gap-3">
+              <button 
+                onClick={() => window.print()} 
+                className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5"
+              >
+                <Download className="w-4 h-4" /> Export Report (PDF)
+              </button>
+              <button 
+                onClick={() => setViewingReport(null)} 
+                className="btn-primary px-4 py-2 rounded-xl text-xs font-bold"
+              >
+                Close View
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Producer B2B Proposal Creation Modal */}
+      {showCreateProposalModal && selectedOppForProposal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 font-sans text-xs">
+          <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-150">
+            <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+              <h3 className="font-heading font-bold text-dark text-sm">Draft B2B Power Proposal</h3>
+              <button onClick={() => setShowCreateProposalModal(false)} className="text-slate-400 hover:text-red-500">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <form onSubmit={handleCreateProposalByProducer} className="p-6 space-y-4 text-slate-600">
+              <div className="p-3 bg-primary/5 rounded-xl border border-primary/10">
+                <div className="font-bold text-dark text-[10px] uppercase">Matched Buyer Client:</div>
+                <div className="text-sm font-black text-primary mt-1">{selectedOppForProposal.consumerId?.companyName || 'Corporate Buyer'}</div>
+                <div className="text-[10px] text-slate-400 mt-1">Matched Listing: {selectedOppForProposal.listingId?.capacityAvailable} MW @ ₹{selectedOppForProposal.listingId?.tariff}/unit</div>
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Proposal Code / Number</label>
+                <input 
+                  required 
+                  type="text" 
+                  className="input-field" 
+                  value={newPropNumber} 
+                  onChange={(e) => setNewPropNumber(e.target.value)} 
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Capacity Target</label>
+                  <input 
+                    required 
+                    type="text" 
+                    className="input-field" 
+                    value={newPropCapacity} 
+                    onChange={(e) => setNewPropCapacity(e.target.value)} 
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tariff (₹/unit)</label>
+                  <input 
+                    required 
+                    type="number" 
+                    step="0.01" 
+                    className="input-field" 
+                    value={newPropTariff || ''} 
+                    onChange={(e) => setNewPropTariff(Number(e.target.value))} 
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Estimated Amount (₹)</label>
+                  <input 
+                    required 
+                    type="number" 
+                    className="input-field" 
+                    value={newPropAmount || ''} 
+                    onChange={(e) => setNewPropAmount(Number(e.target.value))} 
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Valid Until</label>
+                  <input 
+                    required 
+                    type="date" 
+                    className="input-field" 
+                    value={newPropValidUntil} 
+                    onChange={(e) => setNewPropValidUntil(e.target.value)} 
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Proposal Memo / Notes</label>
+                <textarea 
+                  rows={2}
+                  placeholder="Terms of delivery, scheduling grid injection details..."
+                  className="input-field py-2" 
+                  value={newPropNotes} 
+                  onChange={(e) => setNewPropNotes(e.target.value)} 
+                />
+              </div>
+
+              <button type="submit" className="w-full btn-primary py-3 font-bold rounded-xl bg-primary text-white">
+                Submit Proposal for Admin Approval
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </ProtectedRoute>
   );
 }

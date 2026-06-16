@@ -41,18 +41,26 @@ export default function RegisterPage() {
     }
   };
 
-  const handleGoogleSimulate = () => {
-    alert('Simulating Google Workspace Login redirection... 🌐');
-    setTimeout(() => {
-      localStorage.setItem('userInfo', JSON.stringify({
-        _id: 'google-mock-id',
+  const handleGoogleSimulate = async () => {
+    const emailInput = prompt('Enter Google Account Email to connect with Workspace SSO:', 'partner@google-workspace.com');
+    if (!emailInput) return;
+    setLoading(true);
+    try {
+      const res = await api.post('/users/google-login', {
+        email: emailInput,
+        googleId: `google-sso-${emailInput.replace(/[^a-zA-Z0-9]/g, '')}`,
         name: 'Google Partner Operator',
-        email: 'partner@google-workspace.com',
-        role: role,
-        token: 'google-oauth-mock-token'
-      }));
+        role: role
+      });
+      localStorage.setItem('userInfo', JSON.stringify(res));
+      alert('Authenticated via Google Workspace successfully ✅');
       router.push('/dashboard');
-    }, 1000);
+    } catch (err: any) {
+      console.error(err);
+      alert(err.message || 'Google Workspace SSO failed ❌');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

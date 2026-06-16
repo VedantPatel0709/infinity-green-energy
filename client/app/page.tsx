@@ -1,401 +1,371 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
+import React from 'react';
 import Link from 'next/link';
-import Hero from '@/components/Hero';
-import LeadForm from '@/components/LeadForm';
-import Calculator from '@/components/Calculator';
-
+import { useRouter } from 'next/navigation';
 import { 
-  ArrowRight, Globe2, Zap, Factory, Building2, Landmark, 
-  HelpCircle, ShieldCheck, CheckCircle2, ChevronRight, BarChart3, Users2, Award, BriefcaseIcon
+  Zap, ArrowRight, CheckCircle2, Shield, Users, 
+  MessageSquare, Phone, Mail, Award, Landmark, ChevronRight, Globe2, Building2, Milestone, Lightbulb, Compass, Factory, BarChart3, HelpCircle
 } from 'lucide-react';
+import LeadForm from '@/components/LeadForm';
 
-/**
- * Home Page - Infinity Green Energy B2B Renewable Platform
- */
-export default function Home() {
+export default function HomePage() {
   const router = useRouter();
 
-  // 3. Core Solutions Data (Exactly 4 Solutions)
-  const coreSolutions = [
-    {
-      title: "Energy Exchange",
-      desc: "Dynamically procure green energy on state exchanges (IEX, PXIL) to minimize short-term peak tariffs.",
-      icon: <Globe2 className="w-6 h-6 text-primary" />
-    },
-    {
-      title: "Industrial Solar",
-      desc: "CAPEX & OPEX solar plant integration designed to power heavy-load manufacturing processes.",
-      icon: <Factory className="w-6 h-6 text-primary" />
-    },
-    {
-      title: "Energy Consulting",
-      desc: "In-depth energy load audits, tariff pattern optimization, and grid integration forecasting.",
-      icon: <BriefcaseIcon className="w-6 h-6 text-primary" />
-    },
-    {
-      title: "Subsidy & Compliance",
-      desc: "Hassle-free synchronization with net metering guidelines, grid codes, and government subsidies.",
-      icon: <Landmark className="w-6 h-6 text-primary" />
-    }
-  ];
-
-  // 5. Industries We Serve
+  // SECTION 2: Industries We Serve
   const targetIndustries = [
-    { name: "Manufacturing", icon: "🏭" },
-    { name: "Textile", icon: "🧵" },
-    { name: "Chemical", icon: "🧪" },
-    { name: "Pharmaceutical", icon: "💊" },
-    { name: "Food Processing", icon: "🍎" },
-    { name: "Logistics", icon: "🚚" },
-    { name: "Commercial Real Estate", icon: "🏢" }
+    { name: 'Manufacturing', icon: '🏭', desc: 'Heavy manufacturing plants, machinery setups, and casting units.' },
+    { name: 'Pharmaceuticals', icon: '💊', desc: 'Sterile laboratories, process control, and cleanroom cooling.' },
+    { name: 'Chemicals', icon: '🧪', desc: 'Continuous chemical processors, reactors, and automation lines.' },
+    { name: 'Textiles', icon: '🧵', desc: '24/7 spinning, weaving, processing, and finishing mills.' },
+    { name: 'Engineering', icon: '⚙️', desc: 'Precision component machining, heavy fabricating, and bulk assembly.' },
+    { name: 'Warehousing & Logistics', icon: '📦', desc: 'Large logistics hubs, sorting lines, and refrigerated cold chain stores.' },
+    { name: 'Industrial Parks', icon: '⚡', desc: 'Group Captive frameworks and multi-facility industrial clusters.' },
+    { name: 'Commercial Campuses', icon: '🏢', desc: 'Corporate tech headquarters, datacenters, and LEED facilities.' }
   ];
 
-
-  // 8. B2B Case Studies
-  const caseStudies = [
+  // SECTION 3: Solutions Overview
+  const solutionsOverview = [
     {
-      company: "Indo-Tex Spinning Mill",
-      industry: "Textile",
-      stat: "42% Reduction",
-      detail: "Switched 4.2 MW load to Hybrid Open Access Power, decreasing annual electricity expenditure from ₹12 Cr to ₹7.2 Cr."
+      title: 'Open Access Energy',
+      desc: 'Bypass local utilities and procure renewable grid power directly from off-site private IPPs (Solar, Wind, Hybrid) under flat-rate PPAs.',
+      metric: 'Save up to 40% on DISCOM tariffs'
     },
     {
-      company: "Astra Pharma Labs",
-      industry: "Pharmaceuticals",
-      stat: "1.8 MW Solar Rooftop",
-      detail: "Deployed net-metered zero-investment OPEX solar plant offsetting peak daytime load under state-level regulatory subsidy."
+      title: 'Industrial Solar',
+      desc: 'Custom-engineered on-site solar systems for factory rooftops and ground mounts, under CAPEX or zero-investment OPEX frameworks.',
+      metric: 'On-site generation offset of 20-30%'
+    },
+    {
+      title: 'Wind Energy',
+      desc: 'Utility-scale wind power procurement for high-load industrial consumers looking for non-solar hours generation support.',
+      metric: 'High Capacity Factors (CUF) in key states'
+    },
+    {
+      title: 'Hybrid Solutions',
+      desc: 'Combined wind-solar energy profiles that match 24/7 continuous industrial production curves, maximizing grid wheeling capacity.',
+      metric: 'Optimal dispatch matching base load'
+    },
+    {
+      title: 'Energy Procurement',
+      desc: 'Structured market buying strategies, bilateral power purchase contracts, and state/national grid code approvals brokerage.',
+      metric: 'Risk-managed contract hedging structures'
+    },
+    {
+      title: 'Energy Cost Optimization',
+      desc: 'Analytical audits of contract demands, load profiling, power factor optimization, and smart peak-tariff offset scheduling.',
+      metric: 'Immediate operational savings potential'
     }
   ];
 
-  // 9. Client Testimonials
-  const testimonials = [
-    {
-      quote: "Infinity Green helped us navigate complex open access compliance and state power exchange bidding. Our tariff savings are fully aligned with projections.",
-      author: "Rajesh Mehta",
-      role: "VP Operations, Indo-Tex Spinning"
-    },
-    {
-      quote: "The zero upfront OPEX model was a seamless fit for our ESG targets. We have already logged 18 months of zero-downtime green power.",
-      author: "Dr. Ananya Sen",
-      role: "Director of Facilities, Astra Pharma"
-    }
+  // SECTION 4: How Infinity Green Works
+  const timelineSteps = [
+    { step: '01', title: 'Energy Assessment', desc: 'Analyze current energy consumption and costs to establish baseline demand parameters.' },
+    { step: '02', title: 'Consumption Analysis', desc: 'Identify inefficiencies and savings opportunities through detailed chronological load profiling.' },
+    { step: '03', title: 'Solution Design', desc: 'Recommend the most suitable renewable energy strategy (Open Access, Onsite Solar, or Hybrid Sourcing).' },
+    { step: '04', title: 'Proposal Development', desc: 'Present commercial and technical options including CAPEX vs OPEX modeling and PPA drafts.' },
+    { step: '05', title: 'Execution Support', desc: 'Coordinate implementation through trusted partners and manage grid synchronization approvals.' },
+    { step: '06', title: 'Ongoing Optimization', desc: 'Monitor and improve long-term performance, manage dispatch bids, and audit state utility bills.' }
+  ];
+
+  // SECTION 5: Industry Network Preview (Vetted sample profiles)
+  const networkProducers = [
+    { name: 'Vibrant Solar Infra', tech: 'Hybrid Solar-Wind', capacity: '450 MW', states: 'Karnataka, Tamil Nadu' },
+    { name: 'Aditya Wind Farms Ltd', tech: 'Onshore Wind', capacity: '280 MW', states: 'Gujarat, Maharashtra' }
+  ];
+
+  const networkConsumers = [
+    { name: 'Indo-Tex Spinning Mill', industry: 'Textiles', state: 'Tamil Nadu', category: 'Open Access PPA' },
+    { name: 'Astra Pharmaceuticals', industry: 'Pharmaceuticals', state: 'Himachal Pradesh', category: 'Onsite OPEX Solar' }
+  ];
+
+  // SECTION 7: Insights Preview
+  const insightsPreview = [
+    { title: 'B2B Renewable Energy Open Access: 2026 Procurement Guide', desc: 'A strategic breakdown of ISTS transmission waivers, state open-access surcharges, and group captive equity rules.', category: 'Regulations' },
+    { title: 'How Spinning Mills & Textile Units Cut Electricity Tariffs by 35%', desc: 'Case study analysis of shifting daytime load to hybrid solar-wind PPA options.', category: 'Cost Optimization' }
   ];
 
   return (
-    <div className="bg-light min-h-screen text-dark">
-      {/* 1. Hero Section */}
-      <Hero />
-
-      {/* 2. Trust Indicators Section */}
-      <section className="py-12 bg-white border-b border-slate-100 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <span className="block text-4xl font-black text-primary font-heading">2.5 GW+</span>
-              <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Energy Transacted</span>
-            </div>
-            <div>
-              <span className="block text-4xl font-black text-primary font-heading">300+</span>
-              <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Industrial Clients</span>
-            </div>
-            <div>
-              <span className="block text-4xl font-black text-primary font-heading">38%</span>
-              <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Average Tariff Drop</span>
-            </div>
-            <div>
-              <span className="block text-4xl font-black text-primary font-heading">15 State</span>
-              <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Transmission Nodes</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. Core Solutions Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">
-            Specialized Grid Infrastructure
-          </span>
-          <h2 className="text-3xl md:text-5xl font-black font-heading text-dark mt-2 tracking-tight uppercase">
-            Core Solutions Portfolio
-          </h2>
-          <p className="text-slate-500 max-w-2xl mx-auto mt-4 text-sm font-sans">
-            End-to-end B2B power procurement and generation management engineered specifically for high-load consumers.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {coreSolutions.map((sol, index) => (
-            <div key={index} className="card-premium flex flex-col justify-between">
-              <div>
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
-                  {sol.icon}
-                </div>
-                <h3 className="text-lg font-bold text-dark font-heading mb-3">{sol.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed mb-6 font-sans">{sol.desc}</p>
-              </div>
-              <button 
-                onClick={() => router.push("/services")} 
-                className="text-primary font-semibold text-sm flex items-center gap-1 hover:gap-2 transition-all mt-auto"
-              >
-                Learn More <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 4. How Energy Exchange Works - Signature Visual Flow Section */}
-      <section className="py-24 bg-white border-t border-slate-100 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center mb-16">
-            <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">
-              Transaction Pathway
-            </span>
-            <h2 className="text-3xl md:text-5xl font-black font-heading text-dark mt-2 tracking-tight uppercase">
-              How Energy Exchange Works
-            </h2>
-            <p className="text-slate-500 max-w-2xl mx-auto mt-4 text-sm font-sans">
-              Our platform coordinates bilateral trade pipelines and grid inject scheduling under national transmission regulations.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center max-w-5xl mx-auto font-sans text-xs">
-            
-            {/* Step 1: Renewable Producer */}
-            <div className="lg:col-span-1 bg-slate-50 p-6 rounded-2xl border border-slate-100 text-center space-y-4 shadow-sm">
-              <div className="w-12 h-12 bg-primary/15 rounded-full flex items-center justify-center text-primary text-xl font-black mx-auto">1</div>
-              <div>
-                <h4 className="font-bold text-dark text-sm font-heading">Renewable Producer</h4>
-                <p className="text-slate-500 mt-2">Injects power into the state/national transmission grid infrastructure.</p>
-              </div>
-            </div>
-
-            {/* Connector */}
-            <div className="lg:col-span-1 flex justify-center text-primary">
-              <ArrowRight className="w-8 h-8 rotate-90 lg:rotate-0" />
-            </div>
-
-            {/* Step 2: Infinity Green Energy */}
-            <div className="lg:col-span-1 bg-primary text-white p-6 rounded-2xl text-center space-y-4 shadow-lg shadow-primary/10">
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-white text-xl font-black mx-auto">2</div>
-              <div>
-                <h4 className="font-bold text-white text-sm font-heading">Infinity Green Energy</h4>
-                <p className="text-slate-200 mt-2">Manages real-time load matching, SLDC sync, and tariff billing contracts.</p>
-              </div>
-            </div>
-
-            {/* Connector */}
-            <div className="lg:col-span-1 flex justify-center text-primary">
-              <ArrowRight className="w-8 h-8 rotate-90 lg:rotate-0" />
-            </div>
-
-            {/* Step 3: Industrial Consumer */}
-            <div className="lg:col-span-1 bg-slate-50 p-6 rounded-2xl border border-slate-100 text-center space-y-4 shadow-sm">
-              <div className="w-12 h-12 bg-primary/15 rounded-full flex items-center justify-center text-primary text-xl font-black mx-auto">3</div>
-              <div>
-                <h4 className="font-bold text-dark text-sm font-heading">Industrial Consumer</h4>
-                <p className="text-slate-500 mt-2">Receives verified green grid power at up to 40% tariff reduction.</p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      {/* 5. Industries We Serve Section */}
-      <section className="py-24 bg-white border-y border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">
-              Operational Focus
-            </span>
-            <h2 className="text-3xl md:text-5xl font-black font-heading text-dark mt-2 uppercase tracking-tight">
-              Industries We Serve
-            </h2>
-            <p className="text-slate-500 max-w-2xl mx-auto mt-4 text-sm font-sans">
-              Tailoring utility scaling parameters to fit specific energy loads across industrial sectors.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
-            {targetIndustries.map((ind, index) => (
-              <div key={index} className="bg-slate-50 border border-slate-100 p-6 rounded-2xl text-center hover:bg-slate-100/50 transition-all duration-300">
-                <div className="text-3xl mb-3">{ind.icon}</div>
-                <h4 className="text-xs font-bold text-dark tracking-tight font-sans leading-tight">{ind.name}</h4>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 6. Energy Savings Calculator Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">
-            Live Savings Forecasts
-          </span>
-          <h2 className="text-3xl md:text-5xl font-black font-heading text-dark mt-2 uppercase tracking-tight">
-            Tariff Offset Calculator
-          </h2>
-          <p className="text-slate-500 max-w-2xl mx-auto mt-4 text-sm font-sans">
-            Adjust the industrial bill parameter to estimate dynamic PPA and grid offset savings.
-          </p>
-        </div>
-        <Calculator />
+    <div className="bg-light min-h-screen text-dark font-sans select-none scroll-smooth">
+      
+      {/* SECTION 1: HERO */}
+      <section className="relative bg-slate-955 bg-slate-950 border-b border-slate-900 text-white overflow-hidden py-28 md:py-40">
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#0D7A5F_1.5px,transparent_1.5px)] [background-size:24px_24px] pointer-events-none" />
+        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[160px] opacity-30 pointer-events-none" />
         
-        <div className="mt-10 text-center bg-primary/5 p-4 rounded-xl border border-primary/10 max-w-xl mx-auto text-xs text-slate-600 font-sans">
-          🔒 <strong>B2B Feature:</strong> Log in to save these calculations, customize multi-plant load profiles, and download a detailed grid feasibility report. <Link href="/login" className="text-primary font-bold hover:underline">Sign In Here</Link>
-        </div>
-      </section>
-
-
-      {/* 7. Why Infinity Green Section */}
-      <section className="py-24 bg-slate-50 border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">
-              Why Corporate Partners Choose Us
-            </span>
-            <h2 className="text-3xl md:text-5xl font-black font-heading text-dark mt-2 mb-6 uppercase tracking-tight leading-none">
-              A Sovereign Partnership <br />for Green Power
-            </h2>
-            <p className="text-slate-500 text-sm mb-8 leading-relaxed font-sans">
-              We eliminate technical complexity, upfront capital barriers, and grid regulatory friction, allowing you to focus entirely on production.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {[
-                { title: "Zero Upfront OPEX Model", desc: "No infrastructure installation investment. Pay only for the power generated." },
-                { title: "SLA-Backed Performance", desc: "Guaranteed generation outputs and plant uptime monitoring dashboards." },
-                { title: "State-Wide Open Access", desc: "Complete transmission synchronization and SLDC scheduling." },
-                { title: "ESG Compliance Logs", desc: "Get dynamic audits and green power certificates automatically." }
-              ].map((item, index) => (
-                <div key={index} className="space-y-1">
-                  <div className="flex items-center gap-2 text-primary font-bold">
-                    <CheckCircle2 className="w-5 h-5 shrink-0" />
-                    <span className="font-heading text-sm text-dark">{item.title}</span>
-                  </div>
-                  <p className="text-xs text-slate-500 leading-normal font-sans pl-7">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-6">
-            <h3 className="text-xl font-bold font-heading text-dark">Grid Connectivity SLA</h3>
-            <div className="space-y-4 font-sans text-xs">
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-primary/10 rounded-lg text-primary mt-0.5"><ShieldCheck className="w-4 h-4" /></div>
-                <div>
-                  <h4 className="font-bold text-dark text-sm">99.5% Uptime Gurantee</h4>
-                  <p className="text-slate-500">Continuous power grid sync backed by automated trading desk triggers.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-primary/10 rounded-lg text-primary mt-0.5"><Award className="w-4 h-4" /></div>
-                <div>
-                  <h4 className="font-bold text-dark text-sm">National Regulatory Sync</h4>
-                  <p className="text-slate-500">Fully compliant with state grid-interconnection policies and CEA guidelines.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 8. Case Studies Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">
-            Decarbonization In Practice
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-primary font-bold text-[10px] tracking-widest uppercase">
+            <Zap className="w-3.5 h-3.5 fill-primary" /> Industrial Renewable Procurement
           </span>
-          <h2 className="text-3xl md:text-5xl font-black font-heading text-dark mt-2 uppercase tracking-tight">
-            Case Studies
-          </h2>
-          <p className="text-slate-500 max-w-2xl mx-auto mt-4 text-sm font-sans">
-            Real B2B feasibility cases logging verified tariff reduction records.
+          <h1 className="text-4xl md:text-7xl font-black font-heading leading-tight uppercase max-w-5xl mx-auto tracking-tight">
+            SMARTER ENERGY.<br />
+            <span className="text-primary">GREATER SAVINGS.</span>
+          </h1>
+          <p className="max-w-3xl mx-auto text-slate-400 text-sm md:text-base leading-relaxed">
+            Helping industries reduce electricity costs through renewable energy procurement, industrial solar solutions, open access power, and energy optimization.
           </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {caseStudies.map((cs, idx) => (
-            <div key={idx} className="bg-white border border-slate-100 p-8 rounded-3xl shadow-xl shadow-slate-100/50">
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider bg-slate-50 px-3 py-1 rounded-full">{cs.industry}</span>
-                <span className="text-primary font-bold text-sm font-heading">{cs.company}</span>
-              </div>
-              <h3 className="text-2xl font-black text-dark font-heading uppercase mb-2">{cs.stat}</h3>
-              <p className="text-slate-500 text-sm leading-relaxed font-sans">{cs.detail}</p>
-            </div>
-          ))}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
+            <Link href="/contact?proposal=true" className="btn-primary py-4 px-8 text-sm font-bold uppercase tracking-wider w-full sm:w-auto">
+              Request Proposal
+            </Link>
+            <Link href="/solutions" className="flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-850 text-white font-semibold transition-all duration-300 w-full sm:w-auto font-heading text-sm hover:border-slate-700">
+              Explore Solutions <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* 9. Testimonials Section */}
-      <section className="py-24 bg-slate-900 text-white border-y border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-accent font-bold text-xs uppercase tracking-widest font-heading">
-              Client Appraisals
-            </span>
-            <h2 className="text-3xl md:text-5xl font-black font-heading text-white mt-2 uppercase tracking-tight">
-              Corporate Reviews
-            </h2>
+      {/* SECTION 2: INDUSTRIES WE SERVE */}
+      <section className="py-24 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">Target Segments</span>
+            <h2 className="text-3xl md:text-5xl font-black font-heading text-dark uppercase tracking-tight">Industries We Serve</h2>
+            <p className="text-slate-500 text-sm md:text-base font-semibold">
+              Helping energy-intensive businesses optimize costs through renewable energy solutions.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {testimonials.map((t, idx) => (
-              <div key={idx} className="bg-slate-800 border border-slate-700/60 p-8 rounded-3xl space-y-4">
-                <p className="text-slate-300 italic text-sm leading-relaxed font-sans">&ldquo;{t.quote}&rdquo;</p>
-
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {targetIndustries.map((ind, i) => (
+              <div 
+                key={i} 
+                className="bg-slate-50 border border-slate-200/60 p-6 rounded-2xl hover:border-primary/20 hover:shadow-xl hover:shadow-slate-100/50 transition-all duration-300 group flex flex-col justify-between"
+              >
                 <div>
-                  <h4 className="font-bold text-white text-sm font-heading">{t.author}</h4>
-                  <span className="text-slate-500 text-xs font-sans">{t.role}</span>
+                  <span className="text-3xl block mb-4 group-hover:scale-105 transition-transform duration-300">{ind.icon}</span>
+                  <h4 className="font-heading font-black text-dark text-base uppercase tracking-tight mb-2">{ind.name}</h4>
+                  <p className="text-slate-500 text-xs leading-relaxed font-sans">{ind.desc}</p>
                 </div>
+                <Link href="/contact?proposal=true" className="text-primary text-xs font-bold font-heading flex items-center gap-1 mt-6 group-hover:translate-x-1 transition-transform">
+                  Learn More <ChevronRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 10. Final Consultation CTA Section */}
-      <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <div>
-              <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">
-                Proposals & Custom Wheeling
-              </span>
-              <h2 className="text-3xl md:text-5xl font-black font-heading text-dark mt-2 mb-6 uppercase tracking-tight leading-none">
-                Schedule a Grid <br />Feasibility Study
-              </h2>
-              <p className="text-slate-500 text-sm mb-6 leading-relaxed font-sans">
-                Initiate a corporate energy audit. Submit tariff profiles to evaluate Open Access cross-subsidy charge offsets and grid injection layouts.
-              </p>
-              <div className="space-y-3 font-sans text-xs text-slate-700">
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">✓</div>
-                  <span>Cross-Subsidy Surcharges (CSS) Audit</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">✓</div>
-                  <span>State SLDC connectivity feasibility verification</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">✓</div>
-                  <span>Net metering solar design matching your load patterns</span>
-                </div>
-              </div>
+      {/* SECTION 3: ABOUT PREVIEW */}
+      <section className="py-24 bg-slate-55 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-5 space-y-4">
+            <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">Mission Snapshot</span>
+            <h2 className="text-3xl md:text-4xl font-black font-heading text-dark uppercase tracking-tight">
+              Neutral B2B Renewable Advisors
+            </h2>
+            <p className="text-slate-500 text-xs md:text-sm leading-relaxed font-sans">
+              We focus purely on medium and heavy industries across India. Infinity Green represents client EBITDA objectives rather than any single developer, structuring grid approvals and transparent open-access tariffs.
+            </p>
+            <div className="pt-2">
+              <Link href="/about" className="btn-primary inline-flex py-3 px-8 text-xs">
+                Read More About Us
+              </Link>
             </div>
-            <div>
-              <LeadForm />
+          </div>
+          <div className="lg:col-span-7 bg-slate-50 border border-slate-150 p-8 rounded-3xl grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <span className="text-primary font-bold text-xs">Total Independence</span>
+              <p className="text-slate-400 text-xs font-sans">We are vendor-neutral and structure recommendations based purely on load optimization.</p>
+            </div>
+            <div className="space-y-2">
+              <span className="text-primary font-bold text-xs">EBITDA-First Focus</span>
+              <p className="text-slate-400 text-xs font-sans">Energy is treated as a core cost item, focusing on IRR, cash flows, and payback cycles.</p>
             </div>
           </div>
         </div>
       </section>
+
+      {/* SECTION 4: HOW IT WORKS */}
+      <section className="py-24 bg-slate-50 border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">Process Timeline</span>
+            <h2 className="text-3xl md:text-5xl font-black font-heading text-dark uppercase tracking-tight">How Infinity Green Works</h2>
+            <p className="text-slate-500 text-sm md:text-base">
+              A structured roadmap designed to optimize corporate energy procurement and execution.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {timelineSteps.map((step, i) => (
+              <div key={i} className="relative bg-white border border-slate-100 p-8 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
+                <div className="absolute top-6 right-6 text-3xl font-black font-heading text-slate-200">
+                  {step.step}
+                </div>
+                <h3 className="font-heading font-black text-dark text-base uppercase tracking-tight">{step.title}</h3>
+                <p className="text-slate-500 text-xs leading-relaxed font-sans pr-6">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 5: SOLUTIONS OVERVIEW */}
+      <section className="py-24 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">Our Core Offerings</span>
+            <h2 className="text-3xl md:text-5xl font-black font-heading text-dark uppercase tracking-tight">Renewable Sourcing & Optimization</h2>
+            <p className="text-slate-500 text-sm md:text-base">
+              Connecting bulk consumers with independent energy producers via grid infrastructure.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {solutionsOverview.slice(0, 3).map((sol, i) => (
+              <div key={i} className="bg-slate-50 border border-slate-200/60 p-8 rounded-2xl hover:border-primary/20 hover:shadow-md transition-all duration-300 flex flex-col justify-between space-y-6">
+                <div className="space-y-4">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-heading font-bold text-sm">
+                    0{i + 1}
+                  </div>
+                  <h3 className="font-heading font-black text-dark text-lg uppercase tracking-tight">{sol.title}</h3>
+                  <p className="text-slate-500 text-xs md:text-sm leading-relaxed font-sans">{sol.desc}</p>
+                </div>
+                <div className="pt-4 border-t border-slate-200">
+                  <span className="text-[10px] text-primary font-bold uppercase tracking-wider block mb-1">Target Savings Focus</span>
+                  <span className="text-xs font-semibold text-dark font-sans">{sol.metric}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center pt-4">
+            <Link href="/solutions" className="btn-primary inline-flex py-3 px-8 text-sm">
+              View All Solutions
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 6: INDUSTRY NETWORK PREVIEW */}
+      <section className="py-24 bg-slate-50 border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">Ecosystem Trust</span>
+            <h2 className="text-3xl md:text-5xl font-black font-heading text-dark uppercase tracking-tight">Industry Network Preview</h2>
+            <p className="text-slate-500 text-sm md:text-base">
+              Viewing verified supply-side energy developers and bulk manufacturing consumer nodes across India.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Energy Producers Preview Card */}
+            <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center"><Zap className="w-5 h-5 fill-primary" /></div>
+                <div>
+                  <h3 className="font-heading font-black text-dark text-lg uppercase">Energy Producers (IPPs)</h3>
+                  <p className="text-[10px] text-slate-400 font-sans font-medium">Supply-side developer nodes</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {networkProducers.map((p, idx) => (
+                  <div key={idx} className="bg-slate-50 p-4 rounded-xl border border-slate-100 flex justify-between items-center text-xs font-sans">
+                    <div>
+                      <h4 className="font-bold text-dark">{p.name}</h4>
+                      <p className="text-[10px] text-slate-400 mt-0.5">{p.tech}</p>
+                    </div>
+                    <div className="text-right">
+                      <span className="font-bold text-primary">{p.capacity}</span>
+                      <p className="text-[9px] text-slate-400 mt-0.5">States: {p.states}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Industrial Consumers Preview Card */}
+            <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center"><Building2 className="w-5 h-5" /></div>
+                <div>
+                  <h3 className="font-heading font-black text-dark text-lg uppercase">Industrial Consumers</h3>
+                  <p className="text-[10px] text-slate-400 font-sans font-medium">Demand-side bulk offtakers</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {networkConsumers.map((c, idx) => (
+                  <div key={idx} className="bg-slate-50 p-4 rounded-xl border border-slate-100 flex justify-between items-center text-xs font-sans">
+                    <div>
+                      <h4 className="font-bold text-dark">{c.name}</h4>
+                      <p className="text-[10px] text-slate-400 mt-0.5">Industry: {c.industry}</p>
+                    </div>
+                    <div className="text-right">
+                      <span className="font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded text-[10px]">{c.category}</span>
+                      <p className="text-[9px] text-slate-400 mt-1">State: {c.state}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <Link href="/industry-network" className="btn-primary inline-flex py-3 px-8 text-sm">
+              Explore Network
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 7: INSIGHTS PREVIEW */}
+      <section className="py-24 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">Knowledge Center</span>
+            <h2 className="text-3xl md:text-5xl font-black font-heading text-dark uppercase tracking-tight">Latest Articles & Reports</h2>
+            <p className="text-slate-500 text-sm md:text-base">
+              Briefings from our energy procurement desk outlining regulations and cost reduction audits.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {insightsPreview.map((item, i) => (
+              <div key={i} className="bg-slate-50 border border-slate-150 p-8 rounded-2xl shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-300 flex flex-col justify-between space-y-6">
+                <div className="space-y-4">
+                  <span className="text-[9px] bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full uppercase tracking-wider block w-fit">
+                    {item.category}
+                  </span>
+                  <h3 className="font-heading font-black text-dark text-base uppercase tracking-tight leading-snug">{item.title}</h3>
+                  <p className="text-slate-400 text-xs leading-relaxed font-sans">{item.desc}</p>
+                </div>
+                <Link href="/insights" className="text-primary font-semibold text-xs font-heading flex items-center gap-1 hover:underline">
+                  Read Article <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center pt-4">
+            <Link href="/insights" className="btn-primary inline-flex py-3 px-8 text-sm">
+              View All Articles
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 8: REQUEST PROPOSAL CTA */}
+      <section className="py-24 bg-slate-50" id="proposal-desk">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div className="lg:col-span-5 space-y-6">
+            <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading bg-primary/10 px-3.5 py-1.5 rounded-full">
+              Enterprise RFP Sourcing
+            </span>
+            <h2 className="text-3xl md:text-5xl font-black font-heading text-dark uppercase tracking-tight">Request Feasibility Proposal</h2>
+            <p className="text-slate-500 text-xs md:text-sm leading-relaxed font-sans">
+              Connect directly with our B2B procurement desk. We will run an audit of your average billing demand tariffs, grid connection limits, and regional open-access grid code availability.
+            </p>
+          </div>
+
+          <div className="lg:col-span-7">
+            <LeadForm />
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }
