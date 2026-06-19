@@ -2610,47 +2610,18 @@ export default function AdminPage() {
                   <div className="bg-white rounded-3xl border border-slate-100 shadow-xl p-8 space-y-6 animate-in fade-in duration-200">
                     <h3 className="font-heading font-black text-dark text-base uppercase tracking-tight pb-4 border-b border-slate-100">System Preferences & Settings</h3>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs font-sans text-slate-600">
-                      <div className="space-y-4">
-                        <div>
-                          <h4 className="font-bold text-dark mb-2">👤 Profile Settings</h4>
-                          <div className="bg-slate-55 bg-slate-50 p-4 rounded-2xl border border-slate-150 space-y-2">
-                            <p><strong>Admin Name:</strong> Operations Desk</p>
-                            <p><strong>Role Level:</strong> System Administrator</p>
-                            <p><strong>Associated Email:</strong> root@infinitygreenenergy.com</p>
-                          </div>
-                        </div>
-
-                        <div>
-                          <h4 className="font-bold text-dark mb-2">🔔 Notification Preferences</h4>
-                          <div className="bg-slate-55 bg-slate-50 p-4 rounded-2xl border border-slate-150 space-y-2">
-                            <label className="flex items-center gap-2"><input type="checkbox" defaultChecked disabled /> Email Dispatches on New RFPs</label>
-                            <label className="flex items-center gap-2"><input type="checkbox" defaultChecked disabled /> System Audit Logs Alert</label>
-                          </div>
-                        </div>
+                    <div className="py-20 text-center text-slate-500 font-sans space-y-3">
+                      <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 mx-auto">
+                        <Settings className="w-6 h-6 text-slate-300" />
                       </div>
-
-                      <div className="space-y-4">
-                        <div>
-                          <h4 className="font-bold text-dark mb-2">🔒 Security Settings</h4>
-                          <div className="bg-slate-55 bg-slate-50 p-4 rounded-2xl border border-slate-150 space-y-2">
-                            <p><strong>Two-Factor Authentication (2FA):</strong> <span className="text-emerald-600 font-bold uppercase">Enforced</span></p>
-                            <p><strong>Allowed Session IP Range:</strong> Static Intranet Range Only</p>
-                          </div>
-                        </div>
-
-                        <div>
-                          <h4 className="font-bold text-dark mb-2">⚙️ Platform Configuration</h4>
-                          <div className="bg-slate-55 bg-slate-50 p-4 rounded-2xl border border-slate-150 space-y-2">
-                            <p><strong>API Version:</strong> v1.2.0-alpha</p>
-                            <p><strong>Supabase Client Gating:</strong> Offline Mode Active</p>
-                          </div>
-                        </div>
+                      <div className="space-y-1">
+                        <h4 className="font-heading font-black text-dark text-xs uppercase tracking-wider">
+                          Awaiting Backend Activation
+                        </h4>
+                        <p className="text-[10px] text-slate-400 max-w-sm mx-auto">
+                          System settings will become available after backend activation.
+                        </p>
                       </div>
-                    </div>
-
-                    <div className="p-4 bg-amber-50 text-amber-800 text-[10px] font-bold uppercase tracking-wider rounded-2xl border border-amber-200 text-center">
-                      ⚠️ Note: Settings will become active after backend integration.
                     </div>
                   </div>
                 )}

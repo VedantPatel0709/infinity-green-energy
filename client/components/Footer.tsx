@@ -1,8 +1,10 @@
+'use client';
+
 import Link from 'next/link';
-import { Phone, Mail, MapPin, MessageSquare, ExternalLink, Linkedin, Twitter, ArrowRight } from 'lucide-react';
+import { Mail, MapPin, Phone, MessageSquare, ArrowRight, ShieldCheck } from 'lucide-react';
 
 /**
- * Footer Component - Premium B2B Enterprise Layout
+ * Footer Component - Rebuilt for B2B Enterprise Compliance (No mock socials/fake newsletters)
  */
 const Footer = () => {
   return (
@@ -12,7 +14,7 @@ const Footer = () => {
         {/* Top Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10">
           
-          {/* Brand & Socials Column */}
+          {/* Brand Column */}
           <div className="col-span-2 space-y-6">
             <Link href="/" className="flex items-center gap-2.5 group">
               <div className="w-9 h-9 rounded-xl bg-primary/20 flex items-center justify-center text-primary border border-primary/10">
@@ -23,17 +25,8 @@ const Footer = () => {
               </span>
             </Link>
             <p className="text-xs text-slate-500 leading-relaxed max-w-sm">
-              Empowering large-scale B2B industries, spinning mills, and chemical plants with grid open-access synchronizations, lower spot tariff structures, and decarbonization paths.
+              Infinity Green Energy helps industrial and commercial power consumers optimize energy procurement through renewable sourcing, open access advisory, and long-term cost reduction strategies.
             </p>
-            {/* Social Media */}
-            <div className="flex items-center gap-4">
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-primary hover:text-white flex items-center justify-center text-slate-400 transition-all">
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noreferrer" className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-primary hover:text-white flex items-center justify-center text-slate-400 transition-all">
-                <Twitter className="w-4 h-4" />
-              </a>
-            </div>
           </div>
 
           {/* Company Column */}
@@ -62,19 +55,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Industries Column */}
-          <div>
-            <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-wider mb-5">
-              Industries
-            </h4>
-            <ul className="space-y-3 text-xs font-sans">
-              <li><Link href="/case-studies" className="hover:text-primary transition-colors">Manufacturing</Link></li>
-              <li><Link href="/case-studies" className="hover:text-primary transition-colors">Chemicals & Pharma</Link></li>
-              <li><Link href="/case-studies" className="hover:text-primary transition-colors">Textiles & Spinning</Link></li>
-              <li><Link href="/case-studies" className="hover:text-primary transition-colors">Heavy Engineering</Link></li>
-            </ul>
-          </div>
-
           {/* Resources Column */}
           <div>
             <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-wider mb-5">
@@ -88,30 +68,29 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Newsletter Column */}
+          {/* Platform Status Column */}
           <div className="col-span-2 lg:col-span-1 space-y-4">
-            <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-wider">
-              Newsletter
+            <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-wider flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-primary" /> Platform Status
             </h4>
-            <p className="text-[10px] text-slate-500 leading-relaxed font-sans">
-              Receive updates on regulatory approvals, grid compliance, and industrial energy tariffs.
-            </p>
-            <div className="flex gap-2">
-              <input 
-                type="email" 
-                placeholder="Enter work email" 
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-[11px] text-white focus:outline-none focus:border-primary transition-colors"
-                disabled
-              />
-              <button 
-                type="button" 
-                className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-[10px] uppercase font-bold tracking-wider transition-colors whitespace-nowrap cursor-not-allowed"
-                disabled
-              >
-                Join
-              </button>
+            <div className="space-y-2 text-[10px] font-mono">
+              <div className="flex justify-between border-b border-slate-800 pb-1">
+                <span className="text-slate-500">Frontend:</span>
+                <span className="text-emerald-500 font-bold">Completed</span>
+              </div>
+              <div className="flex justify-between border-b border-slate-800 pb-1">
+                <span className="text-slate-500">Marketplace:</span>
+                <span className="text-amber-500 font-bold text-right">Awaiting Sync</span>
+              </div>
+              <div className="flex justify-between border-b border-slate-800 pb-1">
+                <span className="text-slate-500">Industry Net:</span>
+                <span className="text-slate-400 font-bold">Awaiting Verification</span>
+              </div>
+              <div className="flex justify-between pb-1">
+                <span className="text-slate-500">Portal:</span>
+                <span className="text-primary font-bold">Under Activation</span>
+              </div>
             </div>
-            <span className="text-[9px] text-slate-600 block">Subscription form will be active after launch.</span>
           </div>
 
         </div>
@@ -119,21 +98,16 @@ const Footer = () => {
         {/* CTA Banner Row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-8 bg-slate-900/60 rounded-3xl border border-slate-800/80 items-center">
           <div className="lg:col-span-2 space-y-1">
-            <h4 className="text-white font-heading font-semibold text-sm">Need a custom energy procurement simulation?</h4>
+            <h4 className="text-white font-heading font-semibold text-sm">Ready to evaluate renewable energy opportunities for your facility?</h4>
             <p className="text-xs text-slate-500">Structure power purchase agreements based on average industrial load profiles.</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 lg:justify-end">
             <Link href="/contact?proposal=true" className="btn-primary py-2.5 px-5 text-xs font-bold whitespace-nowrap">
               Request Proposal <ArrowRight className="w-3.5 h-3.5" />
             </Link>
-            <a 
-              href="https://wa.me/919876543210" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl border border-slate-700 hover:bg-slate-800 text-white font-bold text-xs transition-colors whitespace-nowrap"
-            >
-              <MessageSquare className="w-4 h-4 text-[#25D366]" /> WhatsApp Advisory
-            </a>
+            <Link href="/contact" className="flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl border border-slate-700 hover:bg-slate-850 text-white font-bold text-xs transition-colors whitespace-nowrap">
+              Contact Advisory Team
+            </Link>
           </div>
         </div>
 
