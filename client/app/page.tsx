@@ -12,12 +12,7 @@ import LeadForm from '@/components/LeadForm';
 export default function HomePage() {
   const router = useRouter();
 
-  const [cms, setCms] = React.useState({
-    founderName: 'Founder Profile',
-    founderDesignation: 'Verification In Progress',
-    founderMessageQuote: 'Empowering enterprise corporate boards with clear carbon accounting and independent grid sourcing simulations.',
-    founderMessageBody: 'Detailed executive profiles and certified leadership credentials will be synched with the official registry upon launch. All advisory activities remain strictly neutral and transactional.'
-  });
+
 
   const targetIndustries = [
     { name: 'Chemicals', icon: '🧪', desc: 'Continuous chemical processors, reactors, and automation lines.' },
@@ -362,37 +357,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 7: MESSAGE FROM THE FOUNDER */}
-      <section className="py-20 bg-slate-950 text-white border-b border-slate-900 relative overflow-hidden" id="founder-section">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          <div className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left space-y-4">
-            <div className="w-36 h-36 rounded-full bg-slate-800 border-2 border-primary/45 flex items-center justify-center overflow-hidden text-slate-500 font-bold font-heading">
-              <span>PHOTO</span>
-            </div>
-            <div>
-              <h4 className="font-heading font-black text-lg uppercase text-white leading-none">{cms.founderName}</h4>
-              <span className="text-primary font-bold text-xs uppercase tracking-wider block mt-1">{cms.founderDesignation}</span>
-            </div>
-          </div>
 
-          <div className="lg:col-span-8 space-y-6">
-            <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading bg-primary/10 px-3.5 py-1.5 rounded-full border border-primary/20">
-              Message From The Founder
-            </span>
-            <h3 className="text-xl md:text-2xl font-black font-heading uppercase text-white leading-snug">
-              &ldquo;{cms.founderMessageQuote}&rdquo;
-            </h3>
-            <p className="text-slate-400 text-xs md:text-sm leading-relaxed font-sans">
-              {cms.founderMessageBody}
-            </p>
-            <p className="text-slate-400 text-xs md:text-sm leading-relaxed font-sans">
-              <strong>Future Roadmap:</strong> 1. Expand direct trading analytics for group captive setups; 2. Automate state utility invoice audits; 3. Introduce hybrid wind-solar CUF blend predictors.
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* SECTION 8: REQUEST PROPOSAL CTA */}
       <section className="py-20 bg-white" id="proposal-desk">
