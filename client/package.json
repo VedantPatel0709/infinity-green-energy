@@ -9,6 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@svg-maps/india": "^2.0.0",
     "axios": "^1.6.0",
     "clsx": "^2.0.0",
     "lucide-react": "^0.292.0",

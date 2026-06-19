@@ -3,13 +3,11 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Search, SlidersHorizontal, Zap, Building2, MapPin, BarChart3, Shield, Info, X, ExternalLink, Activity } from 'lucide-react';
+import IndiaMap from '../../components/IndiaMap';
 
 // Empty arrays to represent un-integrated state registry records
 const producers: any[] = [];
 const consumers: any[] = [];
-
-// Network locations mapped to SVG coordinates
-const networkLocations: any[] = [];
 
 export default function IndustryNetworkPage() {
   const [activeTab, setActiveTab] = useState<'energy' | 'industry'>('energy');
@@ -106,54 +104,25 @@ export default function IndustryNetworkPage() {
               <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading bg-primary/15 px-3.5 py-1.5 rounded-full border border-primary/20">
                 Grid Presence
               </span>
-              <h2 className="text-2xl md:text-4xl font-black font-heading uppercase tracking-tight text-white">
-                Interactive Grid Map
+              <h2 className="text-2xl md:text-4xl font-black font-heading uppercase tracking-tight text-white leading-tight">
+                India Renewable Energy Network
               </h2>
               <p className="text-slate-400 text-xs md:text-sm leading-relaxed">
-                Visualizing regional generation farms and corresponding bulk manufacturing customers. We actively manage nodes across Western, Southern, and Northern state corridors.
+                Live producer and consumer coverage will appear automatically after onboarding and backend activation.
               </p>
               
-              <div className="space-y-4">
-                <div className="flex items-center gap-2.5 text-xs text-slate-300">
-                  <span className="w-3.5 h-3.5 rounded-full bg-primary flex items-center justify-center shrink-0 border border-white/20"><span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" /></span>
-                  <span><strong>Producers:</strong> Utility-scale IPP wind and solar generators</span>
-                </div>
-                <div className="flex items-center gap-2.5 text-xs text-slate-300">
-                  <span className="w-3.5 h-3.5 rounded-full bg-slate-500 flex items-center justify-center shrink-0 border border-white/20"><span className="w-1.5 h-1.5 rounded-full bg-white" /></span>
-                  <span><strong>Consumers:</strong> Active offtake manufacturing factories</span>
+              <div className="space-y-4 pt-2">
+                <div className="flex items-center gap-2.5 text-xs text-slate-350">
+                  <span className="w-3.5 h-3.5 rounded-full bg-slate-800 shrink-0 border border-slate-700" />
+                  <span><strong>Gray:</strong> No Live Data Available</span>
                 </div>
               </div>
             </div>
 
-            {/* Simulated Interactive Map */}
-            <div className="lg:col-span-7 bg-slate-900/40 border border-slate-800 rounded-2xl p-6 flex items-center justify-center relative min-h-[400px]">
+            {/* Interactive India Map */}
+            <div className="lg:col-span-7 bg-slate-900/40 border border-slate-800 rounded-2xl p-6 flex items-center justify-center relative min-h-[450px]">
               <div className="absolute inset-0 bg-primary/5 rounded-2xl pointer-events-none" />
-              
-              {/* Simplified India Map visual SVG */}
-              <svg className="w-full max-w-[380px] h-[380px] opacity-25" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
-                <path d="M40 10 L45 8 L50 12 L55 10 L58 15 L52 20 L55 25 L45 35 L40 40 L35 48 L30 52 L25 50 L20 60 L24 68 L28 75 L38 88 L42 92 L46 95 L50 90 L52 82 L58 85 L60 80 L62 75 L60 68 L68 62 L75 58 L72 45 L68 40 L65 30 L60 22 L55 20 L48 18 Z" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-
-              {/* Node Overlays */}
-              {networkLocations.map((loc, idx) => (
-                <div 
-                  key={idx}
-                  style={{ left: `${loc.x}%`, top: `${loc.y}%` }}
-                  className="absolute -translate-x-1/2 -translate-y-1/2 group cursor-pointer"
-                >
-                  <span className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border border-white/40 shadow-lg transition-transform hover:scale-125 ${
-                    loc.type === 'producer' ? 'bg-primary' : 'bg-slate-500'
-                  }`}>
-                    <span className="w-1.5 h-1.5 rounded-full bg-white" />
-                  </span>
-                  
-                  {/* Tooltip */}
-                  <div className="absolute left-1/2 bottom-5 -translate-x-1/2 w-48 bg-slate-950/90 border border-slate-800 p-2.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 text-[9px] text-slate-200 z-30 font-sans shadow-xl">
-                    <p className="font-bold text-white uppercase tracking-wider">{loc.name}</p>
-                    <p className="text-slate-400 mt-0.5">{loc.info}</p>
-                  </div>
-                </div>
-              ))}
+              <IndiaMap producers={producers} consumers={consumers} />
             </div>
           </div>
         </section>
