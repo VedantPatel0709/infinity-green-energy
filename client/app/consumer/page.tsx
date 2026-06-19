@@ -15,7 +15,7 @@ export default function ConsumerDashboard() {
 
   // Consumer Data States
   const [profile, setProfile] = useState({
-    companyName: 'Indo-Tex Spinning Mill',
+    companyName: 'Awaiting Marketplace Records',
     email: 'consumer@indotex.com',
     phone: '+91 98765 00000',
     industry: 'Textiles & Spinning',
@@ -28,12 +28,12 @@ export default function ConsumerDashboard() {
   ]);
 
   const [proposals, setProposals] = useState([
-    { id: 1, developer: 'Vibrant Solar Infra', rates: '₹4.20 / kWh', term: '20 Years', status: 'Negotiation' }
+    { id: 1, developer: 'Awaiting Marketplace Records', rates: '₹4.20 / kWh', term: '20 Years', status: 'Negotiation' }
   ]);
 
   const [matchedProducers, setMatchedProducers] = useState([
-    { name: 'Vibrant Solar Infra', tech: 'Hybrid Wind-Solar PV', capacity: '450 MW', matchScore: '96%' },
-    { name: 'Sterling Green Power', tech: 'Grid Connected Solar PV', capacity: '600 MW', matchScore: '88%' }
+    { name: 'Awaiting Marketplace Records', tech: 'Hybrid Wind-Solar PV', capacity: '450 MW', matchScore: '96%' },
+    { name: 'Awaiting Marketplace Records', tech: 'Grid Connected Solar PV', capacity: '600 MW', matchScore: '88%' }
   ]);
 
   const handleLogout = () => {

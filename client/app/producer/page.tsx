@@ -15,7 +15,7 @@ export default function ProducerDashboard() {
   
   // Producer Data States
   const [profile, setProfile] = useState({
-    companyName: 'Vibrant Solar Infra',
+    companyName: 'Awaiting Marketplace Records',
     email: 'producer@vibrant.com',
     phone: '+91 99999 11111',
     techType: 'Solar & Wind Hybrid',
@@ -29,7 +29,7 @@ export default function ProducerDashboard() {
   ]);
 
   const [leads, setLeads] = useState([
-    { id: 1, consumer: 'Indo-Tex Spinning', req: '4.2 MW', type: 'Hybrid PPA', status: 'Negotiation' }
+    { id: 1, consumer: 'Awaiting Marketplace Records', req: '4.2 MW', type: 'Hybrid PPA', status: 'Negotiation' }
   ]);
 
   const handleLogout = () => {
