@@ -2355,23 +2355,23 @@ export default function DashboardPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                       <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md shadow-slate-100/50">
                         <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Active System Users</span>
-                        <div className="text-2xl font-black text-dark mt-2 font-heading">1,482</div>
-                        <div className="text-[10px] text-accent font-bold mt-1">↑ 12% Growth this mo</div>
+                        <div className="text-xl font-black text-slate-300 mt-2 font-heading">Awaiting Sync</div>
+                        <div className="text-[10px] text-slate-400 font-sans mt-1">No operational data available yet</div>
                       </div>
                       <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md shadow-slate-100/50">
                         <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Unresolved Inquiries</span>
-                        <div className="text-2xl font-black text-dark mt-2 font-heading">{leads.length} Leads</div>
-                        <div className="text-[10px] text-yellow-600 font-bold mt-1">Require Feasibility Study</div>
+                        <div className="text-xl font-black text-slate-300 mt-2 font-heading">Awaiting Sync</div>
+                        <div className="text-[10px] text-slate-400 font-sans mt-1">No operational data available yet</div>
                       </div>
                       <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md shadow-slate-100/50">
                         <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Grid Wheeling Volume</span>
-                        <div className="text-2xl font-black text-dark mt-2 font-heading">48,210 MWh</div>
-                        <div className="text-[10px] text-slate-400 font-sans mt-1">Total platform allocation</div>
+                        <div className="text-xl font-black text-slate-300 mt-2 font-heading">Awaiting Sync</div>
+                        <div className="text-[10px] text-slate-400 font-sans mt-1">No operational data available yet</div>
                       </div>
-                      <div className="bg-primary p-6 rounded-2xl text-white shadow-lg shadow-primary/10">
-                        <span className="opacity-90 text-[10px] font-bold uppercase tracking-wider">Total Revenue Managed</span>
-                        <div className="text-2xl font-black mt-2 font-heading">₹4,89,00,000</div>
-                        <div className="text-[10px] opacity-80 mt-1">Locked platform contracts</div>
+                      <div className="bg-slate-900 p-6 rounded-2xl text-white shadow-lg">
+                        <span className="opacity-95 text-[10px] font-bold uppercase tracking-wider">Total Revenue Managed</span>
+                        <div className="text-xl font-black text-slate-500 mt-2 font-heading">Awaiting Sync</div>
+                        <div className="text-[10px] opacity-80 mt-1">No operational data available yet</div>
                       </div>
                     </div>
 

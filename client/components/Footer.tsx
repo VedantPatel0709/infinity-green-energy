@@ -42,10 +42,10 @@ const Footer = () => {
               Company
             </h4>
             <ul className="space-y-3 text-xs">
-              <li><Link href="/about" className="hover:text-primary transition-colors">Company Story</Link></li>
-              <li><Link href="/about#mission" className="hover:text-primary transition-colors">Mission & Vision</Link></li>
-              <li><Link href="/about#roadmap" className="hover:text-primary transition-colors">Growth Roadmap</Link></li>
-              <li><Link href="/contact" className="hover:text-primary transition-colors">Contact Us</Link></li>
+              <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
+              <li><Link href="/about/team" className="hover:text-primary transition-colors">Team</Link></li>
+              <li><Link href="/careers" className="hover:text-primary transition-colors">Careers</Link></li>
+              <li><Link href="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
             </ul>
           </div>
 
@@ -54,13 +54,11 @@ const Footer = () => {
             <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-wider mb-5">
               Solutions
             </h4>
-            <ul className="space-y-3 text-xs">
+            <ul className="space-y-3 text-xs font-sans">
               <li><Link href="/solutions#open-access" className="hover:text-primary transition-colors">Open Access Energy</Link></li>
               <li><Link href="/solutions#industrial-solar" className="hover:text-primary transition-colors">Industrial Solar</Link></li>
-              <li><Link href="/solutions#wind-energy" className="hover:text-primary transition-colors">Wind Energy</Link></li>
+              <li><Link href="/solutions#wind" className="hover:text-primary transition-colors">Wind Sourcing</Link></li>
               <li><Link href="/solutions#hybrid" className="hover:text-primary transition-colors">Hybrid Solutions</Link></li>
-              <li><Link href="/solutions#procurement" className="hover:text-primary transition-colors">Energy Procurement</Link></li>
-              <li><Link href="/solutions#optimization" className="hover:text-primary transition-colors">Energy Optimization</Link></li>
             </ul>
           </div>
 
@@ -69,11 +67,11 @@ const Footer = () => {
             <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-wider mb-5">
               Industries
             </h4>
-            <ul className="space-y-3 text-xs flex flex-col gap-1.5">
-              <li><span className="text-[11px] text-slate-300">Manufacturing & Engineering</span></li>
-              <li><span className="text-[11px] text-slate-300">Chemicals & Pharma</span></li>
-              <li><span className="text-[11px] text-slate-300">Textiles & Spinning Mills</span></li>
-              <li><span className="text-[11px] text-slate-300">Warehousing & Ind. Parks</span></li>
+            <ul className="space-y-3 text-xs font-sans">
+              <li><Link href="/case-studies" className="hover:text-primary transition-colors">Manufacturing</Link></li>
+              <li><Link href="/case-studies" className="hover:text-primary transition-colors">Chemicals & Pharma</Link></li>
+              <li><Link href="/case-studies" className="hover:text-primary transition-colors">Textiles & Spinning</Link></li>
+              <li><Link href="/case-studies" className="hover:text-primary transition-colors">Heavy Engineering</Link></li>
             </ul>
           </div>
 
@@ -82,12 +80,38 @@ const Footer = () => {
             <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-wider mb-5">
               Resources
             </h4>
-            <ul className="space-y-3 text-xs">
+            <ul className="space-y-3 text-xs font-sans">
+              <li><Link href="/case-studies" className="hover:text-primary transition-colors">Case Studies</Link></li>
+              <li><Link href="/faqs" className="hover:text-primary transition-colors">FAQs Directory</Link></li>
               <li><Link href="/industry-network" className="hover:text-primary transition-colors">Industry Network</Link></li>
-              <li><Link href="/insights" className="hover:text-primary transition-colors">Insights Blog</Link></li>
-              <li><Link href="/login" className="hover:text-primary transition-colors">Client Portal</Link></li>
-              <li><Link href="/contact?proposal=true" className="hover:text-primary transition-colors">Request Proposal</Link></li>
+              <li><Link href="/knowledge-center" className="hover:text-primary transition-colors">Knowledge Center</Link></li>
             </ul>
+          </div>
+
+          {/* Newsletter Column */}
+          <div className="col-span-2 lg:col-span-1 space-y-4">
+            <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-wider">
+              Newsletter
+            </h4>
+            <p className="text-[10px] text-slate-500 leading-relaxed font-sans">
+              Receive updates on regulatory approvals, grid compliance, and industrial energy tariffs.
+            </p>
+            <div className="flex gap-2">
+              <input 
+                type="email" 
+                placeholder="Enter work email" 
+                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-[11px] text-white focus:outline-none focus:border-primary transition-colors"
+                disabled
+              />
+              <button 
+                type="button" 
+                className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-[10px] uppercase font-bold tracking-wider transition-colors whitespace-nowrap cursor-not-allowed"
+                disabled
+              >
+                Join
+              </button>
+            </div>
+            <span className="text-[9px] text-slate-600 block">Subscription form will be active after launch.</span>
           </div>
 
         </div>
@@ -117,9 +141,9 @@ const Footer = () => {
         <div className="pt-8 border-t border-slate-800/60 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-500 font-sans">
           <p>© {new Date().getFullYear()} Infinity Green Energy Pvt Ltd. All rights reserved.</p>
           <div className="flex space-x-6">
-            <a href="#" className="hover:text-slate-400">Privacy Policy</a>
-            <a href="#" className="hover:text-slate-400">Terms of Service</a>
-            <a href="#" className="hover:text-slate-400">Grid Disclosures</a>
+            <Link href="/privacy-policy" className="hover:text-slate-400">Privacy Policy</Link>
+            <Link href="/terms-of-service" className="hover:text-slate-400">Terms of Service</Link>
+            <Link href="/disclaimer" className="hover:text-slate-400">Disclaimer</Link>
           </div>
         </div>
 

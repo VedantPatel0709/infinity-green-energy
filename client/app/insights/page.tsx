@@ -13,7 +13,8 @@ const articles = [
     date: 'June 10, 2026',
     readTime: '8 min read',
     slug: 'industrial-energy-cost-reduction',
-    author: 'Aditya Vardhan'
+    author: 'Aditya Vardhan',
+    tags: ['EBITDA', 'Cost Slashes', 'Load Profile']
   },
   {
     id: 'art-2',
@@ -23,7 +24,8 @@ const articles = [
     date: 'June 05, 2026',
     readTime: '6 min read',
     slug: 'open-access-explained',
-    author: 'Aditya Vardhan'
+    author: 'Aditya Vardhan',
+    tags: ['Open Access', 'Grid Surcharges', 'PPA']
   },
   {
     id: 'art-3',
@@ -33,7 +35,8 @@ const articles = [
     date: 'May 29, 2026',
     readTime: '7 min read',
     slug: 'solar-net-metering-limits',
-    author: 'Ecosystem Sourcing Desk'
+    author: 'Ecosystem Sourcing Desk',
+    tags: ['Rooftop Solar', 'Net Metering', 'CAPEX']
   },
   {
     id: 'art-4',
@@ -43,7 +46,8 @@ const articles = [
     date: 'May 20, 2026',
     readTime: '9 min read',
     slug: 'wind-solar-hybrid-blending',
-    author: 'Ecosystem Sourcing Desk'
+    author: 'Ecosystem Sourcing Desk',
+    tags: ['Hybrid Blend', '24/7 Power', 'IPP Sourced']
   },
   {
     id: 'art-5',
@@ -53,7 +57,8 @@ const articles = [
     date: 'May 12, 2026',
     readTime: '10 min read',
     slug: 'iex-spot-markets',
-    author: 'Regulatory Desk'
+    author: 'Regulatory Desk',
+    tags: ['IEX Spot', 'Trading', 'Grid code']
   },
   {
     id: 'art-6',
@@ -63,7 +68,8 @@ const articles = [
     date: 'May 02, 2026',
     readTime: '8 min read',
     slug: 'cerc-grid-guidelines',
-    author: 'Regulatory Desk'
+    author: 'Regulatory Desk',
+    tags: ['CERC rules', 'Green OA', 'Compliance']
   },
   {
     id: 'art-7',
@@ -73,7 +79,8 @@ const articles = [
     date: 'April 25, 2026',
     readTime: '8 min read',
     slug: 'sustainability-strategy',
-    author: 'Aditya Vardhan'
+    author: 'Aditya Vardhan',
+    tags: ['ESG', 'Net Zero', 'Chemicals']
   }
 ];
 
@@ -178,54 +185,113 @@ export default function InsightsPage() {
           </div>
         </div>
 
-        {/* Articles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredArticles.length > 0 ? (
-            filteredArticles.map((art) => (
-              <article 
-                key={art.id} 
-                className="bg-white border border-slate-100 rounded-2xl shadow-sm p-6 md:p-8 flex flex-col justify-between hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300"
-              >
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center text-[10px] text-slate-400 font-sans">
-                    <span className="bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded uppercase tracking-wider">
-                      {art.category}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" /> {art.readTime}
-                    </span>
-                  </div>
-                  
-                  <h2 className="text-lg font-black font-heading text-dark uppercase tracking-tight leading-snug">
-                    {art.title}
-                  </h2>
-                  <p className="text-slate-500 text-xs leading-relaxed font-sans">
-                    {art.excerpt}
-                  </p>
+        {/* Featured Article Section */}
+        {filteredArticles.length > 0 && selectedCategory === 'All' && searchQuery === '' && (
+          <div className="bg-slate-950 text-white rounded-3xl p-8 md:p-12 border border-slate-900 shadow-2xl relative overflow-hidden">
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div className="lg:col-span-8 space-y-6">
+                <div className="flex items-center gap-3">
+                  <span className="bg-primary text-white text-[9px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                    Featured Article
+                  </span>
+                  <span className="text-slate-400 text-xs flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5" /> {filteredArticles[0].readTime}
+                  </span>
                 </div>
-
-                <div className="pt-6 border-t border-slate-50 flex items-center justify-between mt-6">
-                  <div className="flex items-center gap-2 text-[10px] text-slate-400 font-sans">
-                    <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
-                      <User className="w-3 h-3" />
-                    </div>
-                    <span>{art.author}</span>
-                  </div>
-                  
+                <h2 className="text-2xl md:text-4xl font-black font-heading uppercase tracking-tight text-white leading-tight">
+                  {filteredArticles[0].title}
+                </h2>
+                <p className="text-slate-400 text-xs md:text-sm leading-relaxed font-sans">
+                  {filteredArticles[0].excerpt}
+                </p>
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {filteredArticles[0].tags?.map((tag) => (
+                    <span key={tag} className="text-[9px] bg-slate-800 text-slate-300 font-bold px-2 py-0.5 rounded border border-slate-700">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+                <div className="pt-4 flex items-center justify-between border-t border-slate-800">
+                  <span className="text-xs text-slate-400 font-sans">Author: {filteredArticles[0].author}</span>
                   <Link 
-                    href={`/insights/${art.slug}`}
+                    href={`/insights/${filteredArticles[0].slug}`}
                     className="text-primary font-bold text-xs uppercase tracking-wider flex items-center gap-1 hover:underline"
                   >
-                    Read Brief <ArrowRight className="w-3.5 h-3.5" />
+                    Read Full Article <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
-              </article>
-            ))
-          ) : (
-            <div className="col-span-full py-16 text-center text-slate-400 text-sm font-sans">
-              No matching articles found. Try adjusting your search query or categories.
+              </div>
+              <div className="lg:col-span-4 bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-center text-center space-y-4">
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block">Knowledge Desk</span>
+                <p className="text-xs text-slate-300">Detailed compliance guides, cost audits, and contract templates.</p>
+                <Link href="/contact" className="btn-primary py-2.5 text-xs">Request Feasibility Proposal</Link>
+              </div>
             </div>
-          )}
+          </div>
+        )}
+
+        {/* Articles Grid */}
+        <div>
+          <h2 className="text-xl font-heading font-black text-dark uppercase tracking-tight mb-6">
+            {selectedCategory === 'All' ? 'All Publications' : `${selectedCategory} Articles`}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredArticles.length > 0 ? (
+              filteredArticles.map((art) => (
+                <article 
+                  key={art.id} 
+                  className="bg-white border border-slate-150 rounded-2xl shadow-sm p-6 md:p-8 flex flex-col justify-between hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300"
+                >
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center text-[10px] text-slate-400 font-sans">
+                      <span className="bg-slate-100 text-slate-650 font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                        {art.category}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5" /> {art.readTime}
+                      </span>
+                    </div>
+                    
+                    <h3 className="text-base font-black font-heading text-dark uppercase tracking-tight leading-snug">
+                      {art.title}
+                    </h3>
+                    <p className="text-slate-500 text-xs leading-relaxed font-sans">
+                      {art.excerpt}
+                    </p>
+
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      {art.tags?.map((tag) => (
+                        <span key={tag} className="text-[9px] bg-slate-50 text-slate-400 font-bold px-2 py-0.5 rounded border border-slate-200/50">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="pt-6 border-t border-slate-100 flex items-center justify-between mt-6">
+                    <div className="flex items-center gap-2 text-[10px] text-slate-400 font-sans">
+                      <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
+                        <User className="w-3 h-3" />
+                      </div>
+                      <span>{art.author}</span>
+                    </div>
+                    
+                    <Link 
+                      href={`/insights/${art.slug}`}
+                      className="text-primary font-bold text-xs uppercase tracking-wider flex items-center gap-1 hover:underline"
+                    >
+                      Read Brief <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </article>
+              ))
+            ) : (
+              <div className="col-span-full py-16 text-center text-slate-400 text-sm font-sans">
+                No matching articles found. Try adjusting your search query or categories.
+              </div>
+            )}
+          </div>
         </div>
 
       </div>

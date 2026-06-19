@@ -2,98 +2,14 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Search, SlidersHorizontal, Zap, Building2, MapPin, BarChart3, Shield, Info, X, ExternalLink } from 'lucide-react';
+import { Search, SlidersHorizontal, Zap, Building2, MapPin, BarChart3, Shield, Info, X, ExternalLink, Activity } from 'lucide-react';
 
-// Real/Verified-looking Mock Data for Energy Producers (Category A)
-const producers = [
-  {
-    id: 'prod-1',
-    name: 'Vibrant Solar Infra',
-    tech: 'Solar PV & Wind Hybrid',
-    capacity: '450 MW',
-    states: 'Karnataka, Tamil Nadu, Andhra Pradesh',
-    desc: 'Specializes in utility-scale multi-MW co-located solar and wind installations feeding continuous load profiles.',
-    logoText: 'VS'
-  },
-  {
-    id: 'prod-2',
-    name: 'Aditya Wind Farms Ltd',
-    tech: 'Onshore Wind',
-    capacity: '280 MW',
-    states: 'Gujarat, Maharashtra, Rajasthan',
-    desc: 'Operates heavy wind turbine installations across the western coast. Direct feed PPAs structured for night-shift operations.',
-    logoText: 'AW'
-  },
-  {
-    id: 'prod-3',
-    name: 'Sterling Green Power',
-    tech: 'Solar PV Grid Connect',
-    capacity: '600 MW',
-    states: 'Rajasthan, Haryana, Madhya Pradesh',
-    desc: 'Utility-scale solar farms focused on inter-state transmission system (ISTS) long-term power delivery contracts.',
-    logoText: 'SG'
-  },
-  {
-    id: 'prod-4',
-    name: 'Matrix Hydro & Biomass',
-    tech: 'Small Hydro & Biomass',
-    capacity: '120 MW',
-    states: 'Maharashtra, Himachal Pradesh, Uttarakhand',
-    desc: 'Provides baseload grid injection services leveraging small run-of-the-river hydro projects and biomass facilities.',
-    logoText: 'MB'
-  }
-];
+// Empty arrays to represent un-integrated state registry records
+const producers: any[] = [];
+const consumers: any[] = [];
 
-// Real/Verified-looking Mock Data for Industrial Consumers (Category B)
-const consumers = [
-  {
-    id: 'cons-1',
-    name: 'Indo-Tex Spinning Mill',
-    industry: 'Textiles & Spinning',
-    state: 'Tamil Nadu',
-    reqCategory: 'High Voltage Open Access (4.2 MW)',
-    desc: 'Switched entire spinning load to off-site hybrid open access, securing a flat PPA rate and cutting annual electricity bills by ₹4.8 Crores.',
-    logoText: 'IT'
-  },
-  {
-    id: 'cons-2',
-    name: 'Astra Pharmaceuticals',
-    industry: 'Pharmaceuticals',
-    state: 'Himachal Pradesh',
-    reqCategory: 'Onsite OPEX Rooftop Solar (1.8 MW)',
-    desc: 'Offsets daytime critical air conditioning and refrigeration systems with a zero-investment rooftop solar installation backed by net-metering.',
-    logoText: 'AP'
-  },
-  {
-    id: 'cons-3',
-    name: 'Aries Chemicals Ltd',
-    industry: 'Chemicals & Process',
-    state: 'Gujarat',
-    reqCategory: 'Group Captive Power PPA (6.5 MW)',
-    desc: 'Acquired 26% equity in a dedicated 12 MW offsite solar plant to waive cross-subsidy and grid-wheeling surcharges entirely under group captive laws.',
-    logoText: 'AC'
-  },
-  {
-    id: 'cons-4',
-    name: 'Apex Logistics Hubs',
-    industry: 'Warehousing & Cold Chain',
-    state: 'Maharashtra',
-    reqCategory: 'Onsite CAPEX Solar (2.2 MW)',
-    desc: 'Converted 180,000 square feet of warehouse rooftop space to high-efficiency monocrystalline solar systems, achieving 4.1 year payback cycle.',
-    logoText: 'AL'
-  }
-];
-
-// Network locations mapped to SVG coordinates (approximate relative visual spots on map)
-const networkLocations = [
-  { name: 'Rajasthan Node (Solar)', x: 38, y: 38, type: 'producer', info: '600 MW Sterling Solar Farm' },
-  { name: 'Gujarat Node (Wind/Solar)', x: 28, y: 52, type: 'producer', info: '280 MW Aditya Wind Farm' },
-  { name: 'Karnataka Node (Hybrid)', x: 42, y: 82, type: 'producer', info: '450 MW Vibrant Solar-Wind Hybrid' },
-  { name: 'Himachal Node (Consumer)', x: 46, y: 22, type: 'consumer', info: '1.8 MW Astra Pharma Rooftop' },
-  { name: 'Gujarat Consumer Hub', x: 34, y: 55, type: 'consumer', info: '6.5 MW Aries Chem Group Captive' },
-  { name: 'Maharashtra Consumer Node', x: 40, y: 64, type: 'consumer', info: '2.2 MW Apex Logistics CAPEX' },
-  { name: 'Tamil Nadu Textile Hub', x: 48, y: 88, type: 'consumer', info: '4.2 MW Indo-Tex Spinning Open Access' }
-];
+// Network locations mapped to SVG coordinates
+const networkLocations: any[] = [];
 
 export default function IndustryNetworkPage() {
   const [activeTab, setActiveTab] = useState<'energy' | 'industry'>('energy');
@@ -103,13 +19,8 @@ export default function IndustryNetworkPage() {
   // Modal State for profile views
   const [selectedProfile, setSelectedProfile] = useState<any | null>(null);
 
-  // States list based on active tab
-  const stateOptions = useMemo(() => {
-    const list = activeTab === 'energy' 
-      ? producers.flatMap(p => p.states.split(', '))
-      : consumers.map(c => c.state);
-    return ['All', ...Array.from(new Set(list))];
-  }, [activeTab]);
+  // Hardcoded states/technology for visual completeness of dropdowns
+  const stateOptions = ['All', 'Gujarat', 'Tamil Nadu', 'Maharashtra', 'Karnataka', 'Rajasthan', 'Madhya Pradesh'];
 
   const filteredProducers = useMemo(() => {
     return producers.filter(p => {
@@ -144,27 +55,45 @@ export default function IndustryNetworkPage() {
           </p>
         </div>
 
-        {/* SECTION D: Network Statistics */}
-        <section className="grid grid-cols-2 lg:grid-cols-4 gap-6 bg-white border border-slate-100 p-8 rounded-3xl shadow-xl shadow-slate-100/50">
-          <div className="text-center space-y-2 border-r border-slate-100">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block">Total IPP Producers</span>
-            <span className="text-2xl md:text-4xl font-black text-dark font-heading block">14 Vetted IPPs</span>
-            <span className="text-[10px] text-primary font-semibold block">Verified Grid Nodes</span>
+        {/* Network Overview section showing: Technologies, Industries, Regions */}
+        <section className="bg-white border border-slate-200/80 p-8 rounded-3xl shadow-xl space-y-8">
+          <div className="border-b border-slate-100 pb-4">
+            <h2 className="text-xl font-heading font-black text-dark uppercase tracking-tight flex items-center gap-2">
+              <Activity className="w-5 h-5 text-primary" /> Network Overview
+            </h2>
+            <p className="text-xs text-slate-400 mt-1">Ecosystem distribution matrix across technology, industrial, and regional segments.</p>
           </div>
-          <div className="text-center space-y-2 md:border-r border-slate-100">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block">Industrial Off-takers</span>
-            <span className="text-2xl md:text-4xl font-black text-dark font-heading block">42 Plants</span>
-            <span className="text-[10px] text-primary font-semibold block">Electricity &gt; ₹10L/Mo</span>
-          </div>
-          <div className="text-center space-y-2 border-r border-slate-100">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block">States Covered</span>
-            <span className="text-2xl md:text-4xl font-black text-dark font-heading block">18 States</span>
-            <span className="text-[10px] text-primary font-semibold block">Pan-India Connection</span>
-          </div>
-          <div className="text-center space-y-2">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block">Connected Capacity</span>
-            <span className="text-2xl md:text-4xl font-black text-dark font-heading block">1.85 GW</span>
-            <span className="text-[10px] text-primary font-semibold block">Wheeled clean capacity</span>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-xs font-sans">
+            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 space-y-4">
+              <span className="text-[10px] text-primary font-bold uppercase tracking-wider block">Technologies Offered</span>
+              <ul className="space-y-2.5 text-slate-600">
+                <li className="flex justify-between font-medium"><span>Solar PV Grid Connect</span> <span className="text-slate-400 font-bold">IPP Sourced</span></li>
+                <li className="flex justify-between font-medium"><span>Onshore Wind Power</span> <span className="text-slate-400 font-bold">IPP Sourced</span></li>
+                <li className="flex justify-between font-medium"><span>Wind-Solar Hybrid Blend</span> <span className="text-slate-400 font-bold">Optimal CUF</span></li>
+                <li className="flex justify-between font-medium"><span>Onsite Rooftop CAPEX/OPEX</span> <span className="text-slate-400 font-bold">Industrial</span></li>
+              </ul>
+            </div>
+
+            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 space-y-4">
+              <span className="text-[10px] text-primary font-bold uppercase tracking-wider block">Industries Served</span>
+              <ul className="space-y-2.5 text-slate-600">
+                <li className="flex justify-between font-medium"><span>Chemicals & Processing</span> <span className="text-slate-400 font-bold">High Thermal & Base Load</span></li>
+                <li className="flex justify-between font-medium"><span>Textiles & Spinning Mills</span> <span className="text-slate-400 font-bold">Continuous 24/7 Operations</span></li>
+                <li className="flex justify-between font-medium"><span>Heavy Engineering & Assembly</span> <span className="text-slate-400 font-bold">High Peak Surcharges</span></li>
+                <li className="flex justify-between font-medium"><span>Pharmaceuticals & Cleanrooms</span> <span className="text-slate-400 font-bold">Critical Load Offset</span></li>
+              </ul>
+            </div>
+
+            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 space-y-4">
+              <span className="text-[10px] text-primary font-bold uppercase tracking-wider block">Active Grid Regions</span>
+              <ul className="space-y-2.5 text-slate-600">
+                <li className="flex justify-between font-medium"><span>Southern Grid</span> <span className="text-slate-400 font-bold">KA, TN, AP Nodes</span></li>
+                <li className="flex justify-between font-medium"><span>Western Grid</span> <span className="text-slate-400 font-bold">GJ, MH Nodes</span></li>
+                <li className="flex justify-between font-medium"><span>Northern Grid</span> <span className="text-slate-400 font-bold">HR, RJ, MP Nodes</span></li>
+                <li className="flex justify-between font-medium"><span>Interstate wheeled (ISTS)</span> <span className="text-slate-400 font-bold">National Grid</span></li>
+              </ul>
+            </div>
           </div>
         </section>
 
@@ -187,11 +116,11 @@ export default function IndustryNetworkPage() {
               <div className="space-y-4">
                 <div className="flex items-center gap-2.5 text-xs text-slate-300">
                   <span className="w-3.5 h-3.5 rounded-full bg-primary flex items-center justify-center shrink-0 border border-white/20"><span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" /></span>
-                  <span><strong>Green Nodes:</strong> Utility-scale IPP wind and solar generators</span>
+                  <span><strong>Producers:</strong> Utility-scale IPP wind and solar generators</span>
                 </div>
                 <div className="flex items-center gap-2.5 text-xs text-slate-300">
-                  <span className="w-3.5 h-3.5 rounded-full bg-accent flex items-center justify-center shrink-0 border border-white/20"><span className="w-1.5 h-1.5 rounded-full bg-white" /></span>
-                  <span><strong>Green-Green Nodes:</strong> Active off-take manufacturing factories</span>
+                  <span className="w-3.5 h-3.5 rounded-full bg-slate-500 flex items-center justify-center shrink-0 border border-white/20"><span className="w-1.5 h-1.5 rounded-full bg-white" /></span>
+                  <span><strong>Consumers:</strong> Active offtake manufacturing factories</span>
                 </div>
               </div>
             </div>
@@ -213,7 +142,7 @@ export default function IndustryNetworkPage() {
                   className="absolute -translate-x-1/2 -translate-y-1/2 group cursor-pointer"
                 >
                   <span className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border border-white/40 shadow-lg transition-transform hover:scale-125 ${
-                    loc.type === 'producer' ? 'bg-primary' : 'bg-accent'
+                    loc.type === 'producer' ? 'bg-primary' : 'bg-slate-500'
                   }`}>
                     <span className="w-1.5 h-1.5 rounded-full bg-white" />
                   </span>
@@ -284,19 +213,56 @@ export default function IndustryNetworkPage() {
                   <option key={s} value={s}>{s}</option>
                 ))}
               </select>
+
+              <select
+                className="px-3.5 py-2.5 bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-600 rounded-xl focus:outline-none focus:border-primary cursor-pointer"
+                disabled
+              >
+                <option>All Technologies</option>
+                <option>Solar PV Grid Connect</option>
+                <option>Onshore Wind Power</option>
+                <option>Wind-Solar Hybrid</option>
+                <option>Small Hydro Sourcing</option>
+              </select>
+
+              <select
+                className="px-3.5 py-2.5 bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-600 rounded-xl focus:outline-none focus:border-primary cursor-pointer"
+                disabled
+              >
+                <option>All Capacities</option>
+                <option>Under 10 MW</option>
+                <option>10 MW - 50 MW</option>
+                <option>Above 50 MW</option>
+              </select>
+
+              <select
+                className="px-3.5 py-2.5 bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-600 rounded-xl focus:outline-none focus:border-primary cursor-pointer"
+                disabled
+              >
+                <option>All Industries</option>
+                <option>Chemicals & Process</option>
+                <option>Textiles & Spinning</option>
+                <option>Heavy Engineering</option>
+                <option>Pharmaceuticals</option>
+              </select>
             </div>
           </div>
 
           {/* Directory Listings */}
           <div>
             {activeTab === 'energy' ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProducers.length > 0 ? (
                   filteredProducers.map(p => (
-                    <div key={p.id} className="bg-white border border-slate-100 p-6 rounded-2xl shadow-sm hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between space-y-6">
+                    <div key={p.id} className="bg-white border border-slate-150 p-6 rounded-2xl shadow-sm hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between space-y-6">
                       <div className="space-y-4">
-                        <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center font-heading font-black text-primary text-lg">
-                          {p.logoText}
+                        <div className="flex justify-between items-center">
+                          <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center font-heading font-black text-primary text-lg">
+                            {p.logoText}
+                          </div>
+                          <span className="text-[9px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                            {p.status}
+                          </span>
                         </div>
                         <div>
                           <h3 className="font-heading font-black text-dark text-base uppercase">{p.name}</h3>
@@ -304,10 +270,15 @@ export default function IndustryNetworkPage() {
                             {p.tech}
                           </span>
                         </div>
-                        <div className="space-y-1.5 pt-2 text-xs font-sans">
+                        <p className="text-slate-500 text-xs font-sans leading-relaxed mt-2">{p.desc}</p>
+                        <div className="space-y-1.5 pt-2 text-xs font-sans border-t border-slate-100">
                           <div className="flex justify-between">
                             <span className="text-slate-400">Total Capacity:</span>
                             <span className="font-bold text-dark">{p.capacity}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-slate-400">States Served:</span>
+                            <span className="font-semibold text-dark text-right truncate max-w-[160px]" title={p.states}>{p.states}</span>
                           </div>
                         </div>
                       </div>
@@ -320,16 +291,28 @@ export default function IndustryNetworkPage() {
                     </div>
                   ))
                 ) : (
-                  <div className="col-span-full py-16 text-center text-slate-400 text-sm font-sans">
-                    No verified energy producers match your search parameters.
+                  <div className="col-span-full py-24 text-center bg-white border border-slate-200 rounded-3xl">
+                    <div className="max-w-md mx-auto space-y-4 flex flex-col items-center">
+                      <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
+                        <Zap className="w-6 h-6 text-slate-350" />
+                      </div>
+                      <div className="space-y-1">
+                        <h4 className="font-heading font-black text-dark text-xs uppercase tracking-wider">
+                          Awaiting Verified Producer Records
+                        </h4>
+                        <p className="text-[10px] text-slate-400 font-sans leading-relaxed px-4">
+                          Renewable generation asset registries are currently undergoing regulatory synchronization. Vetted nodes will populate post-launch.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredConsumers.length > 0 ? (
                   filteredConsumers.map(c => (
-                    <div key={c.id} className="bg-white border border-slate-100 p-6 md:p-8 rounded-3xl shadow-sm hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between space-y-6">
+                    <div key={c.id} className="bg-white border border-slate-150 p-6 rounded-2xl shadow-sm hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between space-y-6">
                       <div className="space-y-4">
                         <div className="flex justify-between items-center">
                           <div className="w-12 h-12 rounded-xl bg-dark/10 border border-dark/15 flex items-center justify-center font-black text-dark font-heading text-lg">
@@ -340,24 +323,46 @@ export default function IndustryNetworkPage() {
                           </span>
                         </div>
                         <div>
-                          <h3 className="font-heading font-black text-dark text-lg uppercase">{c.name}</h3>
-                          <span className="text-[10px] text-slate-400 mt-0.5 block">State node: {c.state}</span>
+                          <h3 className="font-heading font-black text-dark text-base uppercase">{c.name}</h3>
+                          <span className="text-[10px] text-slate-400 mt-0.5 block">Location: {c.state}</span>
                         </div>
-                        <p className="text-slate-600 text-xs md:text-sm leading-relaxed font-sans pt-1">
+                        <p className="text-slate-600 text-xs leading-relaxed font-sans">
                           {c.desc}
                         </p>
+                        <div className="space-y-1.5 pt-2 text-xs font-sans border-t border-slate-100">
+                          <div className="flex justify-between">
+                            <span className="text-slate-400">Requirement Category:</span>
+                            <span className="font-bold text-dark">{c.reqCategory}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-slate-400">Status:</span>
+                            <span className="font-bold text-primary">{c.status}</span>
+                          </div>
+                        </div>
                       </div>
                       <button 
                         onClick={() => setSelectedProfile(c)}
-                        className="bg-slate-50 border border-slate-150 hover:bg-primary hover:text-white text-dark py-3 rounded-xl text-xs font-bold uppercase transition-all flex items-center justify-center gap-1.5 w-fit px-6"
+                        className="w-full bg-slate-50 border border-slate-150 hover:bg-primary hover:text-white text-dark py-2.5 rounded-xl text-xs font-bold uppercase transition-all flex items-center justify-center gap-1.5"
                       >
                         View Profile Details <ExternalLink className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   ))
                 ) : (
-                  <div className="col-span-full py-16 text-center text-slate-400 text-sm font-sans">
-                    No verified industrial consumer profiles match your search parameters.
+                  <div className="col-span-full py-24 text-center bg-white border border-slate-200 rounded-3xl">
+                    <div className="max-w-md mx-auto space-y-4 flex flex-col items-center">
+                      <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
+                        <Building2 className="w-6 h-6 text-slate-350" />
+                      </div>
+                      <div className="space-y-1">
+                        <h4 className="font-heading font-black text-dark text-xs uppercase tracking-wider">
+                          Awaiting Verified Consumer Records
+                        </h4>
+                        <p className="text-[10px] text-slate-400 font-sans leading-relaxed px-4">
+                          Industrial off-taker load profiles are currently undergoing regulatory synchronization. Vetted nodes will populate post-launch.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
@@ -382,9 +387,14 @@ export default function IndustryNetworkPage() {
                 </div>
                 <div>
                   <h3 className="text-2xl font-black font-heading text-dark uppercase">{selectedProfile.name}</h3>
-                  <p className="text-xs text-primary font-bold uppercase tracking-wider mt-1">
-                    {selectedProfile.tech || selectedProfile.industry}
-                  </p>
+                  <div className="flex gap-2 mt-1">
+                    <span className="text-xs text-primary font-bold uppercase tracking-wider">
+                      {selectedProfile.tech || selectedProfile.industry}
+                    </span>
+                    <span className="text-[9px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                      {selectedProfile.status}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -409,7 +419,7 @@ export default function IndustryNetworkPage() {
                 )}
                 {selectedProfile.state && (
                   <div className="flex justify-between">
-                    <span className="font-bold text-slate-400">State:</span>
+                    <span className="font-bold text-slate-400">Location:</span>
                     <span className="font-bold text-dark">{selectedProfile.state}</span>
                   </div>
                 )}
@@ -425,7 +435,7 @@ export default function IndustryNetworkPage() {
                 <Link 
                   href={`/contact?proposal=true&node=${selectedProfile.id}`}
                   onClick={() => setSelectedProfile(null)}
-                  className="btn-primary w-full text-xs font-bold uppercase tracking-widest py-3"
+                  className="btn-primary w-full text-xs font-bold uppercase tracking-widest py-3 text-center"
                 >
                   Initiate Connection Proposal
                 </Link>

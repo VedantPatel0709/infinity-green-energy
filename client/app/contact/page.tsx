@@ -70,8 +70,8 @@ export default function ContactPage() {
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-primary/10 rounded-xl text-primary"><MapPin className="w-5 h-5" /></div>
                 <div>
-                  <h4 className="text-dark font-bold font-heading text-xs uppercase tracking-wider">HQ Location</h4>
-                  <p className="text-slate-500 text-xs leading-normal font-sans">Bandra Kurla Complex, Mumbai, MH</p>
+                  <h4 className="text-dark font-bold font-heading text-xs uppercase tracking-wider">HQ Address Placeholder</h4>
+                  <p className="text-slate-500 text-xs leading-normal font-sans">Awaiting Corporate Office Setup, Mumbai, India</p>
                 </div>
               </div>
 
@@ -84,6 +84,23 @@ export default function ContactPage() {
               </div>
 
             </div>
+
+            {/* Google Maps Placeholder */}
+            <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+              <h4 className="text-dark font-bold font-heading text-xs uppercase tracking-wider">Office Location Map</h4>
+              <div className="h-48 bg-slate-100 rounded-2xl flex items-center justify-center border border-slate-200 relative overflow-hidden group">
+                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#0D7A5F_2px,transparent_2px)] [background-size:16px_16px]" />
+                <div className="text-center space-y-2 relative z-10">
+                  <MapPin className="w-6 h-6 text-primary mx-auto animate-bounce" />
+                  <span className="text-[10px] font-bold text-dark uppercase tracking-wider block">Google Maps Placeholder</span>
+                  <span className="text-[9px] text-slate-400 block font-sans">Interactive map will render after office location finalization.</span>
+                </div>
+                <div className="absolute bottom-2 right-2 flex gap-1 text-[9px] font-bold uppercase tracking-wider bg-white/80 border border-slate-200 rounded px-1.5 py-0.5">
+                  <span>Zoom: 15x</span>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           {/* Form */}

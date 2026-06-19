@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 
 export default function AdminPage() {
-  const [activeModule, setActiveModule] = useState<'analytics' | 'users' | 'consumers' | 'producers' | 'listings' | 'requests' | 'proposals' | 'consultations' | 'documents' | 'notifications' | 'logs' | 'assessments' | 'crm' | 'communications'>('analytics');
+  const [activeModule, setActiveModule] = useState<'analytics' | 'users' | 'consumers' | 'producers' | 'listings' | 'requests' | 'proposals' | 'consultations' | 'documents' | 'notifications' | 'logs' | 'assessments' | 'crm' | 'communications' | 'content' | 'insights' | 'settings'>('analytics');
   
   // Communication Center states
   const [notificationLogs, setNotificationLogs] = useState<any[]>([]);
@@ -671,6 +671,24 @@ export default function AdminPage() {
             >
               <Send className="w-4 h-4" /> 14. Communication Center
             </button>
+            <button 
+              onClick={() => setActiveModule('content')} 
+              className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center gap-3 transition-colors ${activeModule === 'content' ? 'bg-primary text-white' : 'hover:bg-slate-800 hover:text-white'}`}
+            >
+              <FileText className="w-4 h-4" /> 15. Content Management
+            </button>
+            <button 
+              onClick={() => setActiveModule('insights')} 
+              className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center gap-3 transition-colors ${activeModule === 'insights' ? 'bg-primary text-white' : 'hover:bg-slate-800 hover:text-white'}`}
+            >
+              <TrendingUp className="w-4 h-4" /> 16. Platform Insights
+            </button>
+            <button 
+              onClick={() => setActiveModule('settings')} 
+              className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold flex items-center gap-3 transition-colors ${activeModule === 'settings' ? 'bg-primary text-white' : 'hover:bg-slate-800 hover:text-white'}`}
+            >
+              <Settings className="w-4 h-4" /> 17. Settings
+            </button>
           </nav>
         </aside>
 
@@ -682,7 +700,7 @@ export default function AdminPage() {
             <div>
               <span className="text-[10px] text-primary font-bold uppercase tracking-widest font-heading">Operations Portal</span>
               <h1 className="text-xl font-bold font-heading text-dark mt-0.5 capitalize">
-                {activeModule.replace('analytics', 'Executive Dashboard').replace('logs', 'Security Audit Logs').replace('requests', 'Marketplace Buyer Requests').replace('listings', 'Energy Listings Moderator')}
+                {activeModule.replace('analytics', 'Executive Dashboard').replace('logs', 'Security Audit Logs').replace('requests', 'Marketplace Buyer Requests').replace('listings', 'Energy Listings Moderator').replace('content', 'Content Management').replace('insights', 'Platform Insights').replace('settings', 'System Settings')}
               </h1>
             </div>
             <span className="text-xs bg-emerald-50 border border-emerald-200 text-emerald-600 font-bold px-3 py-1.5 rounded-xl font-mono flex items-center gap-1.5 animate-pulse">
@@ -696,27 +714,27 @@ export default function AdminPage() {
             <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
               <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                 <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Total Users</span>
-                <span className="text-xl font-black font-heading mt-1 block">{metrics.totalUsers}</span>
+                <span className="text-xs font-semibold text-slate-400 mt-2 block uppercase">Awaiting Sync</span>
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                 <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Consumers</span>
-                <span className="text-xl font-black font-heading mt-1 block text-primary">{metrics.consumers}</span>
+                <span className="text-xs font-semibold text-slate-400 mt-2 block uppercase">Awaiting Sync</span>
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                 <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Producers</span>
-                <span className="text-xl font-black font-heading mt-1 block text-primary">{metrics.producers}</span>
+                <span className="text-xs font-semibold text-slate-400 mt-2 block uppercase">Awaiting Sync</span>
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                 <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Active Listings</span>
-                <span className="text-xl font-black font-heading mt-1 block text-emerald-600">{metrics.activeListings}</span>
+                <span className="text-xs font-semibold text-slate-400 mt-2 block uppercase">Awaiting Sync</span>
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                 <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Consultations</span>
-                <span className="text-xl font-black font-heading mt-1 block text-yellow-600">{metrics.consultationRequests} Pend</span>
+                <span className="text-xs font-semibold text-slate-400 mt-2 block uppercase">Awaiting Sync</span>
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                 <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Pipeline Vol</span>
-                <span className="text-xl font-black font-heading mt-1 block text-slate-700">₹{(metrics.revenuePipeline / 10000000).toFixed(1)}Cr</span>
+                <span className="text-xs font-semibold text-slate-400 mt-2 block uppercase">Awaiting Sync</span>
               </div>
             </div>
 
@@ -2456,6 +2474,153 @@ export default function AdminPage() {
                         </div>
                       </div>
 
+                    </div>
+                  </div>
+                )}
+
+                {/* 15. Content Management Module */}
+                {activeModule === 'content' && (
+                  <div className="bg-white rounded-3xl border border-slate-100 shadow-xl p-8 space-y-6 animate-in fade-in duration-200">
+                    <div className="flex justify-between items-center pb-4 border-b border-slate-100">
+                      <div>
+                        <h3 className="font-heading font-black text-dark text-base uppercase tracking-tight">Ecosystem Article Registry</h3>
+                        <p className="text-[10px] text-slate-400 mt-1">Manage public advisory publications, feasibility research papers, and grid newsletters.</p>
+                      </div>
+                      <button 
+                        onClick={() => alert('Backend integration required to publish content.')}
+                        className="btn-primary py-2 px-4 text-xs font-bold uppercase tracking-wider"
+                      >
+                        Create Article
+                      </button>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs font-sans">
+                        <thead className="bg-slate-50 font-bold uppercase text-[9px] tracking-wider text-slate-400 border-b border-slate-100">
+                          <tr>
+                            <th className="px-4 py-3">Title</th>
+                            <th className="px-4 py-3">Category</th>
+                            <th className="px-4 py-3">Author</th>
+                            <th className="px-4 py-3">Status</th>
+                            <th className="px-4 py-3 text-right">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 text-slate-600">
+                          <tr className="hover:bg-slate-50/50">
+                            <td className="px-4 py-4 font-bold text-dark">Group Captive Equity Requirements under Electricity Rules 2005</td>
+                            <td className="px-4 py-4"><span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[9.5px]">Regulatory Updates</span></td>
+                            <td className="px-4 py-4">Priya Sharma</td>
+                            <td className="px-4 py-4"><span className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-bold text-[9px] uppercase">Published</span></td>
+                            <td className="px-4 py-4 text-right flex justify-end gap-2">
+                              <button onClick={() => alert('Backend integration required to publish content.')} className="bg-slate-50 hover:bg-slate-100 px-2 py-1 rounded text-[10px] font-bold border border-slate-200">Edit</button>
+                              <button onClick={() => alert('Backend integration required to publish content.')} className="bg-red-50 hover:bg-red-100 text-red-600 px-2 py-1 rounded text-[10px] font-bold">Delete</button>
+                            </td>
+                          </tr>
+                          <tr className="hover:bg-slate-50/50">
+                            <td className="px-4 py-4 font-bold text-dark">Introduction to ISTS and InSTS Grid Wheeling Tariffs for Textile Units</td>
+                            <td className="px-4 py-4"><span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[9.5px]">Technical Articles</span></td>
+                            <td className="px-4 py-4">Vikram Malhotra</td>
+                            <td className="px-4 py-4"><span className="bg-yellow-50 text-yellow-700 border border-yellow-200 px-2 py-0.5 rounded-full font-bold text-[9px] uppercase">Draft</span></td>
+                            <td className="px-4 py-4 text-right flex justify-end gap-2">
+                              <button onClick={() => alert('Backend integration required to publish content.')} className="bg-slate-50 hover:bg-slate-100 px-2 py-1 rounded text-[10px] font-bold border border-slate-200">Edit</button>
+                              <button onClick={() => alert('Backend integration required to publish content.')} className="bg-red-50 hover:bg-red-100 text-red-600 px-2 py-1 rounded text-[10px] font-bold">Delete</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="p-4 bg-amber-50 text-amber-800 text-[10px] font-bold uppercase tracking-wider rounded-2xl border border-amber-200 text-center">
+                      ⚠️ Note: Backend integration required to publish content.
+                    </div>
+                  </div>
+                )}
+
+                {/* 16. Platform Insights Module */}
+                {activeModule === 'insights' && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-200 text-xs font-sans">
+                    
+                    <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md space-y-3">
+                      <h4 className="text-xs font-bold text-dark font-heading uppercase text-primary border-b border-slate-50 pb-2">📈 Market Trends</h4>
+                      <div className="py-8 text-center text-slate-400 space-y-2">
+                        <p className="font-bold text-slate-500">No Trends Synchronized</p>
+                        <p className="text-[10px] text-slate-400">Trading index pricing logs will establish baseline feeds after grid API link validation.</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md space-y-3">
+                      <h4 className="text-xs font-bold text-dark font-heading uppercase text-primary border-b border-slate-50 pb-2">📋 Industry Reports</h4>
+                      <div className="py-8 text-center text-slate-400 space-y-2">
+                        <p className="font-bold text-slate-500">Reports Archive Empty</p>
+                        <p className="text-[10px] text-slate-400">Sector audits, annual off-taker volumes, and carbon footprint reduction records await DB sync.</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md space-y-3">
+                      <h4 className="text-xs font-bold text-dark font-heading uppercase text-primary border-b border-slate-50 pb-2">⚖️ Regulatory Updates</h4>
+                      <div className="py-8 text-center text-slate-400 space-y-2">
+                        <p className="font-bold text-slate-500">No Policy Dispatches</p>
+                        <p className="text-[10px] text-slate-400">State SLDC cross-subsidy exemptions and central Ministry of Power notifications pending link-up.</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md space-y-3">
+                      <h4 className="text-xs font-bold text-dark font-heading uppercase text-primary border-b border-slate-50 pb-2">💡 Renewable Energy Insights</h4>
+                      <div className="py-8 text-center text-slate-400 space-y-2">
+                        <p className="font-bold text-slate-500">Insights Feed Standby</p>
+                        <p className="text-[10px] text-slate-400">National generation capacities, average hybrid plant PLFs, and storage advisory feeds are pending sync.</p>
+                      </div>
+                    </div>
+
+                  </div>
+                )}
+
+                {/* 17. Settings Module */}
+                {activeModule === 'settings' && (
+                  <div className="bg-white rounded-3xl border border-slate-100 shadow-xl p-8 space-y-6 animate-in fade-in duration-200">
+                    <h3 className="font-heading font-black text-dark text-base uppercase tracking-tight pb-4 border-b border-slate-100">System Preferences & Settings</h3>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs font-sans text-slate-600">
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="font-bold text-dark mb-2">👤 Profile Settings</h4>
+                          <div className="bg-slate-55 bg-slate-50 p-4 rounded-2xl border border-slate-150 space-y-2">
+                            <p><strong>Admin Name:</strong> Operations Desk</p>
+                            <p><strong>Role Level:</strong> System Administrator</p>
+                            <p><strong>Associated Email:</strong> root@infinitygreenenergy.com</p>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h4 className="font-bold text-dark mb-2">🔔 Notification Preferences</h4>
+                          <div className="bg-slate-55 bg-slate-50 p-4 rounded-2xl border border-slate-150 space-y-2">
+                            <label className="flex items-center gap-2"><input type="checkbox" defaultChecked disabled /> Email Dispatches on New RFPs</label>
+                            <label className="flex items-center gap-2"><input type="checkbox" defaultChecked disabled /> System Audit Logs Alert</label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="font-bold text-dark mb-2">🔒 Security Settings</h4>
+                          <div className="bg-slate-55 bg-slate-50 p-4 rounded-2xl border border-slate-150 space-y-2">
+                            <p><strong>Two-Factor Authentication (2FA):</strong> <span className="text-emerald-600 font-bold uppercase">Enforced</span></p>
+                            <p><strong>Allowed Session IP Range:</strong> Static Intranet Range Only</p>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h4 className="font-bold text-dark mb-2">⚙️ Platform Configuration</h4>
+                          <div className="bg-slate-55 bg-slate-50 p-4 rounded-2xl border border-slate-150 space-y-2">
+                            <p><strong>API Version:</strong> v1.2.0-alpha</p>
+                            <p><strong>Supabase Client Gating:</strong> Offline Mode Active</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-amber-50 text-amber-800 text-[10px] font-bold uppercase tracking-wider rounded-2xl border border-amber-200 text-center">
+                      ⚠️ Note: Settings will become active after backend integration.
                     </div>
                   </div>
                 )}

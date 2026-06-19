@@ -46,14 +46,19 @@ export default function PortalPage() {
           {/* Admin */}
           <div 
             onClick={() => handleSimulateLogin('admin')}
-            className="bg-slate-900 border border-slate-800 p-8 rounded-3xl cursor-pointer hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between min-h-[260px]"
+            className="bg-slate-900 border border-slate-800 p-8 rounded-3xl cursor-pointer hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between min-h-[360px]"
           >
             <div className="space-y-4">
               <div className="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-primary group-hover:scale-105 transition-all">
                 <Shield className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-black font-heading uppercase text-white tracking-tight">Admin Portal</h3>
-              <p className="text-slate-400 text-xs font-sans leading-relaxed">Manage network nodes, review PPA leads, approve listings, and audit statistics.</p>
+              
+              <div className="space-y-2 text-xs font-sans text-slate-350">
+                <p><strong>Purpose:</strong> Oversee network nodes, manage lead distributions, and structure bilat PPAs.</p>
+                <p><strong>Features:</strong> Employee assignment module, CMS control, proposals dashboard, and analytics center.</p>
+                <p><strong>Access Type:</strong> Write-Access (Enterprise Operations Command)</p>
+              </div>
             </div>
             <div className="text-primary font-bold text-xs uppercase flex items-center gap-1 mt-6 group-hover:translate-x-1 transition-transform">
               Access Admin <ArrowRight className="w-4.5 h-4.5" />
@@ -63,14 +68,19 @@ export default function PortalPage() {
           {/* Producer */}
           <div 
             onClick={() => handleSimulateLogin('producer')}
-            className="bg-slate-900 border border-slate-800 p-8 rounded-3xl cursor-pointer hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between min-h-[260px]"
+            className="bg-slate-900 border border-slate-800 p-8 rounded-3xl cursor-pointer hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between min-h-[360px]"
           >
             <div className="space-y-4">
               <div className="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-primary group-hover:scale-105 transition-all">
                 <Zap className="w-6 h-6 fill-primary" />
               </div>
               <h3 className="text-lg font-black font-heading uppercase text-white tracking-tight">IPP Producer</h3>
-              <p className="text-slate-400 text-xs font-sans leading-relaxed">Publish farm capacities, review load requirements, upload documents, and track proposals.</p>
+              
+              <div className="space-y-2 text-xs font-sans text-slate-350">
+                <p><strong>Purpose:</strong> Register utility-scale solar/wind assets and offer grid wheeled capacity.</p>
+                <p><strong>Features:</strong> Publish generation profiles, upload telemetries, and bid for consumer offtake RFPs.</p>
+                <p><strong>Access Type:</strong> Producer Node (Read / Self-Update)</p>
+              </div>
             </div>
             <div className="text-primary font-bold text-xs uppercase flex items-center gap-1 mt-6 group-hover:translate-x-1 transition-transform">
               Access Producer <ArrowRight className="w-4.5 h-4.5" />
@@ -80,14 +90,19 @@ export default function PortalPage() {
           {/* Consumer */}
           <div 
             onClick={() => handleSimulateLogin('consumer')}
-            className="bg-slate-900 border border-slate-800 p-8 rounded-3xl cursor-pointer hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between min-h-[260px]"
+            className="bg-slate-900 border border-slate-800 p-8 rounded-3xl cursor-pointer hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between min-h-[360px]"
           >
             <div className="space-y-4">
               <div className="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-primary group-hover:scale-105 transition-all">
                 <Building2 className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-black font-heading uppercase text-white tracking-tight">Consumer Portal</h3>
-              <p className="text-slate-400 text-xs font-sans leading-relaxed">Monitor electricity demand, view savings statistics, download PPAs, and check matched IPPs.</p>
+              
+              <div className="space-y-2 text-xs font-sans text-slate-350">
+                <p><strong>Purpose:</strong> Procure green open access grid power and monitor load profiling audits.</p>
+                <p><strong>Features:</strong> Upload bill demands, track matching PPAs, and check real-time savings offsets.</p>
+                <p><strong>Access Type:</strong> Offtaker Account (Read / Lead Submission)</p>
+              </div>
             </div>
             <div className="text-primary font-bold text-xs uppercase flex items-center gap-1 mt-6 group-hover:translate-x-1 transition-transform">
               Access Consumer <ArrowRight className="w-4.5 h-4.5" />

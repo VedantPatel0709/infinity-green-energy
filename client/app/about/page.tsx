@@ -1,23 +1,33 @@
+'use client';
+import React, { useState, useEffect } from 'react';
+import { User, Users, Award, Milestone, Lightbulb, Compass, ShieldCheck, LineChart, TrendingUp, Network } from 'lucide-react';
 import { Metadata } from 'next';
-import { User, Users, Award, Milestone, Lightbulb, Compass, ShieldCheck, LineChart, TrendingUp } from 'lucide-react';
-
-export const metadata: Metadata = {
-  title: 'About Infinity Green Energy | B2B Renewable Sourcing Partner',
-  description: 'Learn about our journey, mission, executive leadership, and strategic roadmap as India\'s leading industrial clean energy procurement platform.',
-};
 
 export default function AboutPage() {
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'AboutPage',
-    'name': 'About Infinity Green Energy',
-    'description': 'Corporate profile, vision, leadership messages, values, and expansion roadmap for Indian industrial sectors.',
-    'publisher': {
-      '@type': 'Organization',
-      'name': 'Infinity Green Energy',
-      'logo': 'https://infinitygreenenergy.com/logo.png'
+  const [cms, setCms] = useState({
+    companyStory: 'Founded with a vision to revolutionize B2B energy supply in India, Infinity Green Energy bridges the gap between bulk industrial consumers and independent green developers. Our journey started when we realized factories spend up to 40% of their operational expenses on energy tariffs without any transparent purchasing pathways.',
+    mission: 'To strip away grid complexity and regulatory friction, allowing heavy Indian industries to transition to clean energy while improving operational profit margins and locking in tariff predictability.',
+    vision: 'To manage over 5 GW of active commercial grid open access capacity by 2030, establishing Infinity Green as the ultimate B2B renewable matchmaker and load compliance dashboard for corporate India.',
+    founderName: 'Founder Profile',
+    founderDesignation: 'Verification In Progress',
+    founderMessageQuote: 'Empowering enterprise corporate boards with clear carbon accounting and independent grid sourcing simulations.',
+    founderMessageBody: 'Detailed executive profiles and certified leadership credentials will be synched with the official registry upon launch. All advisory activities remain strictly neutral and transactional.',
+    whyExistsBody: 'Heavy industries in India pay some of the highest grid tariffs globally. Default DISCOM networks are often inefficient, while navigating complex open access rules, group captive models, and grid synchronization compliance creates massive operational friction for factories. Infinity Green exists to bridge this gap. We provide a transparent, neutral procurement marketplace where industrial consumers pool energy demand and source wheeled solar, wind, and hybrid power directly from vetted utility-scale developers.',
+    companyStructure: 'Infinity Green Energy operates under a flat, agile organizational matrix designed to expedite regulatory analysis and engineering approvals. The organization is divided into three key pillars: 1. Regulatory Grid Advisory: Specialists in open-access grid code, state DISCOM rules, and PPA compliance; 2. Sourcing & Matchmaking Operations: Connecting developer nodes with consumer load profiles; 3. Long-Term Portfolio Desk: Auditing monthly wheeling invoices, grid compliance billing, and telemetry reports.'
+  });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const local = localStorage.getItem('about_cms');
+      if (local) {
+        try {
+          setCms(JSON.parse(local));
+        } catch (e) {
+          console.error(e);
+        }
+      }
     }
-  };
+  }, []);
 
   const values = [
     {
@@ -56,11 +66,6 @@ export default function AboutPage() {
 
   return (
     <div className="bg-light min-h-screen text-dark py-24 px-4 sm:px-6 lg:px-8 font-sans">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
-
       <main className="max-w-7xl mx-auto space-y-24">
         {/* Who We Are Hero Section */}
         <section className="text-center space-y-4 max-w-3xl mx-auto" id="who-we-are">
@@ -75,6 +80,18 @@ export default function AboutPage() {
           </p>
         </section>
 
+        {/* Company Story */}
+        <section className="bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center" id="company-story">
+          <div className="lg:col-span-5 space-y-4">
+            <span className="text-[10px] text-primary font-bold uppercase tracking-widest">Our Roots</span>
+            <h2 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-tight text-dark">Company Story</h2>
+            <div className="w-12 h-1 bg-primary rounded" />
+          </div>
+          <div className="lg:col-span-7 text-xs md:text-sm text-slate-500 leading-relaxed font-sans">
+            <p>{cms.companyStory}</p>
+          </div>
+        </section>
+
         {/* Why Infinity Green Exists */}
         <section className="bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center" id="why-exists">
           <div className="lg:col-span-5 space-y-4">
@@ -82,13 +99,8 @@ export default function AboutPage() {
             <h2 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-tight text-dark">Why Infinity Green Exists</h2>
             <div className="w-12 h-1 bg-primary rounded" />
           </div>
-          <div className="lg:col-span-7 text-xs md:text-sm text-slate-500 space-y-4 leading-relaxed font-sans">
-            <p>
-              Heavy industries in India pay some of the highest grid tariffs globally. Default DISCOM networks are often inefficient, while navigating complex open access rules, group captive models, and grid synchronization compliance creates massive operational friction for factories.
-            </p>
-            <p>
-              Infinity Green exists to bridge this gap. We provide a transparent, neutral procurement marketplace where industrial consumers pool energy demand and source wheeled solar, wind, and hybrid power directly from vetted utility-scale developers.
-            </p>
+          <div className="lg:col-span-7 text-xs md:text-sm text-slate-500 leading-relaxed font-sans">
+            <p>{cms.whyExistsBody}</p>
           </div>
         </section>
 
@@ -98,7 +110,7 @@ export default function AboutPage() {
             <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary"><Milestone className="w-6 h-6" /></div>
             <h3 className="text-xl font-bold text-dark font-heading uppercase tracking-tight">Our Mission</h3>
             <p className="text-slate-500 text-xs md:text-sm font-sans leading-relaxed">
-              To strip away grid complexity and regulatory friction, allowing heavy Indian industries to transition to clean energy while improving operational profit margins and locking in tariff predictability.
+              {cms.mission}
             </p>
           </div>
 
@@ -106,7 +118,7 @@ export default function AboutPage() {
             <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary"><Lightbulb className="w-6 h-6" /></div>
             <h3 className="text-xl font-bold text-dark font-heading uppercase tracking-tight">Our Vision</h3>
             <p className="text-slate-500 text-xs md:text-sm font-sans leading-relaxed">
-              To manage over 5 GW of active commercial grid open access capacity by 2030, establishing Infinity Green as the ultimate B2B renewable matchmaker and load compliance dashboard for corporate India.
+              {cms.vision}
             </p>
           </div>
         </section>
@@ -114,30 +126,47 @@ export default function AboutPage() {
         {/* Founder Message */}
         <section id="founder" className="bg-slate-950 text-white rounded-3xl p-8 md:p-16 border border-slate-900 shadow-2xl relative overflow-hidden">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
-            <div className="lg:col-span-4 space-y-4 text-center lg:text-left">
+            <div className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left space-y-4">
               {/* Photo Area Placeholder */}
-              <div className="w-24 h-24 rounded-full bg-slate-800 border-2 border-primary/45 mx-auto lg:mx-0 flex items-center justify-center text-primary text-3xl font-bold font-heading font-black overflow-hidden">
-                <span className="text-xs uppercase tracking-widest text-slate-500">PHOTO</span>
+              <div className="w-36 h-36 rounded-full bg-slate-800 border-2 border-primary/45 flex items-center justify-center overflow-hidden text-slate-500 font-bold font-heading">
+                <span>PHOTO</span>
               </div>
               <div>
-                <h4 className="font-heading font-black text-lg uppercase tracking-tight text-white">Aditya Vardhan</h4>
-                <p className="text-primary font-bold text-xs uppercase tracking-wider">Founder & Executive Director</p>
+                <h4 className="font-heading font-black text-lg uppercase tracking-tight text-white leading-none">{cms.founderName}</h4>
+                <p className="text-primary font-bold text-xs uppercase tracking-wider block mt-1">{cms.founderDesignation}</p>
               </div>
             </div>
 
             {/* Message Area */}
             <div className="lg:col-span-8 space-y-6">
-              <span className="text-[10px] text-primary font-bold uppercase tracking-widest">Founder Message</span>
+              <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading bg-primary/10 px-3.5 py-1.5 rounded-full border border-primary/20">
+                Message From The Founder
+              </span>
               <h3 className="text-xl md:text-2xl font-black font-heading uppercase tracking-tight text-white leading-snug">
-                &ldquo;Indian manufacturing margins are heavily weighted by outdated power grids. Renewable open access isn&apos;t just about ESG compliance&mdash;it is a critical tool for survival and cash flow.&rdquo;
+                &ldquo;{cms.founderMessageQuote}&rdquo;
               </h3>
+              <p className="text-slate-400 text-xs md:text-sm leading-relaxed font-sans">
+                {cms.founderMessageBody}
+              </p>
               <p className="text-slate-400 text-xs md:text-sm leading-relaxed font-sans font-medium">
-                &ldquo;Our target is simple: we look at companies spending over ₹10 Lakhs monthly on power. By shifting their daytime capacity to solar wheeling and group captive setups, we bring direct margin relief. Infinity Green Energy serves as the technical advisor, grid matchmaker, and execution supervisor to guide your board through this critical transition.&rdquo;
+                <strong>Future Roadmap:</strong> 1. Expand direct trading analytics for group captive setups; 2. Automate state utility invoice audits; 3. Introduce hybrid wind-solar CUF blend predictors.
               </p>
             </div>
             
+          </div>
+        </section>
+
+        {/* Operating Model Section */}
+        <section className="bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center" id="operating-model">
+          <div className="lg:col-span-5 space-y-4">
+            <span className="text-[10px] text-primary font-bold uppercase tracking-widest">Agile Matrix</span>
+            <h2 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-tight text-dark">Operating Model</h2>
+            <div className="w-12 h-1 bg-primary rounded" />
+          </div>
+          <div className="lg:col-span-7 text-xs md:text-sm text-slate-500 leading-relaxed font-sans">
+            <p>{cms.companyStructure}</p>
           </div>
         </section>
 
