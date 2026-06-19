@@ -7,7 +7,6 @@ export default function AboutPage() {
   const [cms, setCms] = useState({
     companyStory: 'Founded with a vision to revolutionize B2B energy supply in India, Infinity Green Energy bridges the gap between bulk industrial consumers and independent green developers. Our journey started when we realized factories spend up to 40% of their operational expenses on energy tariffs without any transparent purchasing pathways.',
     mission: 'To strip away grid complexity and regulatory friction, allowing heavy Indian industries to transition to clean energy while improving operational profit margins and locking in tariff predictability.',
-    vision: 'To manage over 5 GW of active commercial grid open access capacity by 2030, establishing Infinity Green as the ultimate B2B renewable matchmaker and load compliance dashboard for corporate India.',
     whyExistsBody: 'Heavy industries in India pay some of the highest grid tariffs globally. Default DISCOM networks are often inefficient, while navigating complex open access rules, group captive models, and grid synchronization compliance creates massive operational friction for factories. Infinity Green exists to bridge this gap. We provide a transparent, neutral procurement marketplace where industrial consumers pool energy demand and source wheeled solar, wind, and hybrid power directly from vetted utility-scale developers.',
     companyStructure: 'Infinity Green Energy operates under a flat, agile organizational matrix designed to expedite regulatory analysis and engineering approvals. The organization is divided into three key pillars: 1. Regulatory Grid Advisory: Specialists in open-access grid code, state DISCOM rules, and PPA compliance; 2. Sourcing & Matchmaking Operations: Connecting developer nodes with consumer load profiles; 3. Long-Term Portfolio Desk: Auditing monthly wheeling invoices, grid compliance billing, and telemetry reports.'
   });
@@ -53,12 +52,7 @@ export default function AboutPage() {
     }
   ];
 
-  const milestones = [
-    { year: '2023', title: 'Platform Launch', desc: 'Introduced regional tariff auditing tools matching industrial clusters with private developers in southern states.' },
-    { year: '2024', title: 'Network Expansion', desc: 'Crossed 500 MW of managed PPA bidding volume across Tamil Nadu, Karnataka, and Gujarat.' },
-    { year: '2025', title: 'Smart Grid Integrations', desc: 'Rolled out digital load curve mapping algorithms matching wind-solar blending for 24/7 continuous process industries.' },
-    { year: '2026', title: 'Pan-India Footprint', desc: 'Direct operations in 18 states, optimizing power procurement for 42 manufacturing facilities and listing 1.8 GW+ IPP capacity.' }
-  ];
+
 
   return (
     <div className="bg-light min-h-screen text-dark py-24 px-4 sm:px-6 lg:px-8 font-sans">
@@ -100,21 +94,13 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Mission & Vision */}
-        <section id="mission" className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary"><Milestone className="w-6 h-6" /></div>
-            <h3 className="text-xl font-bold text-dark font-heading uppercase tracking-tight">Our Mission</h3>
-            <p className="text-slate-500 text-xs md:text-sm font-sans leading-relaxed">
+        {/* Mission Section */}
+        <section id="mission" className="max-w-4xl mx-auto">
+          <div className="bg-white p-8 md:p-12 rounded-3xl border border-slate-100 shadow-xl space-y-4 text-center">
+            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mx-auto"><Milestone className="w-6 h-6" /></div>
+            <h3 className="text-2xl font-bold text-dark font-heading uppercase tracking-tight">Our Mission</h3>
+            <p className="text-slate-500 text-sm md:text-base font-sans leading-relaxed max-w-2xl mx-auto">
               {cms.mission}
-            </p>
-          </div>
-
-          <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary"><Lightbulb className="w-6 h-6" /></div>
-            <h3 className="text-xl font-bold text-dark font-heading uppercase tracking-tight">Our Vision</h3>
-            <p className="text-slate-500 text-xs md:text-sm font-sans leading-relaxed">
-              {cms.vision}
             </p>
           </div>
         </section>

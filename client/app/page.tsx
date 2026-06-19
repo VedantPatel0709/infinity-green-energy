@@ -148,34 +148,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 1.7: COMPANY TIMELINE */}
-      <section className="py-16 bg-white border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">Corporate Timeline</span>
-            <h2 className="text-2xl md:text-4xl font-black font-heading text-dark uppercase tracking-tight">Our Growth Journey</h2>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pt-6 text-xs font-sans">
-            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-150 space-y-2 relative">
-              <span className="text-primary font-black font-heading text-base block">01 / Foundation</span>
-              <p className="text-slate-500 leading-relaxed text-[11px]">Establishing transactional registry principles and consulting models for B2B procurement advisory.</p>
-            </div>
-            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-150 space-y-2 relative">
-              <span className="text-primary font-black font-heading text-base block">02 / Market Expansion</span>
-              <p className="text-slate-500 leading-relaxed text-[11px]">Extending feasibility analysis mapping capabilities to major industrial zones in western/southern grids.</p>
-            </div>
-            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-150 space-y-2 relative">
-              <span className="text-primary font-black font-heading text-base block">03 / Platform Development</span>
-              <p className="text-slate-500 leading-relaxed text-[11px]">Digitizing load profiles and structuring automated proposal draft simulations for group captive contracts.</p>
-            </div>
-            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-150 space-y-2 relative">
-              <span className="text-primary font-black font-heading text-base block">04 / Nationwide Network</span>
-              <p className="text-slate-500 leading-relaxed text-[11px]">Enabling pan-India transaction verification registries bridging IPP nodes with corporate off-taker sites.</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* NEW SECTION 2: CORE PLATFORM ARCHITECTURE (Visual Concept) */}
       <section className="py-20 bg-white border-b border-slate-100">
