@@ -65,7 +65,7 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
-            <Link href="/contact?proposal=true" className="btn-primary py-2 px-5 text-xs font-bold uppercase tracking-wider">
+            <Link href="/request-proposal" className="btn-primary py-2 px-5 text-xs font-bold uppercase tracking-wider">
               Request Proposal
             </Link>
           </div>
@@ -97,7 +97,7 @@ const Navbar = () => {
           ))}
           <div className="pt-4">
             <Link 
-              href="/contact?proposal=true" 
+              href="/request-proposal" 
               onClick={() => setIsOpen(false)}
               className="btn-primary w-full py-3"
             >

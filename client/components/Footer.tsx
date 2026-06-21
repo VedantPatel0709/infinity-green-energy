@@ -102,11 +102,11 @@ const Footer = () => {
             <p className="text-xs text-slate-500">Structure power purchase agreements based on average industrial load profiles.</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 lg:justify-end">
-            <Link href="/contact?proposal=true" className="btn-primary py-2.5 px-5 text-xs font-bold whitespace-nowrap">
+            <Link href="/request-proposal" className="btn-primary py-2.5 px-5 text-xs font-bold whitespace-nowrap">
               Request Proposal <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <Link href="/contact" className="flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl border border-slate-700 hover:bg-slate-850 text-white font-bold text-xs transition-colors whitespace-nowrap">
-              Contact Advisory Team
+              Contact Us
             </Link>
           </div>
         </div>
