@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
 import LeadForm from '@/components/LeadForm';
-import { Mail, MapPin, Phone, MessageSquare, Clock } from 'lucide-react';
+import { Mail, MapPin, Phone, MessageSquare } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Book Energy Consultation | Infinity Green Energy',
-  description: 'Schedule a grid feasibility study or structural energy audit. Speak directly with our B2B open access planning desk.',
+  title: 'Request Proposal | Infinity Green Energy',
+  description: 'Submit your requirements and our team will review your renewable energy sourcing feasibility study.',
   openGraph: {
-    title: 'Book Energy Consultation | Infinity Green Energy',
+    title: 'Request Proposal | Infinity Green Energy',
     description: 'Get in touch with our industrial power procurement desk.',
     url: 'https://infinitygreenenergy.com/contact',
     type: 'website'
@@ -24,38 +24,41 @@ export default function ContactPage() {
             Corporate RFP Advisory
           </span>
           <h1 className="text-4xl md:text-6xl font-black text-dark font-heading mt-4 mb-6 uppercase tracking-tight">
-            BOOK CONSULTATION
+            Request Proposal
           </h1>
           <p className="text-slate-500 text-sm md:text-base">
-            Ready to structure your power purchase agreement? Submit your tariff details below to request a complete feasibility audit.
+            Submit your requirements and our team will review your renewable energy sourcing opportunity.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          {/* Info Details */}
+          {/* General Contact Information Section */}
           <div className="lg:col-span-4 space-y-6">
             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl space-y-6">
+              <h3 className="text-lg font-bold font-heading text-dark border-b border-slate-100 pb-3 uppercase tracking-wider text-[11px]">
+                Contact Information
+              </h3>
               
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-primary/10 rounded-xl text-primary"><Phone className="w-5 h-5" /></div>
                 <div>
-                  <h4 className="text-dark font-bold font-heading text-xs uppercase tracking-wider">Call Grid Desk</h4>
-                  <p className="text-slate-500 text-xs md:text-sm font-sans font-semibold">+91 98765 43210</p>
+                  <h4 className="text-slate-400 font-bold font-heading text-[10px] uppercase tracking-wider">Contact Number</h4>
+                  <p className="text-dark text-xs md:text-sm font-sans font-semibold">+91 98765 43210</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-primary/10 rounded-xl text-primary"><Mail className="w-5 h-5" /></div>
                 <div>
-                  <h4 className="text-dark font-bold font-heading text-xs uppercase tracking-wider">Corporate Proposals</h4>
-                  <p className="text-slate-500 text-xs md:text-sm font-sans font-semibold">proposals@infinitygreen.com</p>
+                  <h4 className="text-slate-400 font-bold font-heading text-[10px] uppercase tracking-wider">Corporate Email</h4>
+                  <p className="text-dark text-xs md:text-sm font-sans font-semibold">proposals@infinitygreen.com</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-primary/10 rounded-xl text-[#25D366] bg-[#25D366]/10"><MessageSquare className="w-5 h-5" /></div>
+                <div className="p-3 bg-[#25D366]/10 rounded-xl text-[#25D366]"><MessageSquare className="w-5 h-5" /></div>
                 <div>
-                  <h4 className="text-dark font-bold font-heading text-xs uppercase tracking-wider">WhatsApp Advisory</h4>
+                  <h4 className="text-slate-400 font-bold font-heading text-[10px] uppercase tracking-wider">WhatsApp</h4>
                   <a 
                     href="https://wa.me/919876543210" 
                     target="_blank" 
@@ -70,40 +73,27 @@ export default function ContactPage() {
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-primary/10 rounded-xl text-primary"><MapPin className="w-5 h-5" /></div>
                 <div>
-                  <h4 className="text-dark font-bold font-heading text-xs uppercase tracking-wider">HQ Address Placeholder</h4>
-                  <p className="text-slate-500 text-xs leading-normal font-sans">Awaiting Corporate Office Setup, Mumbai, India</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
-                <div className="p-3 bg-primary/10 rounded-xl text-primary"><Clock className="w-5 h-5" /></div>
-                <div>
-                  <h4 className="text-dark font-bold font-heading text-xs uppercase tracking-wider">Trading Desk Hours</h4>
-                  <p className="text-slate-500 text-xs font-sans">Mon - Fri: 9:00 AM - 6:00 PM IST</p>
+                  <h4 className="text-slate-400 font-bold font-heading text-[10px] uppercase tracking-wider">Office Address</h4>
+                  <p className="text-dark text-xs leading-normal font-sans font-semibold">Awaiting Corporate Office Setup, Mumbai, India</p>
                 </div>
               </div>
 
             </div>
 
-            {/* Google Maps Placeholder */}
-            <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-              <h4 className="text-dark font-bold font-heading text-xs uppercase tracking-wider">Office Location Map</h4>
-              <div className="h-48 bg-slate-100 rounded-2xl flex items-center justify-center border border-slate-200 relative overflow-hidden group">
-                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#0D7A5F_2px,transparent_2px)] [background-size:16px_16px]" />
-                <div className="text-center space-y-2 relative z-10">
-                  <MapPin className="w-6 h-6 text-primary mx-auto animate-bounce" />
-                  <span className="text-[10px] font-bold text-dark uppercase tracking-wider block">Google Maps Placeholder</span>
-                  <span className="text-[9px] text-slate-400 block font-sans">Interactive map will render after office location finalization.</span>
-                </div>
-                <div className="absolute bottom-2 right-2 flex gap-1 text-[9px] font-bold uppercase tracking-wider bg-white/80 border border-slate-200 rounded px-1.5 py-0.5">
-                  <span>Zoom: 15x</span>
-                </div>
+            {/* Visual branding container */}
+            <div className="bg-slate-900 text-white p-8 rounded-3xl border border-slate-800 shadow-xl relative overflow-hidden">
+              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#0D7A5F_2px,transparent_2px)] [background-size:16px_16px]" />
+              <div className="relative z-10 space-y-4">
+                <h4 className="text-xs font-bold font-heading uppercase tracking-wider text-primary">Feasibility Audits</h4>
+                <p className="text-[11px] text-slate-350 leading-relaxed font-sans">
+                  Infinity Green operates as a neutral matchmaker. Feasibility audits structure load curve requirements against actual open access availability across state grids.
+                </p>
               </div>
             </div>
 
           </div>
 
-          {/* Form */}
+          {/* Business Proposal Request Form */}
           <div className="lg:col-span-8">
             <LeadForm />
           </div>

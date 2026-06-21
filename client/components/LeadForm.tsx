@@ -1,13 +1,14 @@
 'use client';
 import React, { useState } from 'react';
 import { api } from '@/services/api'; 
-import { CheckCircle2, Loader2, ArrowRight, Calendar, FileSpreadsheet } from 'lucide-react';
+import { CheckCircle2, Loader2, ArrowRight } from 'lucide-react';
 
 /**
  * LeadForm Component - Connected to Backend API
+ * Request Proposal Form Only
  */
 const LeadForm = () => {
-  const [formType, setFormType] = useState<'proposal' | 'consultation'>('proposal');
+  const formType = 'proposal';
   const [formData, setFormData] = useState({ 
     name: '', 
     designation: '',
@@ -29,7 +30,6 @@ const LeadForm = () => {
     setError('');
     
     try {
-      // Create local leads state simulation fallback if API fails
       await api.post('/leads', {
         ...formData,
         formType,
@@ -38,7 +38,6 @@ const LeadForm = () => {
       setSuccess(true);
       setFormData({ name: '', designation: '', email: '', phone: '', company: '', industry: '', state: '', bill: '', message: '' });
     } catch (err: any) {
-      // Fallback local lead saving simulation
       console.log('API failed, simulating successful local lead registration:', err);
       const simulatedLeads = JSON.parse(localStorage.getItem('admin_leads') || '[]');
       const newLead = {
@@ -66,12 +65,10 @@ const LeadForm = () => {
         </div>
         <div>
           <h3 className="text-2xl font-bold font-heading text-dark">
-            {formType === 'proposal' ? 'Proposal Request Received' : 'Consultation Booked'}
+            Proposal Request Received
           </h3>
           <p className="text-slate-500 mt-2 text-sm">
-            {formType === 'proposal' 
-              ? 'Our enterprise energy consultants will reach out with a detailed feasibility breakdown within 24 hours.' 
-              : 'Our trading desk managers will call you to lock in a consultation calendar slot.'}
+            Our enterprise energy consultants will reach out with a detailed feasibility breakdown within 24 hours.
           </p>
         </div>
         <button 
@@ -86,36 +83,12 @@ const LeadForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-8 md:p-10 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-6 relative">
-      {/* Dynamic CTA toggle tabs */}
-      <div className="flex bg-slate-50 p-1 rounded-xl border border-slate-200/50 max-w-sm">
-        <button
-          type="button"
-          onClick={() => setFormType('proposal')}
-          className={`flex-1 py-2 rounded-lg text-xs font-bold font-heading flex items-center justify-center gap-1.5 transition-all ${
-            formType === 'proposal' ? 'bg-primary text-white shadow' : 'text-slate-500 hover:text-dark'
-          }`}
-        >
-          <FileSpreadsheet className="w-3.5 h-3.5" /> Request Proposal
-        </button>
-        <button
-          type="button"
-          onClick={() => setFormType('consultation')}
-          className={`flex-1 py-2 rounded-lg text-xs font-bold font-heading flex items-center justify-center gap-1.5 transition-all ${
-            formType === 'consultation' ? 'bg-primary text-white shadow' : 'text-slate-500 hover:text-dark'
-          }`}
-        >
-          <Calendar className="w-3.5 h-3.5" /> Book Consultation
-        </button>
-      </div>
-
       <div>
         <h3 className="text-xl font-bold font-heading text-dark mb-1">
-          {formType === 'proposal' ? 'Request Sourcing Proposal' : 'Book Energy Consultation'}
+          Request Sourcing Proposal
         </h3>
         <p className="text-xs text-slate-500">
-          {formType === 'proposal' 
-            ? 'Provide specifications to run a grid tariff and open access feasibility analysis.' 
-            : 'Schedule a call with our technical advisory team to optimize load profiles.'}
+          Provide specifications to run a grid tariff and open access feasibility analysis.
         </p>
       </div>
 
@@ -251,9 +224,7 @@ const LeadForm = () => {
         type="submit" 
         className="btn-primary w-full py-4 text-base flex items-center justify-center gap-2"
       >
-        {loading ? <Loader2 className="animate-spin text-white" /> : (
-          formType === 'proposal' ? 'Request Feasibility Proposal' : 'Book Free Energy Consultation'
-        )}
+        {loading ? <Loader2 className="animate-spin text-white" /> : 'Request Feasibility Proposal'}
       </button>
     </form>
   );
