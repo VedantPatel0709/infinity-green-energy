@@ -77,7 +77,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">Why Infinity Green Energy</span>
+            <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">Why Choose Infinity Green Energy</span>
             <h2 className="text-2xl md:text-4xl font-black font-heading text-white uppercase tracking-tight">Enterprise Consulting Framework</h2>
             <p className="text-slate-400 text-xs md:text-sm">
               Independent advisory structuring procurement corridors and regulatory compliance registries.
@@ -89,7 +89,7 @@ export default function HomePage() {
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                 <Compass className="w-5 h-5" />
               </div>
-              <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Vendor Neutral Advisory</h4>
+              <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Independent Renewable Energy Advisory</h4>
               <p className="text-slate-400 text-[11px] leading-relaxed">No asset ownership in projects, ensuring unbiased feasibility analysis for optimal PPA generation.</p>
             </div>
 
@@ -105,16 +105,8 @@ export default function HomePage() {
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                 <Globe2 className="w-5 h-5" />
               </div>
-              <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Industrial Renewable Procurement</h4>
-              <p className="text-slate-400 text-[11px] leading-relaxed">Blended hybrid profiles, onshore wind wheeling, and commercial rooftop solar matching continuous factory loads.</p>
-            </div>
-
-            <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 hover:border-primary/45 transition-all space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                <Factory className="w-5 h-5" />
-              </div>
-              <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Pan India Network</h4>
-              <p className="text-slate-400 text-[11px] leading-relaxed">Connecting energy loads with regional transmission networks in Gujarat, Tamil Nadu, and Karnataka.</p>
+              <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Pan-India Industrial Network</h4>
+              <p className="text-slate-400 text-[11px] leading-relaxed">Connecting energy loads with regional transmission networks and verified marketplace nodes across major industrial hubs.</p>
             </div>
 
             <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 hover:border-primary/45 transition-all space-y-3">
@@ -129,12 +121,20 @@ export default function HomePage() {
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                 <Milestone className="w-5 h-5" />
               </div>
-              <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">End-to-End Execution Support</h4>
+              <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">End-to-End Renewable Energy Support</h4>
               <p className="text-slate-400 text-[11px] leading-relaxed">Guiding corporate boards from initial load curve modeling to grid synchronization NOC clearances.</p>
+            </div>
+
+            <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 hover:border-primary/45 transition-all space-y-3">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                <Factory className="w-5 h-5" />
+              </div>
+              <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Commercial & Industrial Energy Specialists</h4>
+              <p className="text-slate-400 text-[11px] leading-relaxed">Custom energy cost reductions structured specifically for chemical, manufacturing, textiles, and pharma units.</p>
             </div>
           </div>
 
-          {/* Trust & Compliance Section */}
+          {/* Trust & Compliance Registry */}
           <div className="pt-8 border-t border-slate-800 space-y-4 text-center">
             <span className="text-slate-500 text-[10px] uppercase font-bold tracking-widest block">Trust & Compliance Registry</span>
             <div className="flex flex-wrap items-center justify-center gap-4 text-[9px] uppercase font-bold tracking-wider text-slate-400">
@@ -287,7 +287,7 @@ export default function HomePage() {
             <div className="bg-slate-50 p-8 rounded-3xl border border-slate-150 space-y-6">
               <div className="flex items-center gap-3">
                 <span className="text-xl">☀️</span>
-                <h3 className="font-heading font-black text-dark text-base uppercase">Sample Energy Producers (IPPs)</h3>
+                <h3 className="font-heading font-black text-dark text-base uppercase">Producer Marketplace</h3>
               </div>
               <div className="space-y-4">
                 {networkProducers.map((p, idx) => (
@@ -309,7 +309,7 @@ export default function HomePage() {
             <div className="bg-slate-50 p-8 rounded-3xl border border-slate-155 space-y-6">
               <div className="flex items-center gap-3">
                 <span className="text-xl">🏭</span>
-                <h3 className="font-heading font-black text-dark text-base uppercase">Sample Industrial Consumers</h3>
+                <h3 className="font-heading font-black text-dark text-base uppercase">Consumer Marketplace</h3>
               </div>
               <div className="space-y-4">
                 {networkConsumers.map((c, idx) => (

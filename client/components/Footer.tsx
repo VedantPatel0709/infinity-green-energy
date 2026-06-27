@@ -69,16 +69,17 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Resources Column */}
+          {/* Ecosystem Column */}
           <div>
             <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-wider mb-5">
-              Resources
+              Ecosystem
             </h4>
             <ul className="space-y-3 text-xs font-sans">
-              <li><Link href="/case-studies" className="hover:text-primary transition-colors">Case Studies</Link></li>
-              <li><Link href="/faqs" className="hover:text-primary transition-colors">FAQs Directory</Link></li>
               <li><Link href="/industry-network" className="hover:text-primary transition-colors">Industry Network</Link></li>
               <li><Link href="/knowledge-center" className="hover:text-primary transition-colors">Knowledge Center</Link></li>
+              <li><Link href="/insights" className="hover:text-primary transition-colors">Insights</Link></li>
+              <li><Link href="/faqs" className="hover:text-primary transition-colors">FAQs</Link></li>
+              <li><Link href="/request-proposal" className="hover:text-primary transition-colors">Request Proposal</Link></li>
             </ul>
           </div>
 
