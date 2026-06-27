@@ -4,17 +4,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://infinitygreenenergy.com';
   const routes = [
     '',
-    '/services',
+    '/solutions',
     '/calculator',
-    '/contact',
-    '/dashboard',
     '/about',
-    '/blog',
+    '/about/team',
     '/case-studies',
     '/faqs',
-    '/industries',
-    '/guides',
+    '/industry-network',
+    '/insights',
     '/knowledge-center',
+    '/request-proposal',
   ];
 
   return routes.map((route) => ({

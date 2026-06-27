@@ -124,7 +124,7 @@ export default function SolutionsPage() {
                   <p className="text-xs font-bold text-slate-800">{sol.savings}</p>
                 </div>
                 <div className="pt-4">
-                  <Link href={`/contact?proposal=true&solution=${sol.id}`} className="btn-primary py-2.5 text-xs font-bold uppercase tracking-wider inline-flex w-full justify-center">
+                  <Link href={`/request-proposal?solution=${sol.id}`} className="btn-primary py-2.5 text-xs font-bold uppercase tracking-wider inline-flex w-full justify-center">
                     Request {sol.title} Audit
                   </Link>
                 </div>
@@ -170,7 +170,7 @@ export default function SolutionsPage() {
               We analyze your state grid parameters and operational load curves to identify the optimal mix of Open Access, Solar, and Wind capacity.
             </p>
             <div className="pt-6 flex flex-col sm:flex-row justify-center gap-4">
-              <Link href="/contact?proposal=true" className="btn-primary">
+              <Link href="/request-proposal" className="btn-primary">
                 Request Proposal
               </Link>
               <Link href="/industry-network" className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl border border-slate-800 hover:bg-slate-900 text-white font-semibold transition-all duration-300 font-heading text-xs uppercase tracking-wider">

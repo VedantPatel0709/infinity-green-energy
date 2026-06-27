@@ -515,8 +515,8 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchLeads = async () => {
       try {
-        const { data } = await api.get('/leads');
-        setLeads(data);
+        const data = await api.get('/leads');
+        setLeads(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error('Error fetching leads:', err);
       }

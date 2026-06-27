@@ -52,17 +52,17 @@ export default function HomePage() {
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-primary font-bold text-[10px] tracking-widest uppercase">
-            <Zap className="w-3.5 h-3.5 fill-primary" /> B2B Renewable Energy Marketplace
+            <Zap className="w-3.5 h-3.5 fill-primary" /> B2B Renewable Energy Advisory & Procurement
           </span>
           <h1 className="text-4xl md:text-7xl font-black font-heading leading-tight uppercase max-w-5xl mx-auto tracking-tight text-white">
             SMARTER ENERGY.<br />
             <span className="text-primary">GREATER SAVINGS.</span>
           </h1>
           <p className="max-w-3xl mx-auto text-slate-400 text-sm md:text-base leading-relaxed">
-            A specialized Renewable Energy Procurement & Marketplace Platform connecting Energy Producers and Industrial Consumers across India.
+            Specialized Industrial Renewable Energy Procurement, Open Access Advisory, Group Captive Solutions, and Commercial & Industrial Energy Optimization across India.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
-            <Link href="/contact?proposal=true" className="btn-primary py-4 px-8 text-sm font-bold uppercase tracking-wider w-full sm:w-auto">
+            <Link href="/request-proposal" className="btn-primary py-4 px-8 text-sm font-bold uppercase tracking-wider w-full sm:w-auto">
               Request Sourcing Proposal
             </Link>
             <Link href="/solutions" className="flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-850 text-white font-semibold transition-all duration-300 w-full sm:w-auto font-heading text-sm hover:border-slate-700">

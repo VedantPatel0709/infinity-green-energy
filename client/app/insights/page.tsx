@@ -225,7 +225,7 @@ export default function InsightsPage() {
               <div className="lg:col-span-4 bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-center text-center space-y-4">
                 <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block">Knowledge Desk</span>
                 <p className="text-xs text-slate-300">Detailed compliance guides, cost audits, and contract templates.</p>
-                <Link href="/contact" className="btn-primary py-2.5 text-xs">Request Feasibility Proposal</Link>
+                <Link href="/request-proposal" className="btn-primary py-2.5 text-xs">Request Feasibility Proposal</Link>
               </div>
             </div>
           </div>

@@ -25,14 +25,14 @@ const Hero = () => {
         </h1>
         
         <p className="max-w-3xl mx-auto text-slate-400 text-lg md:text-xl mb-12 leading-relaxed font-sans">
-          Helping businesses reduce electricity costs through renewable energy procurement, industrial solar solutions, open access power, and energy optimization.
+          Industrial Renewable Energy Procurement & Open Access advisory platform. We optimize commercial and industrial energy supply across India through hybrid, wind, and captive solar sourcing.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link href="#contact" className="btn-primary px-8 py-4 text-base w-full sm:w-auto">
-            Schedule Consultation
+          <Link href="/request-proposal" className="btn-primary px-8 py-4 text-base w-full sm:w-auto">
+            Request Proposal
           </Link>
-          <Link href="/services" className="flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-slate-700 bg-slate-850 hover:bg-slate-800 text-white font-semibold hover:border-slate-600 transition-all duration-300 w-full sm:w-auto font-heading">
+          <Link href="/solutions" className="flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-slate-700 bg-slate-850 hover:bg-slate-800 text-white font-semibold hover:border-slate-600 transition-all duration-300 w-full sm:w-auto font-heading">
             Explore Solutions
           </Link>
         </div>

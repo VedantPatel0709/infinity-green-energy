@@ -400,9 +400,9 @@ export default function IndustryNetworkPage() {
                 </div>
               </div>
 
-              <div className="pt-4 flex gap-4">
+              <div className="pt-4">
                 <Link 
-                  href={`/contact?proposal=true&node=${selectedProfile.id}`}
+                  href={`/request-proposal?node=${selectedProfile.id}`}
                   onClick={() => setSelectedProfile(null)}
                   className="btn-primary w-full text-xs font-bold uppercase tracking-widest py-3 text-center"
                 >

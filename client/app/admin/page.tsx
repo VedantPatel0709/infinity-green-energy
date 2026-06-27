@@ -718,34 +718,34 @@ export default function AdminPage() {
           <div className="p-6 md:p-8 flex-1 overflow-y-auto space-y-8">
             
             {/* KPI Cards Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4 text-center">
               <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                 <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Users</span>
-                <span className="text-[10px] font-black text-slate-450 mt-2 block uppercase font-mono tracking-tight text-slate-400">AWAITING SYNC</span>
+                <span className="text-[10px] font-black text-amber-500 mt-2 block uppercase font-mono tracking-tight">Awaiting Backend Synchronization</span>
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                 <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Consumers</span>
-                <span className="text-[10px] font-black text-slate-450 mt-2 block uppercase font-mono tracking-tight text-slate-400">AWAITING SYNC</span>
+                <span className="text-[10px] font-black text-amber-500 mt-2 block uppercase font-mono tracking-tight">Awaiting Backend Synchronization</span>
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                 <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Producers</span>
-                <span className="text-[10px] font-black text-slate-450 mt-2 block uppercase font-mono tracking-tight text-slate-400">AWAITING SYNC</span>
+                <span className="text-[10px] font-black text-amber-500 mt-2 block uppercase font-mono tracking-tight">Awaiting Backend Synchronization</span>
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                 <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Energy Listings</span>
-                <span className="text-[10px] font-black text-slate-450 mt-2 block uppercase font-mono tracking-tight text-slate-400">AWAITING SYNC</span>
+                <span className="text-[10px] font-black text-amber-500 mt-2 block uppercase font-mono tracking-tight">Awaiting Backend Synchronization</span>
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                 <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Buyer RFPs</span>
-                <span className="text-[10px] font-black text-slate-450 mt-2 block uppercase font-mono tracking-tight text-slate-400">AWAITING SYNC</span>
+                <span className="text-[10px] font-black text-amber-500 mt-2 block uppercase font-mono tracking-tight">Awaiting Backend Synchronization</span>
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                 <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Consultations</span>
-                <span className="text-[10px] font-black text-slate-450 mt-2 block uppercase font-mono tracking-tight text-slate-400">AWAITING SYNC</span>
+                <span className="text-[10px] font-black text-amber-500 mt-2 block uppercase font-mono tracking-tight">Awaiting Backend Synchronization</span>
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                 <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Revenue Pipeline</span>
-                <span className="text-[10px] font-black text-slate-450 mt-2 block uppercase font-mono tracking-tight text-slate-400">AWAITING SYNC</span>
+                <span className="text-[10px] font-black text-amber-500 mt-2 block uppercase font-mono tracking-tight">Awaiting Backend Synchronization</span>
               </div>
             </div>
 

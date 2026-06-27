@@ -124,8 +124,22 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800/60 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-500 font-sans">
-          <p>© {new Date().getFullYear()} Infinity Green Energy Pvt Ltd. All rights reserved.</p>
-          <div className="flex space-x-6">
+          <p>© {new Date().getFullYear()} Infinity Green Energy. All rights reserved.</p>
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 text-slate-400">
+            <span className="flex items-center gap-1.5">
+              <Mail className="w-3.5 h-3.5 text-primary" />
+              <a href="mailto:madhav@infinitygreen-energy.com" className="hover:text-white transition-colors">madhav@infinitygreen-energy.com</a>
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Phone className="w-3.5 h-3.5 text-primary" />
+              <a href="tel:+916355596149" className="hover:text-white transition-colors">+91 6355 596 149</a>
+            </span>
+            <span className="flex items-center gap-1.5 text-center md:text-left">
+              <MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
+              <span>392, Makarpur GIDC, Makarpura, Vadodara, Gujarat</span>
+            </span>
+          </div>
+          <div className="flex space-x-6 shrink-0">
             <Link href="/privacy-policy" className="hover:text-slate-400">Privacy Policy</Link>
             <Link href="/terms-of-service" className="hover:text-slate-400">Terms of Service</Link>
             <Link href="/disclaimer" className="hover:text-slate-400">Disclaimer</Link>

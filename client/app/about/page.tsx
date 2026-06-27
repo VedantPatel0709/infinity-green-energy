@@ -119,6 +119,34 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* Corporate Address & Contact Details */}
+        <section className="bg-slate-900 text-white rounded-3xl p-8 md:p-12 border border-slate-800 shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-start" id="corporate-contact">
+          <div className="space-y-4">
+            <span className="text-[10px] text-primary font-bold uppercase tracking-widest">Headquarters</span>
+            <h2 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-tight">Office & Contacts</h2>
+            <div className="w-12 h-1 bg-primary rounded" />
+            <p className="text-slate-400 text-xs md:text-sm leading-relaxed max-w-sm">
+              Connect directly with our corporate advisory operations desk in Vadodara.
+            </p>
+          </div>
+          <div className="space-y-6 text-xs md:text-sm text-slate-350">
+            <div className="space-y-1">
+              <span className="text-slate-500 text-[10px] uppercase font-bold tracking-widest block">Office Address</span>
+              <p className="font-semibold text-white">392, Makarpur GIDC, Makarpura, Vadodara, Gujarat</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <span className="text-slate-500 text-[10px] uppercase font-bold tracking-widest block">Official Email</span>
+                <a href="mailto:madhav@infinitygreen-energy.com" className="text-primary font-semibold hover:underline">madhav@infinitygreen-energy.com</a>
+              </div>
+              <div className="space-y-1">
+                <span className="text-slate-500 text-[10px] uppercase font-bold tracking-widest block">Official Phone</span>
+                <a href="tel:+916355596149" className="text-primary font-semibold hover:underline">+91 6355 596 149</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Company Values */}
         <section className="space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-2">
