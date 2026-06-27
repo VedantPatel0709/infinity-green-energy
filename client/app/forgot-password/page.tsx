@@ -1,8 +1,10 @@
 'use client';
+
 import { useState } from 'react';
 import Link from 'next/link';
-import { Mail, ArrowLeft, ShieldCheck } from 'lucide-react';
-import { api } from '@/services/api';
+import { Mail, ArrowLeft, ShieldCheck, Loader2 } from 'lucide-react';
+import { forgotPassword } from '@/src/services/auth.service';
+import { toast } from 'react-hot-toast';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -13,12 +15,12 @@ export default function ForgotPasswordPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res: any = await api.post('/users/forgot-password', { email });
+      await forgotPassword(email);
       setSubmitted(true);
-      alert(res.message || 'Reset link logged to terminal console successfully! 🔑');
+      toast.success('Reset email sent successfully!');
     } catch (err: any) {
       console.error(err);
-      alert(err.message || 'Password reset request failed. ❌');
+      toast.error(err.message || 'Password reset request failed.');
     } finally {
       setLoading(false);
     }
@@ -73,8 +75,8 @@ export default function ForgotPasswordPage() {
             </div>
           </div>
 
-          <button disabled={loading} className="btn-primary w-full py-4 text-sm font-bold">
-            {loading ? 'Transmitting Key...' : 'Request Secure Reset Key'}
+          <button disabled={loading} className="btn-primary w-full py-4 text-sm font-bold flex items-center justify-center gap-2">
+            {loading ? <Loader2 className="w-4 h-4 animate-spin text-white" /> : 'Request Secure Reset Key'}
           </button>
         </form>
 

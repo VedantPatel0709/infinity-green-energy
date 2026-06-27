@@ -14,6 +14,16 @@ export default function KnowledgeCenterPage() {
     { id: 'insights', label: 'Industry Insights', icon: Lightbulb },
   ];
 
+  const getTabTitle = () => {
+    switch (activeTab) {
+      case 'articles': return 'Article Coming Soon';
+      case 'reports': return 'Report Coming Soon';
+      case 'regulatory': return 'Regulatory Update Coming Soon';
+      case 'insights': return 'Industry Insight Coming Soon';
+      default: return 'Content Coming Soon';
+    }
+  };
+
   return (
     <div className="bg-light min-h-screen text-dark font-sans py-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
@@ -88,7 +98,7 @@ export default function KnowledgeCenterPage() {
                     Resource Placeholder
                   </span>
                   <h3 className="font-heading font-black text-dark text-base uppercase tracking-tight leading-snug">
-                    Article Coming Soon
+                    {getTabTitle()}
                   </h3>
                   <p className="text-slate-450 text-[11px] leading-relaxed font-sans">
                     Detailed publications regarding grid compliance modeling and spot tariffs are currently undergoing editorial check.

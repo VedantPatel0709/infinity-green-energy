@@ -27,6 +27,21 @@ const Footer = () => {
             <p className="text-xs text-slate-500 leading-relaxed max-w-sm">
               Infinity Green Energy helps industrial and commercial power consumers optimize energy procurement through renewable sourcing, open access advisory, and long-term cost reduction strategies.
             </p>
+            <div className="space-y-2 pt-2">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-slate-500 block">Newsletter</span>
+              <div className="flex bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-1 max-w-xs">
+                <input 
+                  type="email" 
+                  placeholder="Enter corporate email" 
+                  disabled 
+                  className="bg-transparent border-0 text-[10px] text-slate-400 px-2 py-1.5 focus:outline-none w-full cursor-not-allowed" 
+                />
+                <button disabled className="bg-slate-800 text-[10px] text-slate-500 font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg whitespace-nowrap cursor-not-allowed">
+                  Join
+                </button>
+              </div>
+              <span className="text-[9px] text-slate-500 font-medium block">Newsletter Subscription Coming Soon</span>
+            </div>
           </div>
 
           {/* Company Column */}
@@ -38,7 +53,6 @@ const Footer = () => {
               <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
               <li><Link href="/about/team" className="hover:text-primary transition-colors">Team</Link></li>
               <li><Link href="/careers" className="hover:text-primary transition-colors">Careers</Link></li>
-              <li><Link href="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
             </ul>
           </div>
 
@@ -104,9 +118,6 @@ const Footer = () => {
           <div className="flex flex-col sm:flex-row gap-3 lg:justify-end">
             <Link href="/request-proposal" className="btn-primary py-2.5 px-5 text-xs font-bold whitespace-nowrap">
               Request Proposal <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-            <Link href="/contact" className="flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl border border-slate-700 hover:bg-slate-850 text-white font-bold text-xs transition-colors whitespace-nowrap">
-              Contact Us
             </Link>
           </div>
         </div>

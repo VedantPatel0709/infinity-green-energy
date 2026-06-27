@@ -7,7 +7,7 @@ import {
   Zap, ArrowRight, CheckCircle2, Shield, Users, 
   MessageSquare, Phone, Mail, Award, Landmark, ChevronRight, Globe2, Building2, Milestone, Lightbulb, Compass, Factory, BarChart3, HelpCircle
 } from 'lucide-react';
-import LeadForm from '@/components/LeadForm';
+import ProposalForm from '@/components/ProposalForm';
 
 export default function HomePage() {
   const router = useRouter();
@@ -265,7 +265,7 @@ export default function HomePage() {
                   <h4 className="font-heading font-black text-dark text-sm uppercase tracking-tight mb-2">{ind.name}</h4>
                   <p className="text-slate-500 text-xs leading-relaxed font-sans">{ind.desc}</p>
                 </div>
-                <Link href="/contact" className="text-primary text-xs font-bold font-heading flex items-center gap-1 mt-6 group-hover:translate-x-1 transition-transform">
+                <Link href="/request-proposal" className="text-primary text-xs font-bold font-heading flex items-center gap-1 mt-6 group-hover:translate-x-1 transition-transform">
                   Initiate Sourcing <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
@@ -346,7 +346,7 @@ export default function HomePage() {
           </div>
 
           <div className="lg:col-span-7">
-            <LeadForm />
+            <ProposalForm />
           </div>
         </div>
       </section>

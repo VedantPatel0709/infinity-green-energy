@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { api } from '@/services/api';
+import { createLead } from '@/src/services/lead.service';
 import { CheckCircle2, Loader2, ArrowRight } from 'lucide-react';
 
 const ProposalForm = () => {
@@ -55,7 +55,7 @@ const ProposalForm = () => {
     };
 
     try {
-      await api.post('/leads', requestData);
+      await createLead(requestData);
       setSuccess(true);
       setFormData({
         company: '',
@@ -71,31 +71,8 @@ const ProposalForm = () => {
         notes: ''
       });
     } catch (err: any) {
-      console.log('API failed, simulating successful lead submission:', err);
-      const simulatedLeads = JSON.parse(localStorage.getItem('admin_leads') || '[]');
-      const newLead = {
-        id: `lead-${Date.now()}`,
-        ...requestData,
-        formType: 'proposal',
-        createdAt: new Date().toISOString(),
-        status: 'Pending Assignment'
-      };
-      simulatedLeads.push(newLead);
-      localStorage.setItem('admin_leads', JSON.stringify(simulatedLeads));
-      setSuccess(true);
-      setFormData({
-        company: '',
-        industry: '',
-        name: '',
-        designation: '',
-        email: '',
-        phone: '',
-        state: '',
-        billRange: '',
-        connectedLoad: '',
-        requirement: '',
-        notes: ''
-      });
+      console.error(err);
+      setError(err.message || 'Submission failed. Please check grid connections.');
     } finally {
       setLoading(false);
     }

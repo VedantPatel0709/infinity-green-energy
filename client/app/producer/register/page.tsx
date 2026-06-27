@@ -2,30 +2,56 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, UserPlus, Info, Upload, CheckCircle2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ArrowLeft, UserPlus, Info, Upload, Loader2 } from 'lucide-react';
+import { registerProducer } from '@/src/services/auth.service';
+import { toast } from 'react-hot-toast';
 
 export default function ProducerRegisterPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     companyName: '',
     contactPerson: '',
     email: '',
     phone: '',
+    password: '',
     technology: 'Solar PV',
     installedCapacity: '',
     state: 'Gujarat',
     description: '',
   });
 
-  const [fileName, setFileName] = useState<string | null>(null);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFileName(e.target.files[0].name);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      await registerProducer({
+        email: formData.email,
+        password: formData.password,
+        fullName: formData.contactPerson,
+        phone: formData.phone,
+        companyName: formData.companyName,
+        technology: formData.technology,
+        capacityMw: formData.installedCapacity,
+        state: formData.state,
+        description: formData.description,
+        contactPerson: formData.contactPerson
+      });
+
+      toast.success('Generator Node registration successful!');
+      router.push('/login');
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.message || 'Registration failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,7 +82,7 @@ export default function ProducerRegisterPage() {
           </div>
 
           {/* Form */}
-          <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-5" onSubmit={handleSubmit}>
             
             {/* Company Name */}
             <div className="space-y-1.5">
@@ -130,6 +156,20 @@ export default function ProducerRegisterPage() {
               </div>
             </div>
 
+            {/* Password */}
+            <div className="space-y-1.5">
+              <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500 block">Password</label>
+              <input 
+                type="password" 
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                placeholder="Secure account password" 
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-dark focus:outline-none focus:border-primary transition-colors"
+                required 
+              />
+            </div>
+
             {/* Capacity & State Row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
@@ -176,59 +216,13 @@ export default function ProducerRegisterPage() {
               />
             </div>
 
-            {/* Document Placeholders */}
-            <div className="space-y-3 pt-2">
-              <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500 block">Required Asset Documents</label>
-              
-              {/* GST Certificate */}
-              <div className="border border-slate-200 rounded-xl p-3 flex items-center justify-between text-xs bg-slate-50 hover:border-primary transition-all relative">
-                <input type="file" className="absolute inset-0 opacity-0 cursor-not-allowed" disabled />
-                <div className="flex items-center gap-2">
-                  <Upload className="w-4 h-4 text-slate-400" />
-                  <span className="text-[10px] font-bold text-dark uppercase tracking-wider">GST Certificate</span>
-                </div>
-                <span className="text-[9px] text-slate-400">PDF / JPG (Max 5MB)</span>
-              </div>
-
-              {/* Company Registration */}
-              <div className="border border-slate-200 rounded-xl p-3 flex items-center justify-between text-xs bg-slate-50 hover:border-primary transition-all relative">
-                <input type="file" className="absolute inset-0 opacity-0 cursor-not-allowed" disabled />
-                <div className="flex items-center gap-2">
-                  <Upload className="w-4 h-4 text-slate-400" />
-                  <span className="text-[10px] font-bold text-dark uppercase tracking-wider">Company Registration</span>
-                </div>
-                <span className="text-[9px] text-slate-400">PDF / Word (Max 10MB)</span>
-              </div>
-
-              {/* PAN Document */}
-              <div className="border border-slate-200 rounded-xl p-3 flex items-center justify-between text-xs bg-slate-50 hover:border-primary transition-all relative">
-                <input type="file" className="absolute inset-0 opacity-0 cursor-not-allowed" disabled />
-                <div className="flex items-center gap-2">
-                  <Upload className="w-4 h-4 text-slate-400" />
-                  <span className="text-[10px] font-bold text-dark uppercase tracking-wider">Company PAN Card</span>
-                </div>
-                <span className="text-[9px] text-slate-400">PDF / PNG (Max 5MB)</span>
-              </div>
-            </div>
-
-            {/* Awaiting Backend Info Box */}
-            <div className="bg-slate-50 border border-slate-150 p-4 rounded-xl flex items-start gap-2.5">
-              <Info className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-              <div className="space-y-0.5">
-                <h4 className="text-[10px] font-bold uppercase tracking-wide text-dark">Submission Locked</h4>
-                <p className="text-[9px] text-slate-400 font-sans leading-relaxed">
-                  Registry synchronization and state SLDC verification databases will go live during phase 2 backend integration.
-                </p>
-              </div>
-            </div>
-
             {/* Submit Button */}
             <button 
-              type="button" 
-              className="w-full py-3.5 bg-slate-200 text-slate-400 font-black font-heading text-xs uppercase tracking-widest rounded-xl cursor-not-allowed flex items-center justify-center gap-1.5 shadow"
-              disabled
+              type="submit" 
+              disabled={loading}
+              className="w-full py-3.5 bg-primary text-white font-black font-heading text-xs uppercase tracking-widest rounded-xl hover:bg-primary-dark transition-colors flex items-center justify-center gap-1.5 shadow"
             >
-              Verify & Register Asset
+              {loading ? <Loader2 className="w-4 h-4 animate-spin text-white" /> : 'Verify & Register Asset'}
             </button>
 
           </form>

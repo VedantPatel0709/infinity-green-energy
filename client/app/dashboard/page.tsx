@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { api } from '@/services/api';
+import { supabase } from '@/src/lib/supabase/client';
 import { 
   Zap, TrendingUp, History, Download, Shield, User, Bell, 
   Search, Filter, Plus, FileText, ChevronRight, Layers, Factory, 
@@ -116,41 +117,45 @@ export default function DashboardPage() {
   const [prodContactPerson, setProdContactPerson] = useState('');
 
   const fetchProducerData = async () => {
-    if (currentRole !== 'producer') return;
+    if (currentRole !== 'producer' || !user?.id) return;
     try {
       try {
-        const profRes: any = await api.get('/producers/profile');
+        const { data: profRes, error: profErr } = await supabase
+          .from('producers')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+
+        if (profErr) throw profErr;
+
         setProducerProfile(profRes);
-        setProdCompanyName(profRes.companyName || '');
-        setProdEnergyType(profRes.energyType || 'Solar');
-        setProdCapacity(profRes.plantCapacity || 0);
+        setProdCompanyName(profRes.company_name || '');
+        setProdEnergyType(profRes.technology || 'Solar PV');
+        setProdCapacity(profRes.capacity_mw || 0);
         setProdTariff(profRes.tariff || 0);
-        setProdLocation(profRes.location || '');
-        setProdContactPerson(profRes.contactPerson || '');
+        setProdLocation(profRes.state || '');
+        setProdContactPerson(profRes.contact_person || '');
       } catch (profErr) {
-        console.warn('Producer profile not found, needs to create one.');
+        console.warn('Producer profile not found in Supabase:', profErr);
       }
 
-      const listRes: any = await api.get('/listings/my');
-      setProducerListings(listRes || []);
-
-      const oppRes: any = await api.get('/opportunities');
-      setBuyerOpportunities(oppRes || []);
-
-      const marketOppRes: any = await api.get('/marketplace-opportunities/my');
-      setMarketplaceOpportunities(Array.isArray(marketOppRes) ? marketOppRes : []);
-
-      const docRes: any = await api.get('/documents/my');
+      const { data: docRes } = await supabase
+        .from('documents')
+        .select('*')
+        .eq('user_id', user.id);
       setDocuments(docRes || []);
 
-      const notifRes: any = await api.get('/notifications');
+      const { data: notifRes } = await supabase
+        .from('notifications')
+        .select('*')
+        .eq('user_id', user.id);
       setDbNotifications(notifRes || []);
 
-      const oppsProp: any = await api.get('/proposals/my');
-      setProposals(Array.isArray(oppsProp) ? oppsProp : []);
-
-      const contractRes: any = await api.get('/contracts/my');
-      setContracts(Array.isArray(contractRes) ? contractRes : []);
+      const { data: oppsProp } = await supabase
+        .from('proposals')
+        .select('*')
+        .eq('user_id', user.id);
+      setProposals(oppsProp || []);
 
     } catch (err) {
       console.error('Error loading producer data:', err);
@@ -2408,19 +2413,10 @@ export default function DashboardPage() {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 font-sans">
-                          <tr className="hover:bg-slate-50/50">
-                            <td className="px-6 py-4 font-bold text-dark">Rajesh Mehta</td>
-                            <td className="px-6 py-4">rajesh@indotex.com</td>
-                            <td className="px-6 py-4 uppercase font-semibold text-[10px] text-slate-600">Consumer</td>
-                            <td className="px-6 py-4">June 02, 2026</td>
-                            <td className="px-6 py-4 text-right"><span className="text-primary font-bold">Active</span></td>
-                          </tr>
-                          <tr className="hover:bg-slate-50/50">
-                            <td className="px-6 py-4 font-bold text-dark">Apex CleanEnergy</td>
-                            <td className="px-6 py-4">ops@apexclean.com</td>
-                            <td className="px-6 py-4 uppercase font-semibold text-[10px] text-slate-600">Producer</td>
-                            <td className="px-6 py-4">May 12, 2026</td>
-                            <td className="px-6 py-4 text-right"><span className="text-primary font-bold">Active</span></td>
+                          <tr>
+                            <td colSpan={5} className="px-6 py-10 text-center text-slate-400 font-sans text-xs">
+                              Awaiting Backend Sync
+                            </td>
                           </tr>
                         </tbody>
                       </table>
@@ -2434,7 +2430,7 @@ export default function DashboardPage() {
                       <h3 className="font-heading font-bold text-dark text-sm">Lead Management</h3>
                     </div>
                     {leads.length === 0 ? (
-                      <div className="p-20 text-center text-slate-400 font-sans text-xs">No active proposal requests found.</div>
+                      <div className="p-20 text-center text-slate-400 font-sans text-xs">Awaiting Backend Sync</div>
                     ) : (
                       <div className="divide-y divide-slate-100 text-xs">
                         {leads.map((lead) => (
@@ -2474,12 +2470,10 @@ export default function DashboardPage() {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 font-sans">
-                          <tr className="hover:bg-slate-50/50">
-                            <td className="px-6 py-4 font-bold text-dark">PROP-ACME-4290</td>
-                            <td className="px-6 py-4">Acme Textiles Pvt Ltd</td>
-                            <td className="px-6 py-4">4.2 MW</td>
-                            <td className="px-6 py-4 font-semibold text-primary">₹5.20 / unit</td>
-                            <td className="px-6 py-4 text-right"><span className="text-yellow-600 font-bold">Offer Published</span></td>
+                          <tr>
+                            <td colSpan={5} className="px-6 py-10 text-center text-slate-400 font-sans text-xs">
+                              Awaiting Backend Sync
+                            </td>
                           </tr>
                         </tbody>
                       </table>
@@ -2504,14 +2498,9 @@ export default function DashboardPage() {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 font-sans">
-                          <tr className="hover:bg-slate-50/50">
-                            <td className="px-6 py-4 font-bold text-dark">Apex CleanEnergy</td>
-                            <td className="px-6 py-4">1.8 MW spot</td>
-                            <td className="px-6 py-4 font-semibold text-primary">₹4.80 / unit</td>
-                            <td className="px-6 py-4">GRID-PV-HYB-02</td>
-                            <td className="px-6 py-4 text-right flex items-center justify-end gap-2">
-                              <button onClick={() => alert('Capacity approved on exchange marketplace! ⚡')} className="bg-primary hover:bg-primary-dark text-white px-3 py-1.5 rounded-lg font-bold text-[10px]">Approve</button>
-                              <button onClick={() => alert('Capacity listing flagged for audit ❌')} className="bg-red-500 hover:bg-red-650 text-white px-3 py-1.5 rounded-lg font-bold text-[10px]">Flag Listing</button>
+                          <tr>
+                            <td colSpan={5} className="px-6 py-10 text-center text-slate-400 font-sans text-xs">
+                              Awaiting Backend Sync
                             </td>
                           </tr>
                         </tbody>

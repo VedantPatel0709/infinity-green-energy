@@ -1,7 +1,28 @@
-node_modules
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment
 .env
 .env.local
-.next
-dist
-build
+
+# Next.js
+.next/
+out/
+
+# Build folders
+dist/
+build/
+
+# TypeScript
+*.tsbuildinfo
+
+# ZIP backups
 *.zip
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

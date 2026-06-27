@@ -98,7 +98,7 @@ export default function AdminEmployeesPage() {
                   className="bg-transparent border-0 text-xs focus:outline-none text-slate-600 font-bold pr-4 py-1"
                 >
                   <option value="all">All Roles</option>
-                  <option value="Founder">Founder</option>
+                  <option value="Managing Director">Managing Director</option>
                   <option value="Operations Manager">Operations Manager</option>
                   <option value="Business Development Executive">Business Development Executive</option>
                   <option value="Energy Analyst">Energy Analyst</option>

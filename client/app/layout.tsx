@@ -5,6 +5,7 @@ import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Toaster } from 'react-hot-toast'; 
+import { AuthProvider } from '@/src/context/AuthContext';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -32,16 +33,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${plusJakarta.variable} font-sans antialiased bg-light text-dark-light selection:bg-primary/20`}>
-        <Navbar />
+        <AuthProvider>
+          <Navbar />
 
-        <main className="min-h-screen">
-          {children}
-        </main>
+          <main className="min-h-screen">
+            {children}
+          </main>
 
-        <Footer />
+          <Footer />
 
-        {/* ✅ Toast Notifications */}
-        <Toaster position="top-right" />
+          {/* ✅ Toast Notifications */}
+          <Toaster position="top-right" />
+        </AuthProvider>
       </body>
     </html>
   );

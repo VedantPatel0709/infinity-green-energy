@@ -2,15 +2,21 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, UserPlus, Info, Activity } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ArrowLeft, UserPlus, Info, Loader2 } from 'lucide-react';
+import { registerConsumer } from '@/src/services/auth.service';
+import { toast } from 'react-hot-toast';
 
 export default function ConsumerRegisterPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     companyName: '',
     industry: 'Manufacturing',
     contactPerson: '',
     email: '',
     phone: '',
+    password: '',
     monthlyBill: '10 Lakhs - 25 Lakhs',
     requiredCapacity: '',
     requirementType: 'Open Access Grid PPA',
@@ -20,6 +26,34 @@ export default function ConsumerRegisterPage() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      await registerConsumer({
+        email: formData.email,
+        password: formData.password,
+        fullName: formData.contactPerson,
+        phone: formData.phone,
+        companyName: formData.companyName,
+        industry: formData.industry,
+        location: formData.location,
+        requiredCapacityMw: formData.requiredCapacity,
+        requirementType: formData.requirementType,
+        monthlyBill: formData.monthlyBill
+      });
+
+      toast.success('Registration successful!');
+      router.push('/login');
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.message || 'Registration failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -49,7 +83,7 @@ export default function ConsumerRegisterPage() {
           </div>
 
           {/* Form */}
-          <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-5" onSubmit={handleSubmit}>
             
             {/* Company Name */}
             <div className="space-y-1.5">
@@ -126,6 +160,20 @@ export default function ConsumerRegisterPage() {
               </div>
             </div>
 
+            {/* Password */}
+            <div className="space-y-1.5">
+              <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500 block">Password</label>
+              <input 
+                type="password" 
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                placeholder="Secure account password" 
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-dark focus:outline-none focus:border-primary transition-colors"
+                required 
+              />
+            </div>
+
             {/* Monthly Power Bill & Capacity Row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
@@ -188,24 +236,13 @@ export default function ConsumerRegisterPage() {
               </div>
             </div>
 
-            {/* Awaiting Backend Info Box */}
-            <div className="bg-slate-50 border border-slate-150 p-4 rounded-xl flex items-start gap-2.5">
-              <Info className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-              <div className="space-y-0.5">
-                <h4 className="text-[10px] font-bold uppercase tracking-wide text-dark">Submission Locked</h4>
-                <p className="text-[9px] text-slate-400 font-sans leading-relaxed">
-                  Your load profiling details and distribution sub-station parameters will be processed automatically once backend database integration completes.
-                </p>
-              </div>
-            </div>
-
             {/* Submit Button */}
             <button 
-              type="button" 
-              className="w-full py-3.5 bg-slate-200 text-slate-400 font-black font-heading text-xs uppercase tracking-widest rounded-xl cursor-not-allowed flex items-center justify-center gap-1.5 shadow"
-              disabled
+              type="submit" 
+              disabled={loading}
+              className="w-full py-3.5 bg-primary text-white font-black font-heading text-xs uppercase tracking-widest rounded-xl hover:bg-primary-dark transition-colors flex items-center justify-center gap-1.5 shadow"
             >
-              Analyze Load Profile & Connect
+              {loading ? <Loader2 className="w-4 h-4 animate-spin text-white" /> : 'Analyze Load Profile & Connect'}
             </button>
 
           </form>

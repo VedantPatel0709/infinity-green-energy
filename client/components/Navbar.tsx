@@ -24,7 +24,6 @@ const Navbar = () => {
     { name: 'Industry Network', href: '/industry-network' },
     { name: 'Insights', href: '/insights' },
     { name: 'About Us', href: '/about' },
-    { name: 'Contact', href: '/contact' },
     { name: 'Client Portal', href: '/portal' },
   ];
 
