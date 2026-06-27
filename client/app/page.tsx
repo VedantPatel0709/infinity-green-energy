@@ -55,15 +55,15 @@ export default function HomePage() {
             <Zap className="w-3.5 h-3.5 fill-primary" /> B2B Renewable Energy Advisory & Procurement
           </span>
           <h1 className="text-4xl md:text-7xl font-black font-heading leading-tight uppercase max-w-5xl mx-auto tracking-tight text-white">
-            SMARTER ENERGY.<br />
-            <span className="text-primary">GREATER SAVINGS.</span>
+            Lower Electricity Costs.<br />
+            <span className="text-primary">Long-Term Tariff Stability.</span>
           </h1>
           <p className="max-w-3xl mx-auto text-slate-400 text-sm md:text-base leading-relaxed">
-            Specialized Industrial Renewable Energy Procurement, Open Access Advisory, Group Captive Solutions, and Commercial & Industrial Energy Optimization across India.
+            Independent renewable energy advisory offering open access solutions, group captive power, and custom commercial & industrial renewable solutions across India.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
             <Link href="/request-proposal" className="btn-primary py-4 px-8 text-sm font-bold uppercase tracking-wider w-full sm:w-auto">
-              Request Sourcing Proposal
+              Request Proposal
             </Link>
             <Link href="/solutions" className="flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-850 text-white font-semibold transition-all duration-300 w-full sm:w-auto font-heading text-sm hover:border-slate-700">
               Explore Solutions <ArrowRight className="w-4 h-4" />
@@ -72,65 +72,77 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 1.5: WHY INFINITY GREEN ENERGY (TRUST & CREDIBILITY) */}
+      {/* SECTION 1.5: WHY INDUSTRIES CHOOSE INFINITY GREEN ENERGY */}
       <section className="py-16 bg-slate-900 border-b border-slate-800 text-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
           <div className="text-center max-w-3xl mx-auto space-y-3">
             <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading">Why Choose Infinity Green Energy</span>
-            <h2 className="text-2xl md:text-4xl font-black font-heading text-white uppercase tracking-tight">Enterprise Consulting Framework</h2>
+            <h2 className="text-2xl md:text-4xl font-black font-heading text-white uppercase tracking-tight">Why Industries Choose Infinity Green Energy</h2>
             <p className="text-slate-400 text-xs md:text-sm">
-              Independent advisory structuring procurement corridors and regulatory compliance registries.
+              Helping Commercial & Industrial businesses transition to renewable energy through strategic procurement, technical expertise, and long-term advisory.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 hover:border-primary/45 transition-all space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                <Compass className="w-5 h-5" />
+            <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 hover:border-primary/45 transition-all space-y-3 flex flex-col justify-between min-h-[180px]">
+              <div className="space-y-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                  <Compass className="w-5 h-5" />
+                </div>
+                <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Independent Renewable Energy Advisory</h4>
+                <p className="text-slate-400 text-[11px] leading-relaxed">Technology-neutral guidance focused on your business objectives.</p>
               </div>
-              <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Independent Renewable Energy Advisory</h4>
-              <p className="text-slate-400 text-[11px] leading-relaxed">No asset ownership in projects, ensuring unbiased feasibility analysis for optimal PPA generation.</p>
             </div>
 
-            <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 hover:border-primary/45 transition-all space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                <Zap className="w-5 h-5" />
+            <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 hover:border-primary/45 transition-all space-y-3 flex flex-col justify-between min-h-[180px]">
+              <div className="space-y-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                  <Factory className="w-5 h-5" />
+                </div>
+                <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Commercial & Industrial Specialists</h4>
+                <p className="text-slate-400 text-[11px] leading-relaxed">Solutions designed specifically for energy-intensive industries.</p>
               </div>
-              <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Open Access Expertise</h4>
-              <p className="text-slate-400 text-[11px] leading-relaxed">Navigating ISTS/InSTS surcharges, transmission billing, and grid wheeling regulations across multiple states.</p>
             </div>
 
-            <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 hover:border-primary/45 transition-all space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                <Globe2 className="w-5 h-5" />
+            <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 hover:border-primary/45 transition-all space-y-3 flex flex-col justify-between min-h-[180px]">
+              <div className="space-y-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                  <Zap className="w-5 h-5" />
+                </div>
+                <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Open Access Expertise</h4>
+                <p className="text-slate-400 text-[11px] leading-relaxed">Supporting businesses with renewable power procurement strategies.</p>
               </div>
-              <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Pan-India Industrial Network</h4>
-              <p className="text-slate-400 text-[11px] leading-relaxed">Connecting energy loads with regional transmission networks and verified marketplace nodes across major industrial hubs.</p>
             </div>
 
-            <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 hover:border-primary/45 transition-all space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                <Landmark className="w-5 h-5" />
+            <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 hover:border-primary/45 transition-all space-y-3 flex flex-col justify-between min-h-[180px]">
+              <div className="space-y-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                  <Landmark className="w-5 h-5" />
+                </div>
+                <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Regulatory Guidance</h4>
+                <p className="text-slate-400 text-[11px] leading-relaxed">Helping navigate evolving renewable energy regulations.</p>
               </div>
-              <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Regulatory Guidance</h4>
-              <p className="text-slate-400 text-[11px] leading-relaxed">Continuous policy audits on CSS/AS surcharges and captive equity structure compliance rules (26/51 rules).</p>
             </div>
 
-            <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 hover:border-primary/45 transition-all space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                <Milestone className="w-5 h-5" />
+            <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 hover:border-primary/45 transition-all space-y-3 flex flex-col justify-between min-h-[180px]">
+              <div className="space-y-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                  <Globe2 className="w-5 h-5" />
+                </div>
+                <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Pan-India Industry Network</h4>
+                <p className="text-slate-400 text-[11px] leading-relaxed">Building connections across India&apos;s renewable energy ecosystem.</p>
               </div>
-              <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">End-to-End Renewable Energy Support</h4>
-              <p className="text-slate-400 text-[11px] leading-relaxed">Guiding corporate boards from initial load curve modeling to grid synchronization NOC clearances.</p>
             </div>
 
-            <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 hover:border-primary/45 transition-all space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                <Factory className="w-5 h-5" />
+            <div className="bg-slate-950 p-6 rounded-2xl border border-slate-850 hover:border-primary/45 transition-all space-y-3 flex flex-col justify-between min-h-[180px]">
+              <div className="space-y-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                  <Milestone className="w-5 h-5" />
+                </div>
+                <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">End-to-End Project Support</h4>
+                <p className="text-slate-400 text-[11px] leading-relaxed">From feasibility to execution and ongoing advisory.</p>
               </div>
-              <h4 className="font-heading font-black text-white text-xs uppercase tracking-wider">Commercial & Industrial Energy Specialists</h4>
-              <p className="text-slate-400 text-[11px] leading-relaxed">Custom energy cost reductions structured specifically for chemical, manufacturing, textiles, and pharma units.</p>
             </div>
           </div>
 
