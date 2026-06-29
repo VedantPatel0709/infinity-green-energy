@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import Logo from '@/components/Logo';
 import { Menu, X } from 'lucide-react';
 
 /**
@@ -35,19 +36,7 @@ const Navbar = () => {
     } text-white`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary group-hover:scale-105 transition-transform duration-300 border border-primary/30">
-              <LeafIcon className="w-6 h-6 fill-primary" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-bold tracking-tight text-white font-heading leading-tight">
-                INFINITY GREEN
-              </span>
-              <span className="text-[10px] tracking-widest text-primary font-bold uppercase leading-none mt-0.5">
-                ENERGY PLATFORM
-              </span>
-            </div>
-          </Link>
+          <Logo />
           
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-3 lg:space-x-5">
@@ -108,13 +97,6 @@ const Navbar = () => {
     </nav>
   );
 };
-
-const LeafIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
-    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
-  </svg>
-);
 
 export default Navbar;
 

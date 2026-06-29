@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Logo from '@/components/Logo';
 import { Mail, ArrowLeft, ShieldCheck, Loader2 } from 'lucide-react';
 import { forgotPassword } from '@/src/services/auth.service';
 import { toast } from 'react-hot-toast';
@@ -52,9 +53,9 @@ export default function ForgotPasswordPage() {
       <div className="bg-white p-8 md:p-10 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 w-full max-w-md space-y-8">
         
         <div className="space-y-2 text-center">
-          <Link href="/" className="inline-block text-xl font-bold font-heading tracking-tight text-primary">
-            INFINITY GREEN
-          </Link>
+          <div className="flex justify-center mb-2">
+            <Logo lightText={false} />
+          </div>
           <h2 className="text-2xl font-black font-heading text-dark uppercase tracking-tight">Recover Node</h2>
           <p className="text-slate-400 text-xs font-sans">Provide registered work email to receive connection credentials.</p>
         </div>

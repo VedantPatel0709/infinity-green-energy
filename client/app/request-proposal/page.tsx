@@ -104,7 +104,7 @@ export default function RequestProposalPage() {
                 <div className="flex flex-col">
                   <span className="text-slate-400 font-bold uppercase tracking-wider text-[8px] mb-0.5">Office Address</span>
                   <p className="font-semibold text-slate-700 leading-relaxed">
-                    392, Makarpur GIDC<br />
+                    392, Makarpura GIDC<br />
                     Makarpura, Vadodara<br />
                     Gujarat, India
                   </p>

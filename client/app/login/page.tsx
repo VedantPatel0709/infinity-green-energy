@@ -3,6 +3,7 @@
   import { useRouter } from 'next/navigation';
   import { api } from '@/services/api';
   import Link from 'next/link';
+  import Logo from '@/components/Logo';
   import { Mail, Phone, Lock, Eye, EyeOff, KeyRound, ShieldAlert } from 'lucide-react';
 
   export default function LoginPage() {
@@ -104,9 +105,9 @@
         <div className="bg-white p-8 md:p-10 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 w-full max-w-md space-y-8">
           
           <div className="text-center space-y-2">
-            <Link href="/" className="inline-block text-xl font-bold font-heading tracking-tight text-primary">
-              INFINITY GREEN
-            </Link>
+            <div className="flex justify-center mb-2">
+              <Logo lightText={false} />
+            </div>
             <h2 className="text-2xl font-black font-heading text-dark uppercase tracking-tight">Access Client Node</h2>
             <p className="text-slate-400 text-xs font-sans">Enter connection keys to sync grid configurations.</p>
           </div>

@@ -133,7 +133,7 @@ export default function AboutPage() {
             <div className="space-y-1">
               <span className="text-slate-500 text-[10px] uppercase font-bold tracking-widest block">Office Address</span>
               <p className="font-semibold text-white leading-relaxed whitespace-pre-line">
-                392, Makarpur GIDC
+                392, Makarpura GIDC
                 Makarpura
                 Vadodara
                 Gujarat

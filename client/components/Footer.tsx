@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Logo from '@/components/Logo';
 import { Mail, MapPin, Phone, MessageSquare, ArrowRight, ShieldCheck, Zap, Award, Globe, HelpCircle } from 'lucide-react';
 
 /**
@@ -16,14 +17,7 @@ const Footer = () => {
           
           {/* Brand Column */}
           <div className="col-span-2 space-y-6">
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-9 h-9 rounded-xl bg-primary/20 flex items-center justify-center text-primary border border-primary/10">
-                <LeafIcon className="w-5 h-5 fill-primary" />
-              </div>
-              <span className="text-xl font-bold tracking-tight text-white font-heading">
-                INFINITY GREEN
-              </span>
-            </Link>
+            <Logo />
             <p className="text-xs text-slate-500 leading-relaxed max-w-sm">
               Infinity Green Energy helps industrial and commercial power consumers optimize energy procurement through renewable sourcing, open access advisory, and long-term cost reduction strategies.
             </p>
@@ -124,7 +118,7 @@ const Footer = () => {
             </span>
             <span className="flex items-center gap-1.5 text-center md:text-left">
               <MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
-              <span>392, Makarpur GIDC, Makarpura, Vadodara, Gujarat, India</span>
+              <span>392, Makarpura GIDC, Makarpura, Vadodara, Gujarat, India</span>
             </span>
           </div>
           <div className="flex space-x-6 shrink-0">
@@ -138,12 +132,5 @@ const Footer = () => {
     </footer>
   );
 };
-
-const LeafIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
-    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
-  </svg>
-);
 
 export default Footer;
