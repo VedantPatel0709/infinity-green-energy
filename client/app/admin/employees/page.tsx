@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Users, Search, HelpCircle, Filter, Plus, Download, ChevronRight } from 'lucide-react';
+import EmptyState from '@/components/EmptyState';
 
 export default function AdminEmployeesPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -128,23 +129,13 @@ export default function AdminEmployeesPage() {
               </thead>
               <tbody className="bg-white divide-y divide-slate-100">
                 <tr>
-                  <td colSpan={8} className="py-20 text-center">
-                    <div className="max-w-md mx-auto space-y-4 flex flex-col items-center">
-                      <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
-                        <Users className="w-6 h-6 text-slate-300" />
-                      </div>
-                      <div className="space-y-1 px-4">
-                        <h4 className="font-heading font-black text-dark text-xs uppercase tracking-wider">
-                          No employee records available yet.
-                        </h4>
-                        <p className="text-[10px] text-slate-400 font-sans leading-relaxed">
-                          Employee data will appear after backend integration.
-                        </p>
-                      </div>
-                      <div className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider bg-slate-100 text-slate-500 font-bold px-2.5 py-1 rounded-lg">
-                        <HelpCircle className="w-3 h-3" /> System Locked
-                      </div>
-                    </div>
+                  <td colSpan={8} className="py-12">
+                    <EmptyState 
+                      title="Awaiting Backend Synchronization"
+                      subtitle="No Records Available"
+                      badgeText="Coming Soon"
+                      description="Internal organizational directory and employee access matrix will synchronize here after integration."
+                    />
                   </td>
                 </tr>
               </tbody>

@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { api } from '@/services/api';
@@ -116,7 +116,7 @@ export default function DashboardPage() {
   const [prodLocation, setProdLocation] = useState('');
   const [prodContactPerson, setProdContactPerson] = useState('');
 
-  const fetchProducerData = async () => {
+  const fetchProducerData = useCallback(async () => {
     if (currentRole !== 'producer' || !user?.id) return;
     try {
       try {
@@ -160,13 +160,13 @@ export default function DashboardPage() {
     } catch (err) {
       console.error('Error loading producer data:', err);
     }
-  };
+  }, [currentRole, user]);
 
   useEffect(() => {
     if (currentRole === 'producer') {
       fetchProducerData();
     }
-  }, [currentRole]);
+  }, [currentRole, fetchProducerData]);
 
   // Producer handlers
   const handleCreateListing = async (e: React.FormEvent) => {
@@ -231,7 +231,7 @@ export default function DashboardPage() {
     }
   };
 
-  const fetchConsumerData = async () => {
+  const fetchConsumerData = useCallback(async () => {
     if (currentRole !== 'consumer') return;
     setLoadingProfile(true);
     try {
@@ -287,11 +287,11 @@ export default function DashboardPage() {
     } finally {
       setLoadingProfile(false);
     }
-  };
+  }, [currentRole]);
 
   useEffect(() => {
     fetchConsumerData();
-  }, [currentRole]);
+  }, [currentRole, fetchConsumerData]);
 
   // Handler functions
   const handleCreateAssessment = async (e: React.FormEvent) => {

@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { api } from '@/services/api'; 
 import ProtectedRoute from '@/components/ProtectedRoute';
@@ -38,7 +38,7 @@ export default function AdminPage() {
   const [biTab, setBiTab] = useState<'executive' | 'kpi' | 'trends' | 'marketplace' | 'revenue'>('executive');
   const [biLoading, setBiLoading] = useState(true);
 
-  const fetchBiData = async () => {
+  const fetchBiData = useCallback(async () => {
     setBiLoading(true);
     try {
       const data = await api.get('/analytics');
@@ -50,7 +50,7 @@ export default function AdminPage() {
     } finally {
       setBiLoading(false);
     }
-  };
+  }, []);
 
   // Module datasets
   const [users, setUsers] = useState<any[]>([]);
@@ -99,7 +99,7 @@ export default function AdminPage() {
   });
 
   // Fetch KPI dashboard metrics
-  const fetchMetrics = async () => {
+  const fetchMetrics = useCallback(async () => {
     try {
       const data = await api.get('/users/metrics');
       if (data) {
@@ -108,10 +108,10 @@ export default function AdminPage() {
     } catch (err) {
       console.error('Error fetching metrics:', err);
     }
-  };
+  }, []);
 
   // Main data loader based on active tab
-  const fetchModuleData = async () => {
+  const fetchModuleData = useCallback(async () => {
     setLoading(true);
     try {
       if (activeModule === 'analytics') {
@@ -139,7 +139,7 @@ export default function AdminPage() {
           
           const listingsData = await api.get('/listings');
           setListings(Array.isArray(listingsData) ? listingsData : []);
-
+ 
           const mOpps = await api.get('/marketplace-opportunities');
           setMarketplaceOpps(Array.isArray(mOpps) ? mOpps : []);
         } catch (err) {
@@ -150,7 +150,7 @@ export default function AdminPage() {
         setProposals(Array.isArray(data) ? data : []);
         const usersRes = await api.get('/users');
         setUsers(Array.isArray(usersRes) ? usersRes : []);
-
+ 
         try {
           const contractsData = await api.get('/contracts');
           setContracts(Array.isArray(contractsData) ? contractsData : []);
@@ -190,16 +190,16 @@ export default function AdminPage() {
         } catch (err) {
           console.error('Error fetching CRM analytics:', err);
         }
-
+ 
         const usersRes = await api.get('/users');
         setUsers(Array.isArray(usersRes) ? usersRes : []);
-
+ 
         const assessData = await api.get('/assessments');
         setAssessments(Array.isArray(assessData) ? assessData : []);
-
+ 
         const oppsData = await api.get('/marketplace-opportunities');
         setMarketplaceOpps(Array.isArray(oppsData) ? oppsData : []);
-
+ 
         const propData = await api.get('/proposals');
         setProposals(Array.isArray(propData) ? propData : []);
       } else if (activeModule === 'communications') {
@@ -211,17 +211,17 @@ export default function AdminPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [activeModule, securityFilters, fetchMetrics, fetchBiData]);
 
   useEffect(() => {
     fetchMetrics();
     fetchBiData();
-  }, []);
+  }, [fetchMetrics, fetchBiData]);
 
   useEffect(() => {
     fetchModuleData();
     setSearchTerm('');
-  }, [activeModule]);
+  }, [activeModule, fetchModuleData]);
 
   // Actions for User Management
   const handleToggleUserStatus = async (userId: string) => {
@@ -801,29 +801,31 @@ export default function AdminPage() {
                       </div>
                     ) : biData ? (
                       <div className="space-y-6">
-                        
-                        {/* A. EXECUTIVE DASHBOARD SUB-TAB */}
+                                            {/* A. EXECUTIVE DASHBOARD SUB-TAB */}
                         {biTab === 'executive' && (
                           <div className="space-y-6">
                             {/* KPI Metrics Summary Grid */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                              <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md">
+                              <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md flex flex-col justify-between min-h-[140px]">
                                 <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest font-heading">Total Platform Users</span>
-                                <h3 className="text-3xl font-black text-dark font-heading mt-1">{biData.executiveSummary.totalUsers}</h3>
-                                <div className="mt-2 text-[10px] text-slate-500 font-sans flex justify-between">
-                                  <span>{biData.executiveSummary.totalConsumers} Consumers</span>
-                                  <span>{biData.executiveSummary.totalProducers} Producers</span>
+                                <h3 className="text-sm font-black text-slate-400 font-heading mt-2">Awaiting Backend Synchronization</h3>
+                                <div className="mt-3 text-[9px] text-slate-400 font-sans">
+                                  Analytics will appear once live data becomes available.
                                 </div>
                               </div>
-                              <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md">
+                              <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md flex flex-col justify-between min-h-[140px]">
                                 <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest font-heading">Active Pipeline Volume</span>
-                                <h3 className="text-3xl font-black text-primary font-heading mt-1">₹{biData.executiveSummary.pipelineRevenue?.toLocaleString('en-IN')}</h3>
-                                <p className="text-[10px] text-slate-500 font-sans mt-2">Sum of pending/draft proposals</p>
+                                <h3 className="text-sm font-black text-slate-400 font-heading mt-2">Awaiting Backend Synchronization</h3>
+                                <div className="mt-3 text-[9px] text-slate-400 font-sans">
+                                  Analytics will appear once live data becomes available.
+                                </div>
                               </div>
-                              <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md">
+                              <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md flex flex-col justify-between min-h-[140px]">
                                 <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest font-heading">Closed-Won Revenue</span>
-                                <h3 className="text-3xl font-black text-emerald-600 font-heading mt-1">₹{biData.executiveSummary.totalRevenue?.toLocaleString('en-IN')}</h3>
-                                <p className="text-[10px] text-slate-500 font-sans mt-2">Sum of approved proposals</p>
+                                <h3 className="text-sm font-black text-slate-400 font-heading mt-2">Awaiting Backend Synchronization</h3>
+                                <div className="mt-3 text-[9px] text-slate-400 font-sans">
+                                  Analytics will appear once live data becomes available.
+                                </div>
                               </div>
                             </div>
 
@@ -833,12 +835,12 @@ export default function AdminPage() {
                               <div className="space-y-2 font-sans text-xs">
                                 <div className="flex justify-between items-center">
                                   <span className="text-slate-500">Total Approved Contracts / Opportunities Ratio</span>
-                                  <strong className="text-primary font-mono">{biData.executiveSummary.totalContracts} of {biData.executiveSummary.totalOpportunities} Matches Approved</strong>
+                                  <strong className="text-slate-400 font-mono">Awaiting Backend Synchronization</strong>
                                 </div>
                                 <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
                                   <div 
-                                    className="bg-primary h-full rounded-full transition-all duration-500" 
-                                    style={{ width: `${biData.executiveSummary.totalOpportunities > 0 ? (biData.executiveSummary.totalContracts / biData.executiveSummary.totalOpportunities * 100) : 0}%` }} 
+                                    className="bg-slate-300 h-full rounded-full transition-all duration-500" 
+                                    style={{ width: '0%' }} 
                                   />
                                 </div>
                               </div>
@@ -851,11 +853,11 @@ export default function AdminPage() {
                                 <div className="grid grid-cols-2 gap-4">
                                   <div className="bg-slate-50 p-4 rounded-2xl text-center">
                                     <span className="text-[10px] text-slate-400 uppercase font-bold font-heading">Site Audits</span>
-                                    <h4 className="text-xl font-bold font-heading text-dark mt-1">{biData.executiveSummary.totalConsultations}</h4>
+                                    <h4 className="text-xs font-bold font-heading text-slate-400 mt-2">Awaiting Sync</h4>
                                   </div>
                                   <div className="bg-slate-50 p-4 rounded-2xl text-center">
                                     <span className="text-[10px] text-slate-400 uppercase font-bold font-heading">Assessments</span>
-                                    <h4 className="text-xl font-bold font-heading text-dark mt-1">{biData.executiveSummary.totalAssessments}</h4>
+                                    <h4 className="text-xs font-bold font-heading text-slate-400 mt-2">Awaiting Sync</h4>
                                   </div>
                                 </div>
                               </div>
@@ -887,19 +889,19 @@ export default function AdminPage() {
                               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
                                 <div className="border border-slate-100 p-4 rounded-2xl text-center space-y-1">
                                   <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Active Listings</span>
-                                  <h3 className="text-2xl font-black text-primary font-heading">{biData.executiveSummary.totalListings}</h3>
+                                  <h3 className="text-xs font-bold text-slate-400 font-heading">Awaiting Sync</h3>
                                 </div>
                                 <div className="border border-slate-100 p-4 rounded-2xl text-center space-y-1">
                                   <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Matched Opps</span>
-                                  <h3 className="text-2xl font-black text-primary font-heading">{biData.executiveSummary.totalOpportunities}</h3>
+                                  <h3 className="text-xs font-bold text-slate-400 font-heading">Awaiting Sync</h3>
                                 </div>
                                 <div className="border border-slate-100 p-4 rounded-2xl text-center space-y-1">
                                   <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Proposals Issued</span>
-                                  <h3 className="text-2xl font-black text-primary font-heading">{biData.executiveSummary.totalProposals}</h3>
+                                  <h3 className="text-xs font-bold text-slate-400 font-heading">Awaiting Sync</h3>
                                 </div>
                                 <div className="border border-slate-100 p-4 rounded-2xl text-center space-y-1">
                                   <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Contracts Active</span>
-                                  <h3 className="text-2xl font-black text-primary font-heading">{biData.executiveSummary.totalContracts}</h3>
+                                  <h3 className="text-xs font-bold text-slate-400 font-heading">Awaiting Sync</h3>
                                 </div>
                               </div>
                             </div>
@@ -908,25 +910,15 @@ export default function AdminPage() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                               <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md space-y-3">
                                 <h4 className="text-xs font-bold text-dark font-heading uppercase">Buyer Opp Match Stages</h4>
-                                <div className="space-y-2 text-xs font-sans">
-                                  {Object.entries(biData.kpiBreakdowns.opportunities).map(([stage, count]: any) => (
-                                    <div key={stage} className="flex justify-between items-center border-b border-slate-50 pb-1.5">
-                                      <span className="capitalize text-slate-500">{stage}</span>
-                                      <strong className="text-dark font-bold font-mono">{count}</strong>
-                                    </div>
-                                  ))}
+                                <div className="text-center py-6 text-xs text-slate-400">
+                                  Awaiting Backend Synchronization
                                 </div>
                               </div>
 
                               <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md space-y-3">
                                 <h4 className="text-xs font-bold text-dark font-heading uppercase">Proposal Pipeline Breakdown</h4>
-                                <div className="space-y-2 text-xs font-sans">
-                                  {Object.entries(biData.kpiBreakdowns.proposals).map(([status, count]: any) => (
-                                    <div key={status} className="flex justify-between items-center border-b border-slate-50 pb-1.5">
-                                      <span className="capitalize text-slate-500">{status.replace('_', ' ')}</span>
-                                      <strong className="text-dark font-bold font-mono">{count}</strong>
-                                    </div>
-                                  ))}
+                                <div className="text-center py-6 text-xs text-slate-400">
+                                  Awaiting Backend Synchronization
                                 </div>
                               </div>
                             </div>
@@ -939,48 +931,20 @@ export default function AdminPage() {
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                               
                               {/* Users Growth Chart */}
-                              <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md">
-                                <h4 className="text-xs font-bold text-dark font-heading uppercase mb-4">Platform Signups Trend (6 Months)</h4>
-                                <div className="h-44 flex items-end justify-between px-2 pt-6">
-                                  {biData.trendReports.map((trend: any, idx: number) => {
-                                    const maxVal = Math.max(...biData.trendReports.map((t: any) => t.newUsers)) || 1;
-                                    const heightPct = (trend.newUsers / maxVal) * 80; // scale to max 80%
-                                    return (
-                                      <div key={idx} className="flex flex-col items-center group w-12">
-                                        <div className="text-[10px] font-bold text-primary font-mono mb-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                          {trend.newUsers}
-                                        </div>
-                                        <div 
-                                          className="w-6 bg-primary/20 hover:bg-primary rounded-t-md transition-colors" 
-                                          style={{ height: `${Math.max(heightPct, 5)}%` }} 
-                                        />
-                                        <span className="text-[9px] text-slate-400 font-bold mt-2 uppercase font-mono">{trend.label.split(' ')[0]}</span>
-                                      </div>
-                                    );
-                                  })}
+                              <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md min-h-[220px] flex flex-col justify-between">
+                                <h4 className="text-xs font-bold text-dark font-heading uppercase mb-2">Platform Signups Trend (6 Months)</h4>
+                                <div className="flex-1 flex flex-col items-center justify-center border border-dashed border-slate-200 rounded-2xl p-4 text-center space-y-1">
+                                  <span className="text-xs font-bold text-slate-400">Chart Placeholder</span>
+                                  <span className="text-[10px] text-slate-400 font-medium">Awaiting Backend Integration</span>
                                 </div>
                               </div>
 
                               {/* Revenue Growth Chart */}
-                              <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md">
-                                <h4 className="text-xs font-bold text-dark font-heading uppercase mb-4">Monthly Revenue Ingestion (6 Months)</h4>
-                                <div className="h-44 flex items-end justify-between px-2 pt-6">
-                                  {biData.trendReports.map((trend: any, idx: number) => {
-                                    const maxVal = Math.max(...biData.trendReports.map((t: any) => t.revenue)) || 1;
-                                    const heightPct = (trend.revenue / maxVal) * 80;
-                                    return (
-                                      <div key={idx} className="flex flex-col items-center group w-12">
-                                        <div className="text-[9px] font-bold text-emerald-600 font-mono mb-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                          ₹{(trend.revenue / 100000).toFixed(1)}L
-                                        </div>
-                                        <div 
-                                          className="w-6 bg-emerald-100 hover:bg-emerald-500 rounded-t-md transition-colors" 
-                                          style={{ height: `${Math.max(heightPct, 5)}%` }} 
-                                        />
-                                        <span className="text-[9px] text-slate-400 font-bold mt-2 uppercase font-mono">{trend.label.split(' ')[0]}</span>
-                                      </div>
-                                    );
-                                  })}
+                              <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md min-h-[220px] flex flex-col justify-between">
+                                <h4 className="text-xs font-bold text-dark font-heading uppercase mb-2">Monthly Revenue Ingestion (6 Months)</h4>
+                                <div className="flex-1 flex flex-col items-center justify-center border border-dashed border-slate-200 rounded-2xl p-4 text-center space-y-1">
+                                  <span className="text-xs font-bold text-slate-400">Chart Placeholder</span>
+                                  <span className="text-[10px] text-slate-400 font-medium">Awaiting Backend Integration</span>
                                 </div>
                               </div>
 
@@ -996,15 +960,15 @@ export default function AdminPage() {
                               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div className="bg-slate-50 p-6 rounded-2xl text-center space-y-1">
                                   <span className="text-[10px] text-slate-400 uppercase font-bold tracking-widest font-heading">Total Grid Capacity</span>
-                                  <h3 className="text-2xl font-black text-primary font-heading">{biData.marketplace.totalAvailableCapacity} MW</h3>
+                                  <h3 className="text-xs font-bold text-slate-400 font-heading mt-2">Awaiting Backend Synchronization</h3>
                                 </div>
                                 <div className="bg-slate-50 p-6 rounded-2xl text-center space-y-1">
                                   <span className="text-[10px] text-slate-400 uppercase font-bold tracking-widest font-heading">Average Tariff</span>
-                                  <h3 className="text-2xl font-black text-primary font-heading">₹{biData.marketplace.averageListingTariff} / unit</h3>
+                                  <h3 className="text-xs font-bold text-slate-400 font-heading mt-2">Awaiting Backend Synchronization</h3>
                                 </div>
                                 <div className="bg-slate-50 p-6 rounded-2xl text-center space-y-1">
                                   <span className="text-[10px] text-slate-400 uppercase font-bold tracking-widest font-heading">Min / Max Range</span>
-                                  <h3 className="text-xl font-black text-primary font-heading">₹{biData.marketplace.minTariff} - ₹{biData.marketplace.maxTariff}</h3>
+                                  <h3 className="text-xs font-bold text-slate-400 font-heading mt-2">Awaiting Backend Synchronization</h3>
                                 </div>
                               </div>
                             </div>
@@ -1019,33 +983,27 @@ export default function AdminPage() {
                               <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md space-y-4">
                                 <h4 className="text-xs font-bold text-dark font-heading uppercase">Closed-Won & Active Pipeline</h4>
                                 <div className="space-y-4">
-                                  <div className="bg-emerald-50 p-4 rounded-2xl">
-                                    <span className="text-[10px] text-emerald-700 uppercase font-bold font-heading">Closed-Won Revenue</span>
-                                    <h3 className="text-2xl font-black text-emerald-800 font-heading">₹{biData.executiveSummary.totalRevenue?.toLocaleString('en-IN')}</h3>
+                                  <div className="bg-slate-50 p-4 rounded-2xl">
+                                    <span className="text-[10px] text-slate-400 uppercase font-bold font-heading">Closed-Won Revenue</span>
+                                    <h3 className="text-xs font-bold text-slate-400 mt-2">Awaiting Backend Synchronization</h3>
                                   </div>
                                   <div className="bg-slate-50 p-4 rounded-2xl">
-                                    <span className="text-[10px] text-slate-500 uppercase font-bold font-heading">Under Review / Negotiation Pipeline</span>
-                                    <h3 className="text-2xl font-black text-slate-800 font-heading">₹{biData.executiveSummary.pipelineRevenue?.toLocaleString('en-IN')}</h3>
+                                    <span className="text-[10px] text-slate-400 uppercase font-bold font-heading">Under Review / Negotiation Pipeline</span>
+                                    <h3 className="text-xs font-bold text-slate-400 mt-2">Awaiting Backend Synchronization</h3>
                                   </div>
                                 </div>
                               </div>
 
                               <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-md space-y-3">
                                 <h4 className="text-xs font-bold text-dark font-heading uppercase">Revenue Contract Breakdown</h4>
-                                <div className="space-y-2 text-xs font-sans">
-                                  {Object.entries(biData.kpiBreakdowns.contracts).map(([status, count]: any) => (
-                                    <div key={status} className="flex justify-between items-center border-b border-slate-50 pb-1.5">
-                                      <span className="capitalize text-slate-500">{status.replace('_', ' ')}</span>
-                                      <strong className="text-dark font-bold font-mono">{count}</strong>
-                                    </div>
-                                  ))}
+                                <div className="text-center py-6 text-xs text-slate-400">
+                                  Awaiting Backend Synchronization
                                 </div>
                               </div>
 
                             </div>
                           </div>
                         )}
-
                       </div>
                     ) : (
                       <div className="text-center py-20 text-xs text-slate-500 font-sans space-y-2">
