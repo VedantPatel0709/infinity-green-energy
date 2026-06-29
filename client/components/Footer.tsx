@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Mail, MapPin, Phone, MessageSquare, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Mail, MapPin, Phone, MessageSquare, ArrowRight, ShieldCheck, Zap, Award, Globe, HelpCircle } from 'lucide-react';
 
 /**
  * Footer Component - Rebuilt for B2B Enterprise Compliance (No mock socials/fake newsletters)
@@ -27,21 +27,6 @@ const Footer = () => {
             <p className="text-xs text-slate-500 leading-relaxed max-w-sm">
               Infinity Green Energy helps industrial and commercial power consumers optimize energy procurement through renewable sourcing, open access advisory, and long-term cost reduction strategies.
             </p>
-            <div className="space-y-2 pt-2">
-              <span className="text-[10px] uppercase font-bold tracking-widest text-slate-500 block">Newsletter</span>
-              <div className="flex bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-1 max-w-xs">
-                <input 
-                  type="email" 
-                  placeholder="Enter corporate email" 
-                  disabled 
-                  className="bg-transparent border-0 text-[10px] text-slate-400 px-2 py-1.5 focus:outline-none w-full cursor-not-allowed" 
-                />
-                <button disabled className="bg-slate-800 text-[10px] text-slate-500 font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg whitespace-nowrap cursor-not-allowed">
-                  Join
-                </button>
-              </div>
-              <span className="text-[9px] text-slate-500 font-medium block">Newsletter Subscription Coming Soon</span>
-            </div>
           </div>
 
           {/* Company Column */}
@@ -49,7 +34,7 @@ const Footer = () => {
             <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-wider mb-5">
               Company
             </h4>
-            <ul className="space-y-3 text-xs">
+            <ul className="space-y-3 text-xs font-sans">
               <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
               <li><Link href="/about/team" className="hover:text-primary transition-colors">Team</Link></li>
               <li><Link href="/careers" className="hover:text-primary transition-colors">Careers</Link></li>
@@ -83,29 +68,29 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Platform Status Column */}
+          {/* Why Infinity Green Energy Column */}
           <div className="col-span-2 lg:col-span-1 space-y-4">
-            <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-wider flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-primary" /> Platform Status
+            <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-wider">
+              Why Infinity Green
             </h4>
-            <div className="space-y-2 text-[10px] font-mono">
-              <div className="flex justify-between border-b border-slate-800 pb-1">
-                <span className="text-slate-500">Frontend:</span>
-                <span className="text-emerald-500 font-bold">Completed</span>
-              </div>
-              <div className="flex justify-between border-b border-slate-800 pb-1">
-                <span className="text-slate-500">Marketplace:</span>
-                <span className="text-amber-500 font-bold text-right">Awaiting Sync</span>
-              </div>
-              <div className="flex justify-between border-b border-slate-800 pb-1">
-                <span className="text-slate-500">Industry Net:</span>
-                <span className="text-slate-400 font-bold">Awaiting Verification</span>
-              </div>
-              <div className="flex justify-between pb-1">
-                <span className="text-slate-500">Portal:</span>
-                <span className="text-primary font-bold">Under Activation</span>
-              </div>
-            </div>
+            <ul className="space-y-3 text-[10px] font-sans text-slate-500 leading-normal">
+              <li className="flex gap-2 items-start">
+                <Award className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
+                <span>Commercial & Industrial Renewable Energy Specialists</span>
+              </li>
+              <li className="flex gap-2 items-start">
+                <HelpCircle className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
+                <span>Independent Energy Advisory</span>
+              </li>
+              <li className="flex gap-2 items-start">
+                <Zap className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
+                <span>Open Access & Captive Solutions</span>
+              </li>
+              <li className="flex gap-2 items-start">
+                <Globe className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
+                <span>Pan-India Renewable Energy Support</span>
+              </li>
+            </ul>
           </div>
 
         </div>
@@ -114,7 +99,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-8 bg-slate-900/60 rounded-3xl border border-slate-800/80 items-center">
           <div className="lg:col-span-2 space-y-1">
             <h4 className="text-white font-heading font-semibold text-sm">Ready to evaluate renewable energy opportunities for your facility?</h4>
-            <p className="text-xs text-slate-500">Structure power purchase agreements based on average industrial load profiles.</p>
+            <p className="text-xs text-slate-400">
+              Helping Commercial & Industrial businesses transition to renewable energy through strategic procurement, advisory and long-term partnerships.
+            </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 lg:justify-end">
             <Link href="/request-proposal" className="btn-primary py-2.5 px-5 text-xs font-bold whitespace-nowrap">

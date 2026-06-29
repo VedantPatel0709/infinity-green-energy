@@ -24,7 +24,7 @@ const Navbar = () => {
     { name: 'Industry Network', href: '/industry-network' },
     { name: 'Insights', href: '/insights' },
     { name: 'About Us', href: '/about' },
-    { name: 'Client Portal', href: '/portal' },
+    { name: 'Portal', href: '/portal' },
   ];
 
   return (
@@ -56,7 +56,7 @@ const Navbar = () => {
                 key={link.name} 
                 href={link.href} 
                 className={`font-semibold text-xs lg:text-sm transition-colors duration-200 ${
-                  link.name === 'Client Portal'
+                  link.name === 'Portal'
                     ? 'text-primary hover:text-primary-light bg-primary/10 px-3 py-1.5 rounded-lg border border-primary/25'
                     : 'text-slate-300 hover:text-primary'
                 }`}
