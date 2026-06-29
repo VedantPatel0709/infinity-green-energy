@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { Briefcase, Heart, Award, ArrowUpRight, Search, Clock, MapPin } from 'lucide-react';
+import { Briefcase, Award, Heart, ArrowUpRight } from 'lucide-react';
+import EmptyState from '@/components/EmptyState';
 
 export const metadata: Metadata = {
   title: 'Careers & Work Culture | Infinity Green Energy',
@@ -80,41 +81,14 @@ export default function CareersPage() {
             <p className="text-slate-500 text-xs">Explore career paths across regulatory, engineering, and product roles.</p>
           </div>
 
-          {/* Job Search Mock Controls */}
-          <div className="bg-white border border-slate-200 p-4 rounded-2xl flex flex-col sm:flex-row gap-4 items-center justify-between">
-            <div className="relative w-full sm:max-w-xs">
-              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                <Search className="w-4 h-4" />
-              </span>
-              <input 
-                type="text" 
-                placeholder="Search job titles..." 
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-2 text-xs focus:outline-none focus:border-primary transition-colors cursor-not-allowed"
-                disabled
-              />
-            </div>
-            <div className="flex gap-2 flex-wrap text-[10px] font-bold uppercase tracking-wider text-slate-500">
-              <span className="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 cursor-not-allowed">All Departments</span>
-              <span className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 cursor-not-allowed">Grid Operations</span>
-              <span className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 cursor-not-allowed">Advisory</span>
-            </div>
-          </div>
-
-          {/* Empty State List */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-16 text-center shadow-sm">
-            <div className="max-w-md mx-auto space-y-4 flex flex-col items-center">
-              <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
-                <Briefcase className="w-6 h-6 text-slate-300" />
-              </div>
-              <div className="space-y-1">
-                <h4 className="font-heading font-black text-dark text-xs uppercase tracking-wider">
-                  No positions available currently
-                </h4>
-                <p className="text-[10px] text-slate-400 font-sans leading-relaxed">
-                  We are not actively hiring. Follow our LinkedIn channel to receive alerts when hiring portals for open-access analysts and grid developers reopen.
-                </p>
-              </div>
-            </div>
+          {/* Empty State */}
+          <div className="py-12">
+            <EmptyState 
+              title="Awaiting Backend Integration"
+              subtitle="Career opportunities will be published after backend integration."
+              badgeText="Coming Soon"
+              description="Live job profiles and portal application nodes will populate once our HR database integration is completed."
+            />
           </div>
         </div>
 
@@ -126,8 +100,15 @@ export default function CareersPage() {
               '@context': 'https://schema.org',
               '@type': 'AboutPage',
               'name': 'Careers - Infinity Green Energy',
-              'description': 'Work culture and career opportunities at Infinity Green Energy.',
-              'url': 'https://infinitygreenenergy.in/careers'
+              'description': 'Explore careers and job listings at Infinity Green Energy.',
+              'publisher': {
+                '@type': 'Organization',
+                'name': 'Infinity Green Energy Pvt Ltd',
+                'logo': {
+                  '@type': 'ImageObject',
+                  'url': 'https://infinitygreenenergy.in/logo.png'
+                }
+              }
             })
           }}
         />

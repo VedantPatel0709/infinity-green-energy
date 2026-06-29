@@ -8,6 +8,7 @@ import {
   MessageSquare, Settings, LogOut, Layers, Globe, BarChart3, Plus, ArrowUpRight 
 } from 'lucide-react';
 import { api } from '@/services/api';
+import EmptyState from '@/components/EmptyState';
 
 export default function ProducerDashboard() {
   const router = useRouter();
@@ -114,73 +115,39 @@ export default function ProducerDashboard() {
         {/* CAPACITY TAB */}
         {activeTab === 'capacity' && (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-bold font-heading uppercase text-primary">Farm Generations</h3>
-              <button 
-                onClick={() => setCapacities([...capacities, { id: Date.now(), site: 'New Generation Hub', tech: 'Solar PV', capacity: '100 MW', status: 'Active' }])}
-                className="btn-primary py-2 px-4 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
-              >
-                <Plus className="w-4 h-4" /> Add Asset
-              </button>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {capacities.map(c => (
-                <div key={c.id} className="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex justify-between items-start">
-                  <div>
-                    <h4 className="font-bold text-slate-200">{c.site}</h4>
-                    <p className="text-[10px] text-slate-400 mt-0.5">{c.tech}</p>
-                    <span className="inline-block bg-primary/10 text-primary border border-primary/20 text-[9px] font-bold px-2 py-0.5 rounded mt-2">{c.status}</span>
-                  </div>
-                  <span className="text-lg font-black font-heading text-primary">{c.capacity}</span>
-                </div>
-              ))}
-            </div>
+            <h3 className="text-lg font-bold font-heading uppercase text-primary">Farm Generations</h3>
+            <EmptyState 
+              title="Awaiting Backend Integration"
+              subtitle="No Records Available"
+              badgeText="Awaiting Backend Integration"
+              description="Registered utility-scale capacity nodes and generation profiles will populate here after backend database sync."
+            />
           </div>
         )}
 
         {/* LEADS TAB */}
         {activeTab === 'leads' && (
-          <div className="bg-slate-950 p-8 rounded-3xl border border-slate-800 space-y-6">
+          <div className="space-y-6">
             <h3 className="text-lg font-bold font-heading uppercase text-primary">Active Off-taker Opportunities</h3>
-            <div className="overflow-x-auto text-xs">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-slate-800 text-slate-400">
-                    <th className="py-3 px-4">Consumer</th>
-                    <th className="py-3 px-4">Requirement</th>
-                    <th className="py-3 px-4">Type</th>
-                    <th className="py-3 px-4">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {leads.map(l => (
-                    <tr key={l.id} className="border-b border-slate-900 text-slate-200">
-                      <td className="py-3 px-4 font-bold">{l.consumer}</td>
-                      <td className="py-3 px-4">{l.req}</td>
-                      <td className="py-3 px-4">{l.type}</td>
-                      <td className="py-3 px-4">
-                        <span className="bg-primary/20 text-primary px-2 py-0.5 rounded">{l.status}</span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <EmptyState 
+              title="Awaiting Backend Integration"
+              subtitle="No Records Available"
+              badgeText="Awaiting Backend Integration"
+              description="Active C&I off-taker bids and power purchase RFPs will synchronize here after backend activation."
+            />
           </div>
         )}
 
         {/* DOCS TAB */}
         {activeTab === 'docs' && (
-          <div className="bg-slate-950 p-8 rounded-3xl border border-slate-800 space-y-4 max-w-md">
+          <div className="space-y-6">
             <h3 className="text-lg font-bold font-heading uppercase text-primary">Uploaded Documents</h3>
-            <div className="bg-slate-900 p-4 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
-              <div>
-                <p className="font-bold text-slate-200">State Grid Connectivity NOC.pdf</p>
-                <p className="text-[10px] text-slate-400 mt-0.5">Approved by KPTCL</p>
-              </div>
-              <ArrowUpRight className="w-4 h-4 text-primary" />
-            </div>
+            <EmptyState 
+              title="Awaiting Backend Integration"
+              subtitle="No Records Available"
+              badgeText="Awaiting Backend Integration"
+              description="Connectivity agreements, state grid NOCs, and wheeling contracts will be managed here once the document vault is online."
+            />
           </div>
         )}
 

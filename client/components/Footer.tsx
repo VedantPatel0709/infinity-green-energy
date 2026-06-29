@@ -137,7 +137,7 @@ const Footer = () => {
             </span>
             <span className="flex items-center gap-1.5 text-center md:text-left">
               <MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
-              <span>392, Makarpur GIDC, Makarpura, Vadodara, Gujarat</span>
+              <span>392, Makarpur GIDC, Makarpura, Vadodara, Gujarat, India</span>
             </span>
           </div>
           <div className="flex space-x-6 shrink-0">

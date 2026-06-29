@@ -8,6 +8,7 @@ import {
   MessageSquare, Settings, LogOut, CheckCircle2, ChevronRight, HelpCircle 
 } from 'lucide-react';
 import { api } from '@/services/api';
+import EmptyState from '@/components/EmptyState';
 
 export default function ConsumerDashboard() {
   const router = useRouter();
@@ -118,51 +119,27 @@ export default function ConsumerDashboard() {
 
         {/* REQUIREMENTS TAB */}
         {activeTab === 'requirements' && (
-          <div className="space-y-6 max-w-3xl">
+          <div className="space-y-6">
             <h3 className="text-lg font-bold font-heading uppercase text-primary">Load & Grid Specifications</h3>
-            <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
-              {requirements.map(r => (
-                <div key={r.id} className="flex justify-between items-start text-xs">
-                  <div>
-                    <h4 className="font-bold text-slate-200 text-sm">{r.type}</h4>
-                    <p className="text-slate-400 mt-1">Load Schedule: {r.frequency}</p>
-                    <span className="inline-block bg-primary/10 text-primary border border-primary/20 text-[9px] font-bold px-2 py-0.5 rounded mt-2">{r.status}</span>
-                  </div>
-                  <span className="text-base font-black font-heading text-primary">{r.capacity}</span>
-                </div>
-              ))}
-            </div>
+            <EmptyState 
+              title="Awaiting Backend Integration"
+              subtitle="No Records Available"
+              badgeText="Awaiting Backend Integration"
+              description="Industrial load specifications and capacity demands will populate here after backend database sync."
+            />
           </div>
         )}
 
         {/* PROPOSALS TAB */}
         {activeTab === 'proposals' && (
-          <div className="bg-slate-950 p-8 rounded-3xl border border-slate-800 space-y-6">
+          <div className="space-y-6">
             <h3 className="text-lg font-bold font-heading uppercase text-primary">Active PPA Opportunities</h3>
-            <div className="overflow-x-auto text-xs">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-slate-800 text-slate-400">
-                    <th className="py-3 px-4">Developer</th>
-                    <th className="py-3 px-4">Wheeling Rates</th>
-                    <th className="py-3 px-4">Contract Term</th>
-                    <th className="py-3 px-4">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {proposals.map(p => (
-                    <tr key={p.id} className="border-b border-slate-900 text-slate-200">
-                      <td className="py-3 px-4 font-bold">{p.developer}</td>
-                      <td className="py-3 px-4">{p.rates}</td>
-                      <td className="py-3 px-4">{p.term}</td>
-                      <td className="py-3 px-4">
-                        <span className="bg-primary/20 text-primary px-2 py-0.5 rounded">{p.status}</span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <EmptyState 
+              title="Awaiting Backend Integration"
+              subtitle="No Records Available"
+              badgeText="Awaiting Backend Integration"
+              description="Bilateral power purchase agreements (PPAs) and open-access proposal terms will synchronize here after backend activation."
+            />
           </div>
         )}
 
@@ -170,41 +147,38 @@ export default function ConsumerDashboard() {
         {activeTab === 'matched' && (
           <div className="space-y-6">
             <h3 className="text-lg font-bold font-heading uppercase text-primary">Smart-Grid Developer Matches</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {matchedProducers.map((m, idx) => (
-                <div key={idx} className="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex justify-between items-center">
-                  <div>
-                    <h4 className="font-bold text-slate-200">{m.name}</h4>
-                    <p className="text-[10px] text-slate-400 mt-0.5">{m.tech}</p>
-                    <p className="text-[10px] text-primary font-bold mt-1">Grid Match: {m.matchScore}</p>
-                  </div>
-                  <span className="text-sm font-bold text-slate-400">{m.capacity}</span>
-                </div>
-              ))}
-            </div>
+            <EmptyState 
+              title="Awaiting Backend Integration"
+              subtitle="No Records Available"
+              badgeText="Awaiting Backend Integration"
+              description="Optimal generation assets matching your continuous load curves will display here upon algorithm activation."
+            />
           </div>
         )}
 
         {/* DOCS TAB */}
         {activeTab === 'docs' && (
-          <div className="bg-slate-950 p-8 rounded-3xl border border-slate-800 space-y-4 max-w-md">
+          <div className="space-y-6">
             <h3 className="text-lg font-bold font-heading uppercase text-primary">Document Vault</h3>
-            <div className="bg-slate-900 p-4 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
-              <div>
-                <p className="font-bold text-slate-200">Industrial Load Profile NOC.pdf</p>
-                <p className="text-[10px] text-slate-400 mt-0.5">DISCOM Grid Stamp</p>
-              </div>
-              <ChevronRight className="w-4 h-4 text-primary" />
-            </div>
+            <EmptyState 
+              title="Awaiting Backend Integration"
+              subtitle="No Records Available"
+              badgeText="Awaiting Backend Integration"
+              description="Connected load profiles, DISCOM stamps, and wheeling contracts will be managed here once the document vault is online."
+            />
           </div>
         )}
 
         {/* REPORTS TAB */}
         {activeTab === 'reports' && (
-          <div className="bg-slate-950 p-8 rounded-3xl border border-slate-800 text-center py-16 max-w-xl">
-            <BarChart3 className="w-12 h-12 text-slate-500 mx-auto mb-4" />
-            <h3 className="font-heading font-black text-slate-300 uppercase">Savings Analysis Hub</h3>
-            <p className="text-slate-400 text-xs mt-2">Interactive generation vs consumption offsets reports will update hourly upon commission.</p>
+          <div className="space-y-6">
+            <h3 className="text-lg font-bold font-heading uppercase text-primary">Savings Analysis Hub</h3>
+            <EmptyState 
+              title="Awaiting Backend Integration"
+              subtitle="No Records Available"
+              badgeText="Awaiting Backend Integration"
+              description="Interactive generation vs consumption offset savings reports will update here once telemetries activate."
+            />
           </div>
         )}
 
