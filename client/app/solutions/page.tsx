@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { Globe2, Zap, Factory, Landmark, HelpCircle, FileCheck2, ArrowRight, Wind, Shuffle, ShieldAlert, Cpu } from 'lucide-react';
+import { Globe2, Zap, Factory, Landmark, HelpCircle, FileCheck2, ArrowRight, Wind, Shuffle, ShieldAlert, Cpu, Leaf, Target, LineChart, Activity, Globe, Sparkles } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'B2B Renewable Energy Solutions | Infinity Green Energy',
@@ -89,6 +89,39 @@ export default function SolutionsPage() {
     }
   ];
 
+  const esgServices = [
+    {
+      title: 'Renewable Energy Strategy',
+      description: 'Develop practical renewable energy strategies aligned with long-term business and sustainability objectives.',
+      icon: <Target className="w-5 h-5 text-primary" />
+    },
+    {
+      title: 'Industrial Energy Optimization',
+      description: 'Identify opportunities to improve energy efficiency and reduce operational electricity costs.',
+      icon: <Activity className="w-5 h-5 text-primary" />
+    },
+    {
+      title: 'Carbon Reduction Support',
+      description: 'Support renewable energy adoption that contributes toward reducing operational carbon emissions.',
+      icon: <Leaf className="w-5 h-5 text-primary" />
+    },
+    {
+      title: 'Open Access for Sustainability Goals',
+      description: 'Leverage Open Access renewable procurement to support corporate sustainability initiatives.',
+      icon: <Zap className="w-5 h-5 text-primary" />
+    },
+    {
+      title: 'Long-Term Energy Planning',
+      description: 'Build resilient energy procurement strategies designed for future regulatory and market changes.',
+      icon: <LineChart className="w-5 h-5 text-primary" />
+    },
+    {
+      title: 'Business Sustainability Support',
+      description: 'Integrate renewable energy into broader operational sustainability initiatives for long-term value creation.',
+      icon: <Globe className="w-5 h-5 text-primary" />
+    }
+  ];
+
   return (
     <div className="py-24 px-4 sm:px-6 lg:px-8 bg-light min-h-screen font-sans">
       <div className="max-w-7xl mx-auto">
@@ -158,6 +191,63 @@ export default function SolutionsPage() {
             </div>
           ))}
         </div>
+
+        {/* Sustainability & ESG Support Section */}
+        <section className="space-y-12 mb-24 border-t border-slate-200/65 pt-20">
+          <div className="text-center space-y-4 max-w-3xl mx-auto">
+            <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading bg-primary/10 px-3.5 py-1.5 rounded-full">
+              Sustainability & ESG Support
+            </span>
+            <h2 className="text-3xl md:text-4xl font-black font-heading text-dark uppercase tracking-tight">
+              Sustainability & ESG Support
+            </h2>
+            <p className="text-slate-700 font-sans text-xs md:text-sm font-semibold leading-relaxed">
+              Helping commercial and industrial businesses achieve sustainability objectives through renewable energy procurement, strategic advisory, and long-term energy optimization.
+            </p>
+            <p className="text-slate-500 font-sans text-xs leading-relaxed">
+              Our renewable energy solutions not only reduce electricity costs but also support ESG initiatives, carbon reduction goals, renewable energy adoption, and long-term business sustainability.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {esgServices.map((service, idx) => (
+              <div 
+                key={idx} 
+                className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 hover:border-primary/20 hover:shadow-md transition-all duration-300 space-y-4 flex flex-col justify-between"
+              >
+                <div className="space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                    {service.icon}
+                  </div>
+                  <h3 className="font-heading font-black text-dark text-xs uppercase tracking-wider">
+                    {service.title}
+                  </h3>
+                  <p className="text-[11px] text-slate-500 font-sans leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* ESG Action Banner */}
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 md:p-12 text-center space-y-4 max-w-4xl mx-auto shadow-lg shadow-slate-950/20">
+            <h3 className="text-lg md:text-xl font-black font-heading uppercase text-white tracking-tight">
+              Looking to align renewable energy with your sustainability objectives?
+            </h3>
+            <p className="text-slate-400 text-xs font-sans leading-relaxed max-w-2xl mx-auto">
+              Our team helps commercial and industrial organizations evaluate renewable energy opportunities that support both business performance and long-term sustainability goals.
+            </p>
+            <div className="pt-4 flex flex-col sm:flex-row justify-center gap-3">
+              <Link href="/request-proposal" className="btn-primary py-2 px-5 text-xs font-bold uppercase tracking-wider">
+                Request Proposal
+              </Link>
+              <Link href="/solutions" className="flex items-center justify-center gap-1 px-5 py-2.5 rounded-xl border border-slate-700 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider transition-all duration-300">
+                Explore Solutions
+              </Link>
+            </div>
+          </div>
+        </section>
 
         {/* Action Banner */}
         <div className="bg-slate-950 text-white rounded-3xl p-8 md:p-16 text-center space-y-6 shadow-xl relative overflow-hidden border border-slate-900">
