@@ -18,6 +18,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://infinitygreen-energy.com'),
   title: 'Infinity Green Energy | Enterprise Renewable Energy Solutions',
   description: 'Accelerating industrial transition to green energy through open access power, energy exchange, and smart commercial solar solutions.',
 };

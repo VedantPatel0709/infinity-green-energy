@@ -4,6 +4,29 @@ import React, { useState, useEffect } from 'react';
 import { TrendingDown, Zap, Info, Loader2, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { api } from '@/services/api';
 
+const states = [
+  { name: 'Maharashtra', rate: 8.5, openAccessEnabled: true },
+  { name: 'Karnataka', rate: 8.2, openAccessEnabled: true },
+  { name: 'Tamil Nadu', rate: 7.9, openAccessEnabled: true },
+  { name: 'Gujarat', rate: 7.5, openAccessEnabled: true },
+  { name: 'Andhra Pradesh', rate: 7.8, openAccessEnabled: true },
+  { name: 'Telangana', rate: 8.0, openAccessEnabled: true },
+  { name: 'Rajasthan', rate: 7.4, openAccessEnabled: true },
+  { name: 'Haryana', rate: 8.3, openAccessEnabled: true },
+  { name: 'Other State', rate: 8.0, openAccessEnabled: false }
+];
+
+const industries = [
+  { name: 'Manufacturing', loadProfile: 'constant-high', minBill: 500000 },
+  { name: 'Pharmaceuticals', loadProfile: 'critical-high', minBill: 800000 },
+  { name: 'Chemicals', loadProfile: 'critical-high', minBill: 1000000 },
+  { name: 'Textiles', loadProfile: 'constant-high', minBill: 600000 },
+  { name: 'Engineering', loadProfile: 'daytime-high', minBill: 400000 },
+  { name: 'Warehousing & Logistics', loadProfile: 'daytime-low', minBill: 200000 },
+  { name: 'Commercial Campuses', loadProfile: 'daytime-high', minBill: 500000 },
+  { name: 'Industrial Parks', loadProfile: 'bulk-varying', minBill: 1500000 }
+];
+
 const Calculator = () => {
   const [state, setState] = useState('Maharashtra');
   const [industry, setIndustry] = useState('Manufacturing');
@@ -24,29 +47,6 @@ const Calculator = () => {
     phone: '',
     company: ''
   });
-
-  const states = [
-    { name: 'Maharashtra', rate: 8.5, openAccessEnabled: true },
-    { name: 'Karnataka', rate: 8.2, openAccessEnabled: true },
-    { name: 'Tamil Nadu', rate: 7.9, openAccessEnabled: true },
-    { name: 'Gujarat', rate: 7.5, openAccessEnabled: true },
-    { name: 'Andhra Pradesh', rate: 7.8, openAccessEnabled: true },
-    { name: 'Telangana', rate: 8.0, openAccessEnabled: true },
-    { name: 'Rajasthan', rate: 7.4, openAccessEnabled: true },
-    { name: 'Haryana', rate: 8.3, openAccessEnabled: true },
-    { name: 'Other State', rate: 8.0, openAccessEnabled: false }
-  ];
-
-  const industries = [
-    { name: 'Manufacturing', loadProfile: 'constant-high', minBill: 500000 },
-    { name: 'Pharmaceuticals', loadProfile: 'critical-high', minBill: 800000 },
-    { name: 'Chemicals', loadProfile: 'critical-high', minBill: 1000000 },
-    { name: 'Textiles', loadProfile: 'constant-high', minBill: 600000 },
-    { name: 'Engineering', loadProfile: 'daytime-high', minBill: 400000 },
-    { name: 'Warehousing & Logistics', loadProfile: 'daytime-low', minBill: 200000 },
-    { name: 'Commercial Campuses', loadProfile: 'daytime-high', minBill: 500000 },
-    { name: 'Industrial Parks', loadProfile: 'bulk-varying', minBill: 1500000 }
-  ];
 
   useEffect(() => {
     // Basic B2B Energy calculations
