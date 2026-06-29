@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import ProposalForm from '@/components/ProposalForm';
 import { ShieldCheck, BarChart3, Factory, Globe2 } from 'lucide-react';
+import { COMPANY_INFO } from '@/utils/company';
 
 export const metadata: Metadata = {
   title: 'Request Renewable Energy Proposal | Infinity Green Energy',
@@ -95,18 +96,18 @@ export default function RequestProposalPage() {
               <div className="space-y-3.5 pt-2 text-[11px] font-sans text-slate-650">
                 <div className="flex flex-col">
                   <span className="text-slate-400 font-bold uppercase tracking-wider text-[8px] mb-0.5">Email</span>
-                  <a href="mailto:madhav@infinitygreen-energy.com" className="text-primary font-semibold hover:underline">madhav@infinitygreen-energy.com</a>
+                  <a href={`mailto:${COMPANY_INFO.email}`} className="text-primary font-semibold hover:underline">{COMPANY_INFO.email}</a>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-slate-400 font-bold uppercase tracking-wider text-[8px] mb-0.5">Phone</span>
-                  <a href="tel:+916355596149" className="text-primary font-semibold hover:underline">+91 6355 596 149</a>
+                  <a href={`tel:${COMPANY_INFO.phoneRaw}`} className="text-primary font-semibold hover:underline">{COMPANY_INFO.phone}</a>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-slate-400 font-bold uppercase tracking-wider text-[8px] mb-0.5">Office Address</span>
                   <p className="font-semibold text-slate-700 leading-relaxed">
-                    392, Makarpura GIDC<br />
-                    Makarpura, Vadodara<br />
-                    Gujarat, India
+                    {COMPANY_INFO.address.line1}<br />
+                    {COMPANY_INFO.address.line2}, {COMPANY_INFO.address.city}<br />
+                    {COMPANY_INFO.address.state}, {COMPANY_INFO.address.country}
                   </p>
                 </div>
               </div>

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Logo from '@/components/Logo';
 import { Mail, MapPin, Phone, MessageSquare, ArrowRight, ShieldCheck, Zap, Award, Globe, HelpCircle } from 'lucide-react';
+import { COMPANY_INFO } from '@/utils/company';
 
 /**
  * Footer Component - Rebuilt for B2B Enterprise Compliance (No mock socials/fake newsletters)
@@ -106,19 +107,19 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800/60 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-500 font-sans">
-          <p>© {new Date().getFullYear()} Infinity Green Energy. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {COMPANY_INFO.name}. All rights reserved.</p>
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 text-slate-400">
             <span className="flex items-center gap-1.5">
               <Mail className="w-3.5 h-3.5 text-primary" />
-              <a href="mailto:madhav@infinitygreen-energy.com" className="hover:text-white transition-colors">madhav@infinitygreen-energy.com</a>
+              <a href={`mailto:${COMPANY_INFO.email}`} className="hover:text-white transition-colors">{COMPANY_INFO.email}</a>
             </span>
             <span className="flex items-center gap-1.5">
               <Phone className="w-3.5 h-3.5 text-primary" />
-              <a href="tel:+916355596149" className="hover:text-white transition-colors">+91 6355 596 149</a>
+              <a href={`tel:${COMPANY_INFO.phoneRaw}`} className="hover:text-white transition-colors">{COMPANY_INFO.phone}</a>
             </span>
             <span className="flex items-center gap-1.5 text-center md:text-left">
               <MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
-              <span>392, Makarpura GIDC, Makarpura, Vadodara, Gujarat, India</span>
+              <span>{COMPANY_INFO.address.fullSingleLine}</span>
             </span>
           </div>
           <div className="flex space-x-6 shrink-0">

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, Users, Award, Milestone, Lightbulb, Compass, ShieldCheck, LineChart, TrendingUp, Network } from 'lucide-react';
 import { Metadata } from 'next';
+import { COMPANY_INFO } from '@/utils/company';
 
 export default function AboutPage() {
   const [cms, setCms] = useState({
@@ -52,17 +53,16 @@ export default function AboutPage() {
     }
   ];
 
-
-
   return (
-    <div className="bg-light min-h-screen text-dark py-24 px-4 sm:px-6 lg:px-8 font-sans">
-      <main className="max-w-7xl mx-auto space-y-24">
-        {/* Who We Are Hero Section */}
-        <section className="text-center space-y-4 max-w-3xl mx-auto" id="who-we-are">
+    <div className="bg-light text-dark font-sans py-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24">
+        
+        {/* Intro Section */}
+        <section className="text-center space-y-6 max-w-4xl mx-auto">
           <span className="text-primary font-bold text-xs uppercase tracking-widest font-heading bg-primary/10 px-3.5 py-1.5 rounded-full">
-            Who We Are
+            Our Organization
           </span>
-          <h1 className="text-4xl md:text-6xl font-black font-heading text-dark tracking-tight uppercase leading-none mt-4">
+          <h1 className="text-4xl md:text-6xl font-black font-heading text-dark uppercase tracking-tight">
             INFINITY GREEN ENERGY
           </h1>
           <p className="text-slate-500 text-sm md:text-base leading-relaxed">
@@ -71,83 +71,64 @@ export default function AboutPage() {
         </section>
 
         {/* Company Story */}
-        <section className="bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center" id="company-story">
-          <div className="lg:col-span-5 space-y-4">
-            <span className="text-[10px] text-primary font-bold uppercase tracking-widest">Our Roots</span>
-            <h2 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-tight text-dark">Company Story</h2>
-            <div className="w-12 h-1 bg-primary rounded" />
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6">
+            <h2 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-tight text-dark">Our Story</h2>
+            <p className="text-xs sm:text-sm leading-relaxed text-slate-500">
+              {cms.companyStory}
+            </p>
           </div>
-          <div className="lg:col-span-7 text-xs md:text-sm text-slate-500 leading-relaxed font-sans">
-            <p>{cms.companyStory}</p>
-          </div>
-        </section>
-
-        {/* Why Infinity Green Exists */}
-        <section className="bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center" id="why-exists">
-          <div className="lg:col-span-5 space-y-4">
-            <span className="text-[10px] text-primary font-bold uppercase tracking-widest">The Market Problem</span>
-            <h2 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-tight text-dark">Why Infinity Green Exists</h2>
-            <div className="w-12 h-1 bg-primary rounded" />
-          </div>
-          <div className="lg:col-span-7 text-xs md:text-sm text-slate-500 leading-relaxed font-sans">
-            <p>{cms.whyExistsBody}</p>
-          </div>
-        </section>
-
-        {/* Mission Section */}
-        <section id="mission" className="max-w-4xl mx-auto">
-          <div className="bg-white p-8 md:p-12 rounded-3xl border border-slate-100 shadow-xl space-y-4 text-center">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mx-auto"><Milestone className="w-6 h-6" /></div>
-            <h3 className="text-2xl font-bold text-dark font-heading uppercase tracking-tight">Our Mission</h3>
-            <p className="text-slate-500 text-sm md:text-base font-sans leading-relaxed max-w-2xl mx-auto">
+          <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+              <Milestone className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-black font-heading uppercase text-dark">Our Mission</h3>
+            <p className="text-xs sm:text-sm leading-relaxed text-slate-500">
               {cms.mission}
             </p>
           </div>
         </section>
 
-
-
-        {/* Operating Model Section */}
-        <section className="bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center" id="operating-model">
-          <div className="lg:col-span-5 space-y-4">
-            <span className="text-[10px] text-primary font-bold uppercase tracking-widest">Agile Matrix</span>
-            <h2 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-tight text-dark">Operating Model</h2>
-            <div className="w-12 h-1 bg-primary rounded" />
-          </div>
-          <div className="lg:col-span-7 text-xs md:text-sm text-slate-500 leading-relaxed font-sans">
-            <p>{cms.companyStructure}</p>
+        {/* Why Infinity Green Exists */}
+        <section className="bg-slate-950 text-white p-8 md:p-16 rounded-3xl relative overflow-hidden border border-slate-900 shadow-xl">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+          <div className="relative z-10 space-y-6 max-w-3xl">
+            <h2 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-tight text-white">Why Infinity Green Exists</h2>
+            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
+              {cms.whyExistsBody}
+            </p>
           </div>
         </section>
 
-        {/* Corporate Address & Contact Details */}
-        <section className="bg-slate-900 text-white rounded-3xl p-8 md:p-12 border border-slate-800 shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-start" id="corporate-contact">
-          <div className="space-y-4">
+        {/* Corporate Operations desk */}
+        <section className="grid grid-cols-1 md:grid-cols-12 gap-12 border-t border-slate-200/80 pt-16 items-start">
+          <div className="md:col-span-5 space-y-4">
             <span className="text-[10px] text-primary font-bold uppercase tracking-widest">Headquarters</span>
-            <h2 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-tight">Our Office</h2>
+            <h2 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-tight text-dark">Our Office</h2>
             <div className="w-12 h-1 bg-primary rounded" />
             <p className="text-slate-400 text-xs md:text-sm leading-relaxed max-w-sm">
               Connect directly with our corporate advisory operations desk.
             </p>
           </div>
-          <div className="space-y-6 text-xs md:text-sm text-slate-350">
+          <div className="md:col-span-7 space-y-6 text-xs md:text-sm text-slate-500">
             <div className="space-y-1">
               <span className="text-slate-500 text-[10px] uppercase font-bold tracking-widest block">Office Address</span>
-              <p className="font-semibold text-white leading-relaxed whitespace-pre-line">
-                392, Makarpura GIDC
-                Makarpura
-                Vadodara
-                Gujarat
-                India
+              <p className="font-semibold text-slate-800 leading-relaxed">
+                {COMPANY_INFO.address.line1}<br />
+                {COMPANY_INFO.address.line2}<br />
+                {COMPANY_INFO.address.city}<br />
+                {COMPANY_INFO.address.state}<br />
+                {COMPANY_INFO.address.country}
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1">
                 <span className="text-slate-500 text-[10px] uppercase font-bold tracking-widest block">Email</span>
-                <a href="mailto:madhav@infinitygreen-energy.com" className="text-primary font-semibold hover:underline">madhav@infinitygreen-energy.com</a>
+                <a href={`mailto:${COMPANY_INFO.email}`} className="text-primary font-semibold hover:underline">{COMPANY_INFO.email}</a>
               </div>
               <div className="space-y-1">
                 <span className="text-slate-500 text-[10px] uppercase font-bold tracking-widest block">Phone</span>
-                <a href="tel:+916355596149" className="text-primary font-semibold hover:underline">+91 6355 596 149</a>
+                <a href={`tel:${COMPANY_INFO.phoneRaw}`} className="text-primary font-semibold hover:underline">{COMPANY_INFO.phone}</a>
               </div>
             </div>
           </div>
@@ -175,7 +156,7 @@ export default function AboutPage() {
 
 
 
-      </main>
+      </div>
     </div>
   );
 }

@@ -14,8 +14,8 @@ export const Logo: React.FC<LogoProps> = ({ className = '' }) => {
         src="/logo.png" 
         alt="Infinity Green Energy" 
         width={220}
-        height={56}
-        className="h-12 md:h-14 w-auto object-contain block"
+        height={52}
+        className="h-[52px] w-auto object-contain block"
         priority
       />
     </Link>
