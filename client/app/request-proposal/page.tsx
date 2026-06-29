@@ -84,6 +84,34 @@ export default function RequestProposalPage() {
               </div>
             </div>
 
+            {/* Need Assistance Support Card */}
+            <div className="bg-white border border-slate-200 p-8 rounded-3xl shadow-sm space-y-4">
+              <h3 className="text-sm font-bold font-heading text-dark border-b border-slate-100 pb-3 uppercase tracking-wider">
+                Need Assistance?
+              </h3>
+              <p className="text-[11px] text-slate-500 font-sans leading-relaxed">
+                If you require immediate support or want to discuss bespoke power banking models directly, reach out to our grid desk.
+              </p>
+              <div className="space-y-3.5 pt-2 text-[11px] font-sans text-slate-650">
+                <div className="flex flex-col">
+                  <span className="text-slate-400 font-bold uppercase tracking-wider text-[8px] mb-0.5">Email</span>
+                  <a href="mailto:madhav@infinitygreen-energy.com" className="text-primary font-semibold hover:underline">madhav@infinitygreen-energy.com</a>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-slate-400 font-bold uppercase tracking-wider text-[8px] mb-0.5">Phone</span>
+                  <a href="tel:+916355596149" className="text-primary font-semibold hover:underline">+91 6355 596 149</a>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-slate-400 font-bold uppercase tracking-wider text-[8px] mb-0.5">Office Address</span>
+                  <p className="font-semibold text-slate-700 leading-relaxed">
+                    392, Makarpur GIDC<br />
+                    Makarpura, Vadodara<br />
+                    Gujarat, India
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           {/* Proposal Specifications Form */}
