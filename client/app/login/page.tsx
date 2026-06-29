@@ -106,7 +106,7 @@
           
           <div className="text-center space-y-2">
             <div className="flex justify-center mb-2">
-              <Logo lightText={false} />
+              <Logo />
             </div>
             <h2 className="text-2xl font-black font-heading text-dark uppercase tracking-tight">Access Client Node</h2>
             <p className="text-slate-400 text-xs font-sans">Enter connection keys to sync grid configurations.</p>

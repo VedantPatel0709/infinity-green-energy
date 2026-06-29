@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Logo from '@/components/Logo';
 import { ArrowRight, ShieldCheck, KeyRound } from 'lucide-react';
 
 export default function PortalPage() {
@@ -15,6 +16,9 @@ export default function PortalPage() {
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary font-bold text-[10px] tracking-widest uppercase border border-primary/20">
             <ShieldCheck className="w-3.5 h-3.5" /> Gateway
           </span>
+          <div className="flex justify-center mb-2">
+            <Logo />
+          </div>
           <h1 className="text-4xl font-black font-heading uppercase tracking-tight text-white">
             Portal
           </h1>
