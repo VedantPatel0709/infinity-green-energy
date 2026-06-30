@@ -11,11 +11,11 @@ export const Logo: React.FC<LogoProps> = ({ className = '' }) => {
     <Link href="/" className={`inline-block hover:opacity-90 transition-opacity ${className}`}>
       {/* Official Approved Infinity Green Energy Logo */}
       <Image 
-        src="/logo.png" 
+        src="/logo.png?v=2" 
         alt="Infinity Green Energy" 
         width={220}
-        height={52}
-        className="h-[52px] w-auto object-contain block"
+        height={54}
+        className="h-[54px] w-auto object-contain block"
         priority
       />
     </Link>
