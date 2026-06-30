@@ -54,7 +54,7 @@ export default function ForgotPasswordPage() {
         
         <div className="space-y-2 text-center">
           <div className="flex justify-center mb-2">
-            <Logo />
+            <Logo lightText={false} />
           </div>
           <h2 className="text-2xl font-black font-heading text-dark uppercase tracking-tight">Recover Node</h2>
           <p className="text-slate-400 text-xs font-sans">Provide registered work email to receive connection credentials.</p>
