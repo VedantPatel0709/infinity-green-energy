@@ -16,7 +16,7 @@ export const Logo: React.FC<LogoProps> = ({ className = '', lightText = true }) 
       {/* LEFT: Infinity Icon */}
       <div className="relative h-[38px] w-auto flex items-center justify-center shrink-0">
         <Image 
-          src="/logo-icon.png" 
+          src="/logo-icon.png?v=3" 
           alt="Infinity Green Energy Icon" 
           width={73}
           height={38}
