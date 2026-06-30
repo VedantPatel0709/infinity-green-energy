@@ -14,28 +14,28 @@ export const Logo: React.FC<LogoProps> = ({ className = '', lightText = true }) 
   return (
     <Link href="/" className={`flex items-center gap-[12px] hover:opacity-95 transition-opacity ${className}`}>
       {/* LEFT: Infinity Icon */}
-      <div className="relative h-[38px] w-auto flex items-center justify-center shrink-0">
+      <div className="relative h-[36px] w-auto flex items-center justify-center shrink-0">
         <Image 
-          src="/logo-icon.png?v=3" 
+          src="/logo-icon.png?v=4" 
           alt="Infinity Green Energy Icon" 
-          width={73}
-          height={38}
-          className="h-[38px] w-auto object-contain block"
+          width={110}
+          height={36}
+          className="h-[36px] w-auto object-contain block"
           priority
         />
       </div>
 
-      {/* RIGHT: HTML Wordmark matching the reference image */}
+      {/* RIGHT: Refined HTML Wordmark */}
       <div className="flex flex-col justify-center leading-none select-none">
-        <span className={`font-heading tracking-[0.08em] font-black uppercase text-[20px] ${textColorClass}`}>
+        <span className={`font-heading tracking-[0.12em] font-black uppercase text-[21px] ${textColorClass} transition-colors duration-300`}>
           INFINITY
         </span>
-        <div className="flex items-center gap-1 mt-0.5">
-          <div className={`h-[1px] w-3.5 ${lineColorClass}`} />
-          <span className="font-heading tracking-[0.18em] font-bold uppercase text-[7px] text-primary whitespace-nowrap">
+        <div className="flex items-center gap-1.5 mt-1">
+          <div className={`h-[1px] w-4 ${lineColorClass} opacity-80`} />
+          <span className="font-heading tracking-[0.22em] font-bold uppercase text-[7px] text-primary whitespace-nowrap">
             GREEN ENERGY
           </span>
-          <div className={`h-[1px] w-3.5 ${lineColorClass}`} />
+          <div className={`h-[1px] w-4 ${lineColorClass} opacity-80`} />
         </div>
       </div>
     </Link>
